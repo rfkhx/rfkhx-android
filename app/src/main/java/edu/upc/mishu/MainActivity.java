@@ -20,9 +20,9 @@ public class MainActivity extends AppCompatActivity {
             //第一次进入跳转
             Intent in=new Intent(MainActivity.this,LiscenceActivity.class);
             startActivity(in);
-            finish();
         }else{
-            //do nothing
+            //启动另一个Activity
         }
+        finish();
     }
 }
