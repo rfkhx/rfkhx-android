@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">密书</string>
+    <string name="read_liscence">我已阅读并同意上述《最终用户许可协议》</string>
+    <string name="ok">确定</string>
 </resources>
