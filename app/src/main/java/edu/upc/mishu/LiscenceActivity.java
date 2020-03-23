@@ -2,6 +2,7 @@ package edu.upc.mishu;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -48,6 +49,8 @@ public class LiscenceActivity extends AppCompatActivity implements View.OnClickL
                 editor.putBoolean("isfer", false);
                 editor.apply();
                 finish();
+                Intent in=new Intent(this,MainActivity.class);
+                startActivity(in);
                 break;
         }
     }
