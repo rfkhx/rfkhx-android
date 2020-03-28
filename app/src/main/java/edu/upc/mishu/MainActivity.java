@@ -24,8 +24,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         Button btnCheckUpdate=findViewById(R.id.btn_chkupdate);
         btnCheckUpdate.setOnClickListener(this);
-        //test test
-
+        //test
         //第一次打开启动授权界面
         SharedPreferences shared=getSharedPreferences("is", MODE_PRIVATE);
         boolean isfer=shared.getBoolean("isfer", true);
