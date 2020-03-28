@@ -2,6 +2,7 @@ package edu.upc.mishu;
 
 import android.app.Application;
 
+import com.orm.SugarApp;
 import com.xuexiang.xhttp2.XHttp;
 import com.xuexiang.xhttp2.XHttpSDK;
 import com.xuexiang.xupdate.XUpdate;
@@ -19,7 +20,7 @@ import okhttp3.OkHttpClient;
 
 import static com.xuexiang.xupdate.entity.UpdateError.ERROR.CHECK_NO_NEW_VERSION;
 
-public class App extends Application {
+public class App extends SugarApp {
 
     @Override
     public void onCreate() {
@@ -32,6 +33,8 @@ public class App extends Application {
         initXHttp();
         initOKHttpUtils();
         initUpdate();
+
+
     }
 
     private void initUpdate() {
