@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,7 +21,7 @@ import com.xuexiang.xutil.tip.ToastUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.upc.mishu.Adapter.ViewPagerAdapter;
+import edu.upc.mishu.adapter.ViewPagerAdapter;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -88,10 +87,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void init(){
         viewPager = (ViewPager) findViewById(R.id.viewpager);
 
-        view1 = findViewById(R.layout.activity_password);
-        view2 = findViewById(R.layout.activity_synchronous);
-        view3 = findViewById(R.layout.activity_etc);
-        view4 = findViewById(R.layout.activity_setting);
 
         LayoutInflater layoutInflater = getLayoutInflater().from(this);
         view1 = layoutInflater.inflate(R.layout.activity_password,null);

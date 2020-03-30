@@ -1,4 +1,4 @@
-package edu.upc.mishu.Adapter;
+package edu.upc.mishu.adapter;
 
 import android.view.View;
 import android.view.ViewGroup;
