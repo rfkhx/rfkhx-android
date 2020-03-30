@@ -1,6 +1,5 @@
 package edu.upc.mishu;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,25 +20,22 @@ import com.xuexiang.xutil.tip.ToastUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.upc.mishu.Adapter.ViewPagerAdapter;
+import edu.upc.mishu.adapter.ViewPagerAdapter;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
 
     private View view1 , view2 , view3 ,view4;
     private ViewPager viewPager;
     private List<View> listview;
     private BottomNavigationView navigation;
 
-
-
-
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button btnCheckUpdate=findViewById(R.id.btn_chkupdate);
         btnCheckUpdate.setOnClickListener(this);
-        //test
+
         //第一次打开启动授权界面
         SharedPreferences shared=getSharedPreferences("is", MODE_PRIVATE);
         boolean isfer=shared.getBoolean("isfer", true);
@@ -51,12 +46,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(in);
             finish();
         }else{
-            XUpdate.newBuild(this)
-                    .updateUrl("http://upccaishu.top/update/Android")
-                    .update();
+
         }
         Log.i(this.getLocalClassName(),"MainActivity退出");
-//        finish();
 
         navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -84,14 +76,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         init();
     }
 
-    @SuppressLint("ResourceType")
     private void init(){
         viewPager = (ViewPager) findViewById(R.id.viewpager);
-
-        view1 = findViewById(R.layout.activity_password);
-        view2 = findViewById(R.layout.activity_synchronous);
-        view3 = findViewById(R.layout.activity_etc);
-        view4 = findViewById(R.layout.activity_setting);
 
         LayoutInflater layoutInflater = getLayoutInflater().from(this);
         view1 = layoutInflater.inflate(R.layout.activity_password,null);
@@ -125,13 +111,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_chkupdate:
-                ToastUtils.toast("Hello World!");
+                ToastUtils.toast(getString(R.string.update_checking));
+                XUpdate.newBuild(this)
+                        .updateUrl(getString(R.string.update_url))
+                        .update();
                 break;
         }
     }
-
 }
