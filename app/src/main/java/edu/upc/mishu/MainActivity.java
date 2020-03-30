@@ -24,7 +24,7 @@ import java.util.List;
 import edu.upc.mishu.adapter.ViewPagerAdapter;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
+//test
 
     private View view1 , view2 , view3 ,view4;
     private ViewPager viewPager;
