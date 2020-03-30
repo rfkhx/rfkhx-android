@@ -4,27 +4,37 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.xuexiang.xupdate.XUpdate;
 import com.xuexiang.xutil.tip.ToastUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.upc.mishu.adapter.ViewPagerAdapter;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    private TextView textView;
+
+    private View view1 , view2 , view3 ,view4;
+    private ViewPager viewPager;
+    private List<View> listview;
+    private BottomNavigationView navigation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button btnCheckUpdate=findViewById(R.id.btn_chkupdate);
         btnCheckUpdate.setOnClickListener(this);
-        //test test
 
         //第一次打开启动授权界面
         SharedPreferences shared=getSharedPreferences("is", MODE_PRIVATE);
@@ -36,44 +46,81 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(in);
             finish();
         }else{
-            XUpdate.newBuild(this)
-                    .updateUrl("http://upccaishu.top/update/Android")
-                    .update();
+
         }
         Log.i(this.getLocalClassName(),"MainActivity退出");
-//        finish();
-        textView  =  findViewById(R.id.text_view);
-        BottomNavigationView navigation = findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNacigationItemSelectedListener);
+
+        navigation = findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                int itemId = menuItem.getItemId();
+                switch (itemId){
+                    case R.id.navigation_pass:
+                        viewPager.setCurrentItem(0);
+                        break;
+                    case  R.id.navigation_synchronous:
+                        viewPager.setCurrentItem(1);
+                        break;
+                    case R.id.navigation_item3:
+                        viewPager.setCurrentItem(2);
+                        break;
+                    case R.id.navigation_setting:
+                        viewPager.setCurrentItem(3);
+                        break;
+                }
+                return true;
+            }
+        });
+
+        init();
     }
 
+    private void init(){
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+
+        LayoutInflater layoutInflater = getLayoutInflater().from(this);
+        view1 = layoutInflater.inflate(R.layout.activity_password,null);
+        view2 = layoutInflater.inflate(R.layout.activity_synchronous,null);
+        view3 = layoutInflater.inflate(R.layout.activity_etc,null);
+        view4 = layoutInflater.inflate(R.layout.activity_setting,null);
+
+        listview = new ArrayList<View>();
+        listview.add(view1);
+        listview.add(view2);
+        listview.add(view3);
+        listview.add(view4);
+
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(listview);
+        viewPager.setAdapter(viewPagerAdapter);
+        viewPager.setCurrentItem(0);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                navigation.getMenu().getItem(position).setChecked(true);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+    }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_chkupdate:
-                ToastUtils.toast("Hello World!");
+                ToastUtils.toast(getString(R.string.update_checking));
+                XUpdate.newBuild(this)
+                        .updateUrl(getString(R.string.update_url))
+                        .update();
                 break;
         }
     }
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNacigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-            switch (menuItem.getItemId()){
-                case R.id.navigation_pass :
-                    textView.setText(R.string.navigation_pass);
-                    return true;
-                case R.id.navigation_synchronous:
-                    textView.setText(R.string.navigation_synchronous);
-                    return  true;
-                case R.id.navigation_item3:
-                    textView.setText(R.string.navigation_item3);
-                    return  true;
-                case R.id.navigation_setting:
-                    textView.setText(R.string.navigation_setting);
-                    return true;
-            }
-            return false;
-        }
-    };
 }
