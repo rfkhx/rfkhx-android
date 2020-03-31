@@ -4,37 +4,37 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.xuexiang.xupdate.XUpdate;
-import com.xuexiang.xutil.tip.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import edu.upc.mishu.adapter.ViewPagerAdapter;
+import edu.upc.mishu.fragment.EctFragment;
+import edu.upc.mishu.fragment.PasswordFragment;
+import edu.upc.mishu.fragment.SettingFragment;
+import edu.upc.mishu.fragment.SynchronousFragment;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity  {
 
     private View view1 , view2 , view3 ,view4;
     private ViewPager viewPager;
-    private List<View> listview;
+    private List<Fragment> fragmentList;
     private BottomNavigationView navigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button btnCheckUpdate=findViewById(R.id.btn_chkupdate);
-        btnCheckUpdate.setOnClickListener(this);
+
 
         //第一次打开启动授权界面
         SharedPreferences shared=getSharedPreferences("is", MODE_PRIVATE);
@@ -74,24 +74,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         init();
+
+
     }
 
     private void init(){
         viewPager = (ViewPager) findViewById(R.id.viewpager);
 
-        LayoutInflater layoutInflater = getLayoutInflater().from(this);
-        view1 = layoutInflater.inflate(R.layout.activity_password,null);
-        view2 = layoutInflater.inflate(R.layout.activity_synchronous,null);
-        view3 = layoutInflater.inflate(R.layout.activity_etc,null);
-        view4 = layoutInflater.inflate(R.layout.activity_setting,null);
+        fragmentList = new ArrayList<>();
+        fragmentList.add(PasswordFragment.newInstance());
+        fragmentList.add(SynchronousFragment.newInstance());
+        fragmentList.add(EctFragment.newInstance());
+        fragmentList.add(SettingFragment.newInstance());
 
-        listview = new ArrayList<View>();
-        listview.add(view1);
-        listview.add(view2);
-        listview.add(view3);
-        listview.add(view4);
-
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(listview);
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(fragmentList,getSupportFragmentManager());
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.setCurrentItem(0);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -112,15 +108,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.btn_chkupdate:
-                ToastUtils.toast(getString(R.string.update_checking));
-                XUpdate.newBuild(this)
-                        .updateUrl(getString(R.string.update_url))
-                        .update();
-                break;
-        }
-    }
+
+
+
 }
