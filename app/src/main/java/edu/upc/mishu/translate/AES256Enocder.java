@@ -14,7 +14,7 @@ import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
 
-public class controller implements Transformable {
+public class AES256Enocder implements Transformable {
     private static String llaveSecreta = "WgG6dcDBsHzpc6A";//密钥
     private static String salt = "uhTP682F3vyxHaB";//补充完整密文
 
