@@ -9,6 +9,10 @@
     <string name="navigation_setting">设置</string>
     <string name="button_check">检查更新</string>
 
+    <string name="menu_del">删除</string>
+    <string name="menu_add">增加</string>
+    <string name="menu_alter">修改</string>
+
     <string name="update_url">https://upccaishu.top/update/Android</string>
     <string name="update_checking">正在检查更新……</string>
 </resources>
