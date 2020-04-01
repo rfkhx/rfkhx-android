@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import edu.upc.mishu.R;
 
-public class EctFragment extends Fragment {
+public class EctFragment extends Fragment implements View.OnClickListener {
     private static EctFragment instance  = null;
 
     public static EctFragment newInstance(){
@@ -26,6 +26,11 @@ public class EctFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_etc,container,false);
         return view;
+
+    }
+
+    @Override
+    public void onClick(View v) {
 
     }
 }

@@ -11,4 +11,12 @@
 
     <string name="update_url">https://upccaishu.top/update/Android</string>
     <string name="update_checking">正在检查更新……</string>
+    <string name="generator_generate_again">重新生成密码</string>
+    <string name="generator_copy_password">复制密码</string>
+    <string name="generator_passwordlength">密码位数</string>
+    <string name="generator_setting">设置</string>
+    <string name="generator_uppercase">A-Z</string>
+    <string name="generator_lowercase">a-z</string>
+    <string name="generator_number">0-9</string>
+    <string name="generator_symbol"><![CDATA[!@#$%^&*]]></string>
 </resources>
