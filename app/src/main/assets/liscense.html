@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>最终用户许可协议</title>
+    <link rel="stylesheet" href="github-markdown.css">
+    <script src="jquery.min.js"></script>
+    <script src="marked.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.get("liscense.md",function(md){
+                $("div.markdown-body").html(marked(md));
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="markdown-body">
+        这里是最终用户许可协议
+    </div>
+</body>
+</html>>
