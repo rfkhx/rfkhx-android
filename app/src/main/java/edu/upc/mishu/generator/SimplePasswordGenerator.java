@@ -26,31 +26,35 @@ public class SimplePasswordGenerator implements PasswordGenerator {
 
     @Override
     public String generateAPassword() throws RuntimeException{
-        if(length<=0||(!uppercaseLetters&&!lowercaseLetters&&numbers&&symbols)){
+        if(length<=0||(!uppercaseLetters&&!lowercaseLetters&&!numbers&&!symbols)){
             RuntimeException e=new RuntimeException(toString());
             Log.e(getClass().getSimpleName(),"生成失败，请检查生成器配置。",e);
             throw e;
         }
 
-        char[] uppercaseLetters={'A','B','C','D','E','F','G','H','J','K','L','M','N','P','Q','R','S','T','U','V','W','X','Y','Z'};
-        char[] lowercaseLetters={'a','b','c','d','e','f','g','h','j','k','m','n','p','q','r','s','t','u','v','w','x','y','z'};
-        char[] numbers={'2','3','4','5','6','7','8','9'};
-        char[] symbols={'!','@','$','%','^','&','*'};
+        char[] chUppercaseLetters={'A','B','C','D','E','F','G','H','J','K','L','M','N','P','Q','R','S','T','U','V','W','X','Y','Z'};
+        char[] chLowercaseLetters={'a','b','c','d','e','f','g','h','j','k','m','n','p','q','r','s','t','u','v','w','x','y','z'};
+        char[] chNumbers={'2','3','4','5','6','7','8','9'};
+        char[] chSymbols={'!','@','$','%','^','&','*'};
         Random random=new Random(System.currentTimeMillis());
         StringBuilder sb=new StringBuilder();
         while (sb.length()<length) {
             switch (random.nextInt(4)) {
                 case 0:
-                    sb.append(uppercaseLetters[random.nextInt(uppercaseLetters.length)]);
+                    if(uppercaseLetters)
+                        sb.append(chUppercaseLetters[random.nextInt(chUppercaseLetters.length)]);
                     break;
                 case 1:
-                    sb.append(lowercaseLetters[random.nextInt(lowercaseLetters.length)]);
+                    if(lowercaseLetters)
+                        sb.append(chLowercaseLetters[random.nextInt(chLowercaseLetters.length)]);
                     break;
                 case 2:
-                    sb.append(numbers[random.nextInt(numbers.length)]);
+                    if(numbers)
+                        sb.append(chNumbers[random.nextInt(chNumbers.length)]);
                     break;
                 default:
-                    sb.append(symbols[random.nextInt(symbols.length)]);
+                    if(symbols)
+                        sb.append(chSymbols[random.nextInt(chSymbols.length)]);
             }
         }
         return sb.toString();
