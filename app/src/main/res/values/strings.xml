@@ -23,4 +23,11 @@
     <string name="generator_lowercase">a-z</string>
     <string name="generator_number">0-9</string>
     <string name="generator_symbol"><![CDATA[!@#$%^&*]]></string>
+
+    <string name="button_save">保存</string>
+    <string name="textview_name">名称</string>
+    <string name="textview_username">用户名</string>
+    <string name="textview_password">密码</string>
+    <string name="textview_url">URL</string>
+    <string name="textview_notes">备注</string>
 </resources>
