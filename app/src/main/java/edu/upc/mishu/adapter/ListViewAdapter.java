@@ -1,27 +1,18 @@
 package edu.upc.mishu.adapter;
 
 import android.content.Context;
-import android.media.Image;
-import android.provider.ContactsContract;
-import android.text.Layout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 
-import androidx.annotation.Nullable;
-
-import java.sql.ClientInfoStatus;
 import java.util.List;
 
 import edu.upc.mishu.R;
-import edu.upc.mishu.show.PasswordItem;
+import edu.upc.mishu.vo.PasswordItem;
 
 
 public class ListViewAdapter extends BaseAdapter {

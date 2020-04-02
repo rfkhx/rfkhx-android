@@ -14,8 +14,8 @@ import static org.junit.Assert.assertEquals;
 public class StringSettingUtilTest {
     @Before
     public void writeTest(){
-    StringSettingUtil.writeSetting("test","Hello World!");
-}
+        StringSettingUtil.writeSetting("test","Hello World!");
+    }
 
     @Test
     public void readTest(){

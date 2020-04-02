@@ -21,7 +21,7 @@ import java.util.List;
 
 import edu.upc.mishu.R;
 import edu.upc.mishu.adapter.ListViewAdapter;
-import edu.upc.mishu.show.PasswordItem;
+import edu.upc.mishu.vo.PasswordItem;
 
 public class PasswordFragment extends Fragment {
     private static final String TAG = "PasswordFragment";
