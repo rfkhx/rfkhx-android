@@ -19,16 +19,16 @@ import androidx.fragment.app.Fragment;
 import com.xuexiang.xutil.tip.ToastUtils;
 
 import edu.upc.mishu.R;
-import edu.upc.mishu.dto.StringSetting;
 import edu.upc.mishu.generator.PasswordGenerator;
 import edu.upc.mishu.generator.SimplePasswordGenerator;
+import edu.upc.mishu.utils.StringSettingUtil;
 
 public class EctFragment extends Fragment implements View.OnClickListener, SeekBar.OnSeekBarChangeListener {
     private static EctFragment instance  = null;
     private PasswordGenerator passwordGenerator=null;
     private int length=5;
     private boolean useUppercase=true;
-    private boolean userLowercase=true;
+    private boolean useLowercase =true;
     private boolean useNumber=true;
     private boolean useSymbol=true;
 
@@ -54,25 +54,34 @@ public class EctFragment extends Fragment implements View.OnClickListener, SeekB
     }
 
     private void readStatus(){
-        //TODO 读取用户配置
-
+        // 读取用户配置
+        seekBarLength.setProgress(Integer.parseInt(StringSettingUtil.getString("generator_length","0")));
+        swUppercase.setChecked(Boolean.parseBoolean(StringSettingUtil.getString("generator_upper","true")));
+        swLowerCase.setChecked(Boolean.parseBoolean(StringSettingUtil.getString("generator_lower","true")));
+        swNumber.setChecked(Boolean.parseBoolean(StringSettingUtil.getString("generator_number","true")));
+        swSymbol.setChecked(Boolean.parseBoolean(StringSettingUtil.getString("generator_symbol","true")));
     }
 
     private void changeGenerator(){
         length=seekBarLength.getProgress();
         useUppercase=swUppercase.isChecked();
-        userLowercase=swLowerCase.isChecked();
+        useLowercase =swLowerCase.isChecked();
         useNumber=swNumber.isChecked();
         useSymbol=swSymbol.isChecked();
-        if(!(useUppercase||userLowercase||useNumber||useSymbol)){
+        if(!(useUppercase|| useLowercase ||useNumber||useSymbol)){
             ToastUtils.toast("至少需要选择一种类型的字符！");
             swUppercase.setChecked(true);
             useUppercase=true;
         }
 
-        //TODO 保存用户的选择
+        // 保存用户的选择
+        StringSettingUtil.writeSetting("generator_length",Integer.toString(length));
+        StringSettingUtil.writeSetting("generator_upper",Boolean.toString(useUppercase));
+        StringSettingUtil.writeSetting("generator_lower",Boolean.toString(useLowercase));
+        StringSettingUtil.writeSetting("generator_number",Boolean.toString(useNumber));
+        StringSettingUtil.writeSetting("generator_symbol",Boolean.toString(useSymbol));
 
-        passwordGenerator= SimplePasswordGenerator.builder().length(length).lowercaseLetters(userLowercase).uppercaseLetters(useUppercase).numbers(useNumber).symbols(useSymbol).build();
+        passwordGenerator= SimplePasswordGenerator.builder().length(length).lowercaseLetters(useLowercase).uppercaseLetters(useUppercase).numbers(useNumber).symbols(useSymbol).build();
     }
 
     @Nullable
@@ -101,6 +110,8 @@ public class EctFragment extends Fragment implements View.OnClickListener, SeekB
         swLowerCase.setOnClickListener(this);
         swNumber.setOnClickListener(this);
         swSymbol.setOnClickListener(this);
+
+        readStatus();
 
         changeGenerator();
         generatePassword();

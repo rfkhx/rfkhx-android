@@ -19,6 +19,17 @@ public class StringSettingUtil {
     }
 
     /**
+     * 获取配置
+     * @param key
+     * @param defaultValue
+     * @return
+     */
+    public static String getString(String key,String defaultValue){
+        List<StringSetting> res=StringSetting.find(StringSetting.class,"item=?",key);
+        return res.isEmpty()?defaultValue:res.get(0).getValue();
+    }
+
+    /**
      * 写入配置
      * @param key
      * @param value
