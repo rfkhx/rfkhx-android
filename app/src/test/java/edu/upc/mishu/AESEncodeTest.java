@@ -40,4 +40,18 @@ public class AESEncodeTest {
         String mingwen3=tem.decode(miwen3);
         assertEquals("lirui123",mingwen3);
     }
+
+    @Test
+    /**
+     * 加密一个128位密码15次耗时不应该超过3秒
+     */
+    public void sppedTest(){
+        String text="2zLK75caWPjpwj5C545e2zLg7nXbS4vQvj2YfSt3892PpsLRLANcE8mpZA4jNg8GS99E8Sr2u59zcq2Px4HESwv6Lm38Hgbv29Z6272FQV9zwsU5K8V93yDPzLFKXrrU";
+        long preTime=System.currentTimeMillis();
+        for (int i = 0; i < 15; i++) {
+            text=tem.encode(text);
+        }
+        long postTime=System.currentTimeMillis();
+        assertTrue(postTime-preTime<=3000);
+    }
 }
