@@ -18,17 +18,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.upc.mishu.adapter.ViewPagerAdapter;
+import edu.upc.mishu.dto.PasswordRecord;
 import edu.upc.mishu.fragment.EctFragment;
 import edu.upc.mishu.fragment.PasswordFragment;
 import edu.upc.mishu.fragment.SettingFragment;
 import edu.upc.mishu.fragment.SynchronousFragment;
+import edu.upc.mishu.translate.AES256Enocder;
+import edu.upc.mishu.vo.PasswordItem;
 
 public class MainActivity extends AppCompatActivity  {
+
+    private static final String TAG = "MainActivity";
 
     private View view1 , view2 , view3 ,view4;
     private ViewPager viewPager;
     private List<Fragment> fragmentList;
     private BottomNavigationView navigation;
+    private AES256Enocder encoder = new AES256Enocder("");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +83,18 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     private void init(){
+        PasswordRecord.deleteAll(PasswordRecord.class);
+        PasswordRecord.builder().type("login").name("腾讯").url("http://www.tencent.com/").username("test1").password("123123").note("test").build().encode(encoder,1).save();
+        PasswordRecord.builder().type("login").name("百度").url("https://www.baidu.com/").username("test2").password("123456").note("test").build().encode(encoder,1).save();
+        PasswordRecord.builder().type("login").name("阿里云").url("https://www.aliyun.com/").username("test3").password("123789").note("test").build().encode(encoder,1).save();
+        PasswordRecord.builder().type("login").name("新浪").url("https://www.sina.com.cn/").username("test4").password("123321").note("test").build().encode(encoder,1).save();
+        PasswordRecord.builder().type("login").name("知乎").url("https://www.zhihu.com/hot").username("test5").password("12312431").note("test").build().encode(encoder,1).save();
+        PasswordRecord.builder().type("login").name("163邮箱").url("https://mail.163.com/").username("test6").password("123").note("test").build().encode(encoder,1).save();
+        PasswordRecord.builder().type("login").name("3DM").url("https://www.3dmgame.com/").username("test7").password("1238892").note("test").build().encode(encoder,1).save();
+        PasswordRecord.builder().type("login").name("游民星空").url("https://www.gamersky.com/").username("test8").password("2310").note("test").build().encode(encoder,1).save();
+        PasswordRecord.builder().type("login").name("百度贴吧").url("https://tieba.baidu.com/").username("test9").password("1239").note("test").build().encode(encoder,1).save();
+        PasswordRecord.builder().type("login").name("腾讯邮箱").url("https://mail.qq.com/").username("test10").password("0901").note("test").build().encode(encoder,1).save();
+
         viewPager = (ViewPager) findViewById(R.id.viewpager);
 
         fragmentList = new ArrayList<>();

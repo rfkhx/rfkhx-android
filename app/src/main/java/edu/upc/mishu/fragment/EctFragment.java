@@ -19,7 +19,6 @@ import androidx.fragment.app.Fragment;
 import com.xuexiang.xutil.tip.ToastUtils;
 
 import edu.upc.mishu.R;
-import edu.upc.mishu.dto.StringSetting;
 import edu.upc.mishu.generator.PasswordGenerator;
 import edu.upc.mishu.generator.SimplePasswordGenerator;
 
@@ -78,7 +77,7 @@ public class EctFragment extends Fragment implements View.OnClickListener, SeekB
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_etc,container,false);
+        View view = inflater.inflate(R.layout.fragment_etc,container,false);
 
         tvGeneratedPassword=view.findViewById(R.id.generator_generated_password);
 

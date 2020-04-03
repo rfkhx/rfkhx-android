@@ -29,7 +29,7 @@ public class SettingFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_setting,container,false);
+        View view = inflater.inflate(R.layout.fragment_setting,container,false);
         return view;
 
     }
