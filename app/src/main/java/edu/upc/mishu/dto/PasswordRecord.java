@@ -51,42 +51,54 @@ public class PasswordRecord extends SugarRecord<PasswordRecord> implements Seria
     private String noteEncoded;
 
     public PasswordRecord encode(Transformable encoder,int times){
+        nameEncoded=name;
+        urlEncoded=url;
+        usernameEncoded=username;
+        passwordEncoded=password;
+        noteEncoded=note;
+
         for (int i = 0; i <times; i++) {
-            if(name!=null){
-                nameEncoded=encoder.encode(name);
+            if(nameEncoded!=null){
+                nameEncoded=encoder.encode(nameEncoded);
             }
-            if(url!=null) {
-                urlEncoded=encoder.encode(url);
+            if(urlEncoded!=null) {
+                urlEncoded=encoder.encode(urlEncoded);
             }
-            if(username!=null){
-                usernameEncoded=encoder.encode(username);
+            if(usernameEncoded!=null){
+                usernameEncoded=encoder.encode(usernameEncoded);
             }
-            if(password!=null){
-                passwordEncoded=encoder.encode(password);
+            if(passwordEncoded!=null){
+                passwordEncoded=encoder.encode(passwordEncoded);
             }
-            if(note!=null){
-                noteEncoded=encoder.encode(note);
+            if(noteEncoded!=null){
+                noteEncoded=encoder.encode(noteEncoded);
             }
         }
         return this;
     }
 
     public PasswordRecord decode(Transformable encoder,int times){
+        name=nameEncoded;
+        url=urlEncoded;
+        username=usernameEncoded;
+        password=passwordEncoded;
+        note=noteEncoded;
+
         for (int i = 0; i < times; i++) {
-            if(nameEncoded!=null){
-                name=encoder.decode(nameEncoded);
+            if(name!=null){
+                name=encoder.decode(name);
             }
-            if(urlEncoded!=null){
-                url=encoder.decode(urlEncoded);
+            if(url!=null){
+                url=encoder.decode(url);
             }
-            if(usernameEncoded!=null){
-                username=encoder.decode(usernameEncoded);
+            if(username!=null){
+                username=encoder.decode(username);
             }
-            if(passwordEncoded!=null){
-                password=encoder.decode(passwordEncoded);
+            if(password!=null){
+                password=encoder.decode(password);
             }
-            if(noteEncoded!=null){
-                note=encoder.decode(noteEncoded);
+            if(note!=null){
+                note=encoder.decode(note);
             }
         }
         return this;
