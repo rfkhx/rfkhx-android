@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.upc.mishu.AddPasswordActivity;
+import edu.upc.mishu.ModifyPssswordActivity;
 import edu.upc.mishu.R;
 import edu.upc.mishu.adapter.ListViewAdapter;
 import edu.upc.mishu.dto.PasswordRecord;
@@ -82,7 +83,7 @@ public class PasswordFragment extends Fragment {
         super.onCreateContextMenu(menu, v, menuInfo);
     }
 
-    @Override
+    @Override//增删改按钮
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()){
@@ -103,7 +104,11 @@ public class PasswordFragment extends Fragment {
                 listViewAdapter.notifyDataSetChanged();
                 break;
             case R.id.menu_alter:
-                Toast.makeText(getActivity(),"alter",Toast.LENGTH_SHORT).show();
+                Intent intent_alter = new Intent (getActivity(), ModifyPssswordActivity.class);
+                intent_alter.putExtra("name",list.get(menuInfo.position).getWebsite());
+                intent_alter.putExtra("id",menuInfo.position);
+                Log.e("修改传参",list.get(menuInfo.position).getWebsite());
+                startActivityForResult(intent_alter,2);
                 break;
             case R.id.menu_add:
                 Intent intent = new Intent (getActivity(), AddPasswordActivity.class);
@@ -137,7 +142,7 @@ public class PasswordFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        Log.e(TAG, "onActivityResult: " +requestCode);
+        Log.e(TAG, "onActivityResult: 返回值requestCode：" +requestCode);
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
             case 1:
@@ -148,14 +153,22 @@ public class PasswordFragment extends Fragment {
                     passwordItem.setUsername(data.getStringExtra("username"));
                     passwordItem.setWebsite(data.getStringExtra("name"));
                     list.add(passwordItem);
-                    passwordRecordList = PasswordRecord.listAll(PasswordRecord.class);
-                    for(PasswordRecord p:passwordRecordList){
-                        p.decode(encoder,1);
-                        Log.e(TAG, "Add ager"+p.toString());
-
-                    }
                     listViewAdapter.notifyDataSetChanged();
                 }
+                break;
+            case 2:
+                if(resultCode==-1){
+                    Log.e(TAG,"增加后返回活动");
+                    PasswordItem passwordItem = new PasswordItem();
+                    passwordItem.setImageId(R.drawable.reset);
+                    passwordItem.setUsername(data.getStringExtra("username"));
+                    passwordItem.setWebsite(data.getStringExtra("name"));
+                    list.set(data.getIntExtra("id",0),passwordItem);
+                    listViewAdapter.notifyDataSetChanged();
+                }
+                break;
         }
+
+
     }
 }
