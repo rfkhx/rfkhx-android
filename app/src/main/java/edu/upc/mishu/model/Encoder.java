@@ -1,4 +1,6 @@
-package edu.upc.mishu.translate;
+package edu.upc.mishu.model;
+
+import edu.upc.mishu.interfaces.Transformable;
 
 public class Encoder implements Transformable {
     @Override

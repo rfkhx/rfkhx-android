@@ -1,4 +1,4 @@
-package edu.upc.mishu.translate;
+package edu.upc.mishu.interfaces;
 
 public interface Transformable {
     public String encode(String stringAEncriptar);

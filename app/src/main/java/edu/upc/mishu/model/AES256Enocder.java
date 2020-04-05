@@ -1,4 +1,4 @@
-package edu.upc.mishu.translate;
+package edu.upc.mishu.model;
 
 import android.os.Build;
 
@@ -15,6 +15,7 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import edu.upc.mishu.interfaces.Transformable;
 import lombok.Getter;
 import lombok.Setter;
 

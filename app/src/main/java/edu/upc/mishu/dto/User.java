@@ -2,8 +2,6 @@ package edu.upc.mishu.dto;
 
 import com.orm.SugarRecord;
 
-import java.io.Serializable;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,7 +15,16 @@ import lombok.ToString;
 @NoArgsConstructor
 @Builder
 @ToString
-public class StringSetting extends SugarRecord<StringSetting> implements Serializable {
-    String item;
-    String value;
+/**
+ * 本地存储用户信息
+ */
+public class User extends SugarRecord<User> {
+    //用户的邮箱
+    private String email;
+    //用户的密码提示
+    private String hint;
+    //用户的密码加密次数
+//    private Integer times;
+    //用户的密码（加密）
+    private String emailEncoded;
 }

@@ -1,4 +1,4 @@
-package edu.upc.mishu.fragment;
+package edu.upc.mishu.ui.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

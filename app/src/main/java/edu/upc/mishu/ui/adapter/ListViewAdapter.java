@@ -1,4 +1,4 @@
-package edu.upc.mishu.adapter;
+package edu.upc.mishu.ui.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;

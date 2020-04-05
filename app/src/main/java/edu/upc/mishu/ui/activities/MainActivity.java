@@ -1,11 +1,7 @@
-package edu.upc.mishu;
+package edu.upc.mishu.ui.activities;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,13 +13,14 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.upc.mishu.adapter.ViewPagerAdapter;
+import edu.upc.mishu.R;
+import edu.upc.mishu.ui.adapter.ViewPagerAdapter;
 import edu.upc.mishu.dto.PasswordRecord;
-import edu.upc.mishu.fragment.EctFragment;
-import edu.upc.mishu.fragment.PasswordFragment;
-import edu.upc.mishu.fragment.SettingFragment;
-import edu.upc.mishu.fragment.SynchronousFragment;
-import edu.upc.mishu.translate.AES256Enocder;
+import edu.upc.mishu.ui.fragment.EctFragment;
+import edu.upc.mishu.ui.fragment.PasswordFragment;
+import edu.upc.mishu.ui.fragment.SettingFragment;
+import edu.upc.mishu.ui.fragment.SynchronousFragment;
+import edu.upc.mishu.model.AES256Enocder;
 
 public class MainActivity extends AppCompatActivity  {
 
@@ -38,21 +35,6 @@ public class MainActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-        //第一次打开启动授权界面
-        SharedPreferences shared=getSharedPreferences("is", MODE_PRIVATE);
-        boolean isfer=shared.getBoolean("isfer", true);
-        SharedPreferences.Editor editor=shared.edit();
-        if(isfer){
-            //第一次进入跳转
-            Intent in=new Intent(MainActivity.this,LiscenceActivity.class);
-            startActivity(in);
-            finish();
-        }else{
-
-        }
-        Log.i(this.getLocalClassName(),"MainActivity退出");
 
         navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {

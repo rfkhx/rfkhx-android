@@ -13,15 +13,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
-        <activity android:name=".AddPasswordActivity"></activity>
-        <activity android:name=".LiscenceActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".ui.activities.RegisterActivity" />
+        <activity android:name=".ui.activities.LoginActivity" />
+        <activity android:name=".ui.activities.AddPasswordActivity" />
+        <activity android:name=".ui.activities.LiscenceActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.activities.MainActivity" />
 
         <meta-data
             android:name="DATABASE"

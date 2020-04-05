@@ -9,8 +9,8 @@ import org.junit.runner.RunWith;
 import java.util.Iterator;
 
 import edu.upc.mishu.dto.PasswordRecord;
-import edu.upc.mishu.translate.Encoder;
-import edu.upc.mishu.translate.Transformable;
+import edu.upc.mishu.model.Encoder;
+import edu.upc.mishu.interfaces.Transformable;
 
 import static org.junit.Assert.*;
 
