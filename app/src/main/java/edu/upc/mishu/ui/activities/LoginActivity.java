@@ -12,20 +12,30 @@ import android.widget.TextView;
 import com.xuexiang.xutil.common.RegexUtils;
 import com.xuexiang.xutil.tip.ToastUtils;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import edu.upc.mishu.R;
 import edu.upc.mishu.dto.User;
+import edu.upc.mishu.interfaces.LoginObservable;
+import edu.upc.mishu.interfaces.LoginObserver;
 import edu.upc.mishu.interfaces.RegisterObserver;
 import edu.upc.mishu.interfaces.Transformable;
 import edu.upc.mishu.model.AES256Enocder;
+import edu.upc.mishu.model.ExampleLoginObserver;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener, RegisterObserver {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener, RegisterObserver , LoginObservable {
     private TextView tvRegister;
     public static LoginActivity instance;
     private EditText textEmail;
     private EditText textPassword;
     private Button btnSubmit;
+    private List<LoginObserver> loginObserverList=new ArrayList<>();
+
+    private void attachObservers(){
+        attach(new ExampleLoginObserver());
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +49,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         textEmail=findViewById(R.id.login_email);
         textPassword=findViewById(R.id.login_password);
         btnSubmit=findViewById(R.id.login_submit);
+        btnSubmit.setOnClickListener(this);
+
+        attachObservers();
     }
 
     @Override
@@ -50,22 +63,23 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.login_submit:
                 if(!RegexUtils.isEmail(textEmail.getText().toString())){
-                    ToastUtils.toast("邮箱输入有误，请检查输入");
+                    ToastUtils.toast(getString(R.string.login_email_invalid));
                     break;
                 }
-                //TODO 检查密码是否正确
                 Iterator<User> userIterator=User.findAsIterator(User.class,"email=?",textEmail.getText().toString());
                 if(!userIterator.hasNext()){
-                    ToastUtils.toast("用户名或密码错误");
+                    ToastUtils.toast(getString(R.string.login_wrong_username_or_password));
                     break;
                 }
                 User user=userIterator.next();
                 Transformable encoder=new AES256Enocder(textPassword.getText().toString());
                 if(encoder.decode(user.getEmailEncoded()).equals(user.getEmail())){
-                    //TODO 密码正确
+                    notify(user);
+                    Intent intent1=new Intent(this,MainActivity.class);
+                    startActivity(intent1);
                     finish();
                 }else{
-                    //TODO 密码错误
+                    notify(null);
                 }
                 break;
         }
@@ -76,6 +90,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if(user!=null){
             //注册完用户名直接填在登录里
             textEmail.setText(user.getEmail());
+        }
+    }
+
+    @Override
+    public void attach(LoginObserver observer) {
+        loginObserverList.add(observer);
+    }
+
+    @Override
+    public void detach(LoginObserver observer) {
+        loginObserverList.remove(observer);
+    }
+
+    @Override
+    public void notify(User user) {
+        for (LoginObserver observer :
+                loginObserverList) {
+            observer.onLogin(user);
         }
     }
 }

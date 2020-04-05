@@ -72,7 +72,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private User check(){
         String email=textEmail.getText().toString();
         if(!RegexUtils.isEmail(email)){
-            ToastUtils.toast("输入的邮箱地址不合法");
+            ToastUtils.toast(getString(R.string.register_email_invalid));
             return null;
         }
         Iterator<User> iterator=User.findAsIterator(User.class,"email=?",email);
@@ -86,11 +86,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         String pwd1=textPassword.getText().toString();
         String pwd2=textPasswordRepeat.getText().toString();
         if(pwd1.trim().length()==0){
-            ToastUtils.toast("主密码不能为空");
+            ToastUtils.toast(getString(R.string.register_no_empty_password));
             return null;
         }
         if(!pwd1.equals(pwd2)){
-            ToastUtils.toast("两次输入密码不一致");
+            ToastUtils.toast(getString(R.string.register_no_same_password));
             return null;
         }
         encoder=new AES256Enocder(pwd1);

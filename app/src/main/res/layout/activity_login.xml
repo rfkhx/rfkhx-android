@@ -17,24 +17,24 @@
             android:id="@+id/login_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="E-mail地址"
+            android:hint="@string/login_email"
             android:inputType="textEmailAddress"/>
         <EditText
             android:id="@+id/login_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:hint="密码"/>
+            android:hint="@string/login_password"/>
         <Button
             android:id="@+id/login_submit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="登录"/>
+            android:text="@string/login_submit"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="注册账户"
+            android:text="@string/login_register"
             android:textAlignment="center"
             android:gravity="center_horizontal"
             android:textColor="#00f"
