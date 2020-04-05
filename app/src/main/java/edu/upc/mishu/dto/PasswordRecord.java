@@ -5,7 +5,7 @@ import com.orm.dsl.Ignore;
 
 import java.io.Serializable;
 
-import edu.upc.mishu.translate.Transformable;
+import edu.upc.mishu.interfaces.Transformable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

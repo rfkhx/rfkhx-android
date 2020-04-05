@@ -1,4 +1,4 @@
-package edu.upc.mishu;
+package edu.upc.mishu.ui.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,8 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import edu.upc.mishu.R;
 import edu.upc.mishu.dto.PasswordRecord;
-import edu.upc.mishu.translate.AES256Enocder;
+import edu.upc.mishu.model.AES256Enocder;
 
 public class AddPasswordActivity extends AppCompatActivity {
 

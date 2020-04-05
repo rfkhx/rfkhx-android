@@ -30,4 +30,20 @@
     <string name="textview_password">密码</string>
     <string name="textview_url">URL</string>
     <string name="textview_notes">备注</string>
+    <string name="register_e_mail">E-mail地址</string>
+    <string name="register_password">主密码</string>
+    <string name="register_password_tip">主密码是访问密码库的密码，它非常重要，忘记后将没有办法恢复或者重置，你将不能访问你的密码库！</string>
+    <string name="register_password_repeat">重新输入主密码</string>
+    <string name="register_password_hint">密码提示（可选）</string>
+    <string name="register_password_hit_tip">密码提示可以帮你回忆主密码。</string>
+    <string name="register_submit">提交</string>
+    <string name="login_email_invalid">邮箱输入有误，请检查输入</string>
+    <string name="login_wrong_username_or_password">用户名或密码错误</string>
+    <string name="register_email_invalid">输入的邮箱地址不合法</string>
+    <string name="register_no_empty_password">主密码不能为空</string>
+    <string name="register_no_same_password">两次输入密码不一致</string>
+    <string name="login_email">E-mail地址</string>
+    <string name="login_password">密码</string>
+    <string name="login_submit">登录</string>
+    <string name="login_register">注册账户</string>
 </resources>

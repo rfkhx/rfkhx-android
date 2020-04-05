@@ -2,7 +2,8 @@ package edu.upc.mishu;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.upc.mishu.translate.*;
+import edu.upc.mishu.interfaces.Transformable;
+import edu.upc.mishu.model.AES256Enocder;
 
 import static org.junit.Assert.*;
 

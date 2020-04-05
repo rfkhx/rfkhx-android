@@ -1,4 +1,4 @@
-package edu.upc.mishu.fragment;
+package edu.upc.mishu.ui.fragment;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -19,8 +19,8 @@ import androidx.fragment.app.Fragment;
 import com.xuexiang.xutil.tip.ToastUtils;
 
 import edu.upc.mishu.R;
-import edu.upc.mishu.generator.PasswordGenerator;
-import edu.upc.mishu.generator.SimplePasswordGenerator;
+import edu.upc.mishu.interfaces.PasswordGenerator;
+import edu.upc.mishu.model.SimplePasswordGenerator;
 import edu.upc.mishu.utils.StringSettingUtil;
 
 public class EctFragment extends Fragment implements View.OnClickListener, SeekBar.OnSeekBarChangeListener {

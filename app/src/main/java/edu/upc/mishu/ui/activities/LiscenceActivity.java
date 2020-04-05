@@ -1,4 +1,4 @@
-package edu.upc.mishu;
+package edu.upc.mishu.ui.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,6 +12,8 @@ import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.CheckBox;
 
+import edu.upc.mishu.R;
+
 public class LiscenceActivity extends AppCompatActivity implements View.OnClickListener {
     Button buttonOk;
     CheckBox checkBoxRead;
@@ -21,6 +23,19 @@ public class LiscenceActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_liscence);
+
+        //第一次打开启动授权界面
+        SharedPreferences shared=getSharedPreferences("is", MODE_PRIVATE);
+        boolean isfer=shared.getBoolean("isfer", true);
+        SharedPreferences.Editor editor=shared.edit();
+        if(isfer){
+            //是第一次启动
+        }else{
+            //不是第一次启动
+            Intent in=new Intent(this,LoginActivity.class);
+            startActivity(in);
+            finish();
+        }
 
         buttonOk=findViewById(R.id.btn_ok);
         checkBoxRead=findViewById(R.id.chk_read);
@@ -49,8 +64,9 @@ public class LiscenceActivity extends AppCompatActivity implements View.OnClickL
                 editor.putBoolean("isfer", false);
                 editor.apply();
                 finish();
-                Intent in=new Intent(this,MainActivity.class);
+                Intent in=new Intent(this,LoginActivity.class);
                 startActivity(in);
+                finish();
                 break;
         }
     }

@@ -1,4 +1,4 @@
-package edu.upc.mishu.fragment;
+package edu.upc.mishu.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,11 +20,11 @@ import androidx.fragment.app.Fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.upc.mishu.AddPasswordActivity;
+import edu.upc.mishu.ui.activities.AddPasswordActivity;
 import edu.upc.mishu.R;
-import edu.upc.mishu.adapter.ListViewAdapter;
+import edu.upc.mishu.ui.adapter.ListViewAdapter;
 import edu.upc.mishu.dto.PasswordRecord;
-import edu.upc.mishu.translate.AES256Enocder;
+import edu.upc.mishu.model.AES256Enocder;
 import edu.upc.mishu.vo.PasswordItem;
 
 

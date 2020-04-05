@@ -1,9 +1,10 @@
-package edu.upc.mishu.generator;
+package edu.upc.mishu.model;
 
 import android.util.Log;
 
 import java.util.Random;
 
+import edu.upc.mishu.interfaces.PasswordGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
