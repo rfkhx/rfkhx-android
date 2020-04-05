@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.List;
 
 import edu.upc.mishu.dto.PasswordRecord;
-import edu.upc.mishu.translate.AES256Enocder;
+import edu.upc.mishu.model.AES256Enocder;
 
 public class ModifyPssswordActivity extends AppCompatActivity {
 
