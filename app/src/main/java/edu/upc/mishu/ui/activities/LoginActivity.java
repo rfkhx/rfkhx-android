@@ -4,10 +4,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.style.AlignmentSpan;
+import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListPopupWindow;
+import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.xuexiang.xutil.common.RegexUtils;
 import com.xuexiang.xutil.tip.ToastUtils;
@@ -26,12 +34,15 @@ import edu.upc.mishu.model.AES256Enocder;
 import edu.upc.mishu.model.ExampleLoginObserver;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, RegisterObserver , LoginObservable {
+    private static final String TAG="LoginActivity";
     private TextView tvRegister;
     public static LoginActivity instance;
     private EditText textEmail;
     private EditText textPassword;
     private Button btnSubmit;
     private List<LoginObserver> loginObserverList=new ArrayList<>();
+    private List<String> emaillist = new ArrayList<>();
+    private ArrayAdapter<String> adapter;
 
     private void attachObservers(){
         attach(new ExampleLoginObserver());
@@ -43,6 +54,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        Iterator<User> userIterator= User.findAll(User.class);
+
+        while(userIterator.hasNext()){
+            User user = userIterator.next();
+            emaillist.add(user.getEmail());
+            Log.i(TAG, "onCreate: "+emaillist.toString());
+        }
+
+
         tvRegister=findViewById(R.id.login_tv_register);
         tvRegister.setOnClickListener(this);
 
@@ -52,8 +72,35 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         btnSubmit.setOnClickListener(this);
 
         attachObservers();
+
+        textEmail.setText(emaillist.get(0));
+        textEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus){
+                    showlist();
+                }
+            }
+        });
     }
 
+    private void showlist(){
+        final ListPopupWindow listPopupWindow = new ListPopupWindow(this);
+        listPopupWindow.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,emaillist));
+        listPopupWindow.setAnchorView(textEmail);
+        listPopupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
+        listPopupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+
+        listPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                textEmail.setText(emaillist.get(position));
+                listPopupWindow.dismiss();
+            }
+        });
+        listPopupWindow.show();
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -63,12 +110,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.login_submit:
                 if(!RegexUtils.isEmail(textEmail.getText().toString())){
-                    ToastUtils.toast(getString(R.string.login_email_invalid));
+                    Toast.makeText(this,getString(R.string.login_wrong_username_or_password),Toast.LENGTH_SHORT).show();
+                    Log.i(TAG, "onClick: "+getString(R.string.login_email_invalid));
                     break;
                 }
                 Iterator<User> userIterator=User.findAsIterator(User.class,"email=?",textEmail.getText().toString());
                 if(!userIterator.hasNext()){
                     ToastUtils.toast(getString(R.string.login_wrong_username_or_password));
+                    Log.i(TAG, "onClick: "+getString(R.string.login_wrong_username_or_password));
                     break;
                 }
                 User user=userIterator.next();
