@@ -71,7 +71,10 @@ public class PasswordFragment extends Fragment {
             pt.setImageId(R.drawable.reset);
             pt.setUsername(item.getUsername());
             pt.setWebsite(item.getName());
-            list.add(pt);
+            if(!list.contains(pt)){
+                list.add(pt);
+            }
+
         }
         listViewAdapter = new ListViewAdapter(getActivity(),list);
         listView.setAdapter(listViewAdapter);

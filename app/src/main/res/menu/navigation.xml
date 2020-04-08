@@ -2,17 +2,21 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:icon="@drawable/password_navigation"
         android:id="@+id/navigation_pass"
         android:title="@string/navigation_pass"
         />
     <item
+        android:icon="@drawable/synchronous_navigation"
         android:id="@+id/navigation_synchronous"
         android:title="@string/navigation_synchronous"
         />
     <item
+        android:icon="@drawable/create_navigation"
         android:id="@+id/navigation_item3"
         android:title="@string/navigation_item3"/>
     <item
+        android:icon="@drawable/setting_navigation"
         android:id="@+id/navigation_setting"
         android:title="@string/navigation_setting"/>
 </menu>

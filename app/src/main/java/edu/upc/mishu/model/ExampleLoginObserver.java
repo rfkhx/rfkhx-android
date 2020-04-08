@@ -15,6 +15,8 @@ public class ExampleLoginObserver implements LoginObserver {
     public void onLogin(User user) {
         if(user!=null){
             ToastUtils.toast("登录成功");
+        }else{
+            ToastUtils.toast("用户名或密码错误。");
         }
     }
 }
