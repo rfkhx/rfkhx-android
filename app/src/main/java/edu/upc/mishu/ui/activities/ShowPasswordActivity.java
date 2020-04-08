@@ -4,9 +4,13 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
+import android.view.PointerIcon;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +32,8 @@ public class ShowPasswordActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_password_show);
+
+        init();
 
         Intent intent_show = getIntent();
         String project_name = intent_show.getStringExtra("project_name");
@@ -78,4 +84,18 @@ public class ShowPasswordActivity extends AppCompatActivity {
             }
         }
     }
+
+    private void init(){
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
+        WindowManager.LayoutParams layoutParams =getWindow().getAttributes();
+        layoutParams.height = (int) (height*0.5);
+        layoutParams.width = (int) (width);
+
+    }
+
+
 }
