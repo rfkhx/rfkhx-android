@@ -20,9 +20,10 @@ import androidx.fragment.app.Fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.upc.mishu.ModifyPssswordActivity;
+import edu.upc.mishu.ui.activities.ModifyPssswordActivity;
 import edu.upc.mishu.ui.activities.AddPasswordActivity;
 import edu.upc.mishu.R;
+import edu.upc.mishu.ui.activities.ShowPasswordActivity;
 import edu.upc.mishu.ui.adapter.ListViewAdapter;
 import edu.upc.mishu.dto.PasswordRecord;
 import edu.upc.mishu.model.AES256Enocder;
@@ -128,6 +129,9 @@ public class PasswordFragment extends Fragment {
                 PasswordItem passwordItem = list.get(position);
                 Log.e(TAG, "onItemClick: "+passwordItem.getUsername());
                 Toast.makeText(getActivity(),passwordItem.getWebsite(),Toast.LENGTH_SHORT).show();
+                Intent intent_show=new Intent(getActivity(), ShowPasswordActivity.class);
+                intent_show.putExtra("project_name",passwordItem.getUsername());
+                startActivity(intent_show);
             }
         });
 

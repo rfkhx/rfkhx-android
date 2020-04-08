@@ -1,4 +1,4 @@
-package edu.upc.mishu;
+package edu.upc.mishu.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.List;
 
+import edu.upc.mishu.R;
 import edu.upc.mishu.dto.PasswordRecord;
 import edu.upc.mishu.model.AES256Enocder;
 
