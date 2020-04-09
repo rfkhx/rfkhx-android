@@ -20,6 +20,9 @@
         <item name="android:title">@null</item>
         <item name="windowNoTitle">true</item>
         <item name="android:dialogTitle">@null</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowFrame">@null</item>
+
     </style>
 
 </resources>

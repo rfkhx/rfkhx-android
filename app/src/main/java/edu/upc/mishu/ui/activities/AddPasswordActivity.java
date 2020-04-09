@@ -4,11 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 
 import edu.upc.mishu.R;
 import edu.upc.mishu.dto.PasswordRecord;
@@ -18,7 +22,7 @@ public class AddPasswordActivity extends AppCompatActivity {
 
     private static final String TAG = "AddActivity";
 
-    private AES256Enocder encoder = new AES256Enocder("");
+    private AES256Enocder encoder = new AES256Enocder("123456");
 
     private EditText type;
     private EditText name;
@@ -26,6 +30,8 @@ public class AddPasswordActivity extends AppCompatActivity {
     private EditText username;
     private EditText password;
     private EditText note;
+    private Handler handler = new Handler();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,11 +48,11 @@ public class AddPasswordActivity extends AppCompatActivity {
                 username = findViewById(R.id.add_username);
                 password = findViewById(R.id.add_password);
                 note = findViewById(R.id.add_note);
-                Log.e(TAG, "onClick: "+ name.getText().toString());
-                Log.e(TAG, "onClick: "+url.getText().toString() );
-                Log.e(TAG, "onClick: "+username.getText().toString() );
-                Log.e(TAG, "onClick: "+password.getText().toString() );
-                Log.e(TAG, "onClick: "+note.getText().toString() );
+//                Log.e(TAG, "onClick: "+ name.getText().toString());
+//                Log.e(TAG, "onClick: "+url.getText().toString() );
+//                Log.e(TAG, "onClick: "+username.getText().toString() );
+//                Log.e(TAG, "onClick: "+password.getText().toString() );
+//                Log.e(TAG, "onClick: "+note.getText().toString() );
                 PasswordRecord passwordRecord = new PasswordRecord();
                 passwordRecord.setType("login");
                 passwordRecord.setName(name.getText().toString());
@@ -54,9 +60,26 @@ public class AddPasswordActivity extends AppCompatActivity {
                 passwordRecord.setUsername(username.getText().toString());
                 passwordRecord.setPassword(password.getText().toString());
                 passwordRecord.setNote(note.getText().toString());
+//                passwordRecord.encode(encoder,1);
+//                passwordRecord.save();
 
-                passwordRecord.encode(encoder,1);
-                passwordRecord.save();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.i(TAG, "run: is run ");
+                        PasswordRecord passwordRecord = new PasswordRecord();
+                        passwordRecord.setType("login");
+                        passwordRecord.setName(name.getText().toString());
+                        passwordRecord.setUrl(url.getText().toString());
+                        passwordRecord.setUsername(username.getText().toString());
+                        passwordRecord.setPassword(password.getText().toString());
+                        passwordRecord.setNote(note.getText().toString());
+                        passwordRecord.encode(encoder,1);
+                        passwordRecord.save();
+                        Log.i(TAG, "run: "+passwordRecord.toString());
+                    }
+                }).start();
+
                 Log.e(TAG, "onClick: pr"+passwordRecord.toString() );
                 Intent intent = new Intent();
                 intent.putExtra("name",passwordRecord.getName());
