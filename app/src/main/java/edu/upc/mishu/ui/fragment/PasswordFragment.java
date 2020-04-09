@@ -38,6 +38,16 @@ public class PasswordFragment extends Fragment {
     private List<PasswordItem> list = new ArrayList<>();
     private List<PasswordRecord> passwordRecordList ;
 
+//    private Handler handler = new Handler(){
+//        @Override
+//        public void handleMessage(@NonNull Message msg) {
+//            super.handleMessage(msg);
+//            switch (msg.what){
+//                case 1:
+//                   listViewAdapter.notifyDataSetChanged();
+//            }
+//        }
+//    };
     private AES256Enocder encoder = new AES256Enocder("");
 
     public static PasswordFragment newInstance(){
@@ -74,10 +84,36 @@ public class PasswordFragment extends Fragment {
             if(!list.contains(pt)){
                 list.add(pt);
             }
-
         }
         listViewAdapter = new ListViewAdapter(getActivity(),list);
         listView.setAdapter(listViewAdapter);
+//        PasswordItem pi = new PasswordItem();
+//        pi.setUsername("wait");
+//        pi.setWebsite("wait");
+//        pi.setImageId(R.drawable.mishu_icon_background);
+//        list.add(pi);
+//        listViewAdapter = new ListViewAdapter(getActivity(),list);
+//        listView.setAdapter(listViewAdapter);
+//
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                list.remove(list.get(0));
+//                passwordRecordList = PasswordRecord.listAll(PasswordRecord.class);
+//                for(PasswordRecord item:passwordRecordList){
+//                    item.decode(encoder,1);
+//                    Log.e(TAG, "init: "+item.toString() +item.getId());
+//                    PasswordItem pt = new PasswordItem();
+//                    pt.setImageId(R.drawable.reset);
+//                    pt.setUsername(item.getUsername());
+//                    pt.setWebsite(item.getName());
+//                    if(!list.contains(pt)){
+//                        list.add(pt);
+//                    }
+//                }
+//
+//            }
+//        }).start();
     }
 
     @Override//生成长安菜单

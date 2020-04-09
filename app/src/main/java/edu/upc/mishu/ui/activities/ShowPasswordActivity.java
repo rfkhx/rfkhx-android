@@ -4,7 +4,9 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
@@ -92,7 +94,9 @@ public class ShowPasswordActivity extends AppCompatActivity {
         int height = size.y;
         WindowManager.LayoutParams layoutParams =getWindow().getAttributes();
         layoutParams.height = (int) (height*0.5);
-        layoutParams.width = (int) (width);
+        layoutParams.width = (int) (width*0.8);
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        getWindow().getDecorView().setBackgroundResource(R.drawable.dialog_background);
 
     }
 
