@@ -11,7 +11,7 @@ public class AESEncodeTest {
     private Transformable tem;
     @Before
     public void init() {
-        tem = new AES256Enocder("fgchgvjhbjk.fhtjdhjkgkg");
+        tem =  AES256Enocder.getInstance("fgchgvjhbjk.fhtjdhjkgkg");
     }
 
     @Test

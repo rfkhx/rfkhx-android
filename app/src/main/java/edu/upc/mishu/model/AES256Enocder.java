@@ -1,14 +1,22 @@
 package edu.upc.mishu.model;
 
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
 import java.nio.charset.StandardCharsets;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.util.Base64;
 
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.IvParameterSpec;
@@ -20,17 +28,41 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class AES256Enocder implements Transformable {
+    private static final String TAG = "AES加密";
     @Getter
     @Setter
     private String password = "WgG6dcDBsHzpc6A";//密钥
     private String salt = "uhTP682F3vyxHaB";//补充完整密文
 
-    public AES256Enocder(){
-        ;
+    private Cipher cipher;
+    private SecretKeySpec secretKey;
+    private IvParameterSpec ivspec;
+
+    private static AES256Enocder instance;
+
+    private AES256Enocder(String password){
+        this.password=password;
+        // 初始化向量
+        byte[] iv = {1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0};
+
+        ivspec = new IvParameterSpec(iv);
+        SecretKeyFactory factory = null;
+        try {
+            factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+            KeySpec spec = new PBEKeySpec(password.toCharArray(), salt.getBytes(), 65536, 256);
+            SecretKey tmp = factory.generateSecret(spec);
+            secretKey = new SecretKeySpec(tmp.getEncoded(), "AES");
+            cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException | NoSuchPaddingException  e) {
+            e.printStackTrace();
+        }
     }
 
-    public AES256Enocder(String password){
-        this.password=password;
+    public static AES256Enocder getInstance(String password) {
+        if(instance==null||!password.equals(instance.password)){
+            instance=new AES256Enocder(password);
+        }
+        return instance;
     }
 
     /**
@@ -42,21 +74,17 @@ public class AES256Enocder implements Transformable {
     @Override
     public String encode(String stringAEncriptar) {
         try {
-            // 初始化向量
-            byte[] iv = {1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0};
-
-            IvParameterSpec ivspec = new IvParameterSpec(iv);
-            SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-            KeySpec spec = new PBEKeySpec(password.toCharArray(), salt.getBytes(), 65536, 256);
-            SecretKey tmp = factory.generateSecret(spec);
-            SecretKeySpec secretKey = new SecretKeySpec(tmp.getEncoded(), "AES");
-            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-
+            Log.i(TAG,cipher.toString());
             cipher.init(Cipher.ENCRYPT_MODE, secretKey, ivspec);
             return Base64.getEncoder().encodeToString(cipher.doFinal(stringAEncriptar.getBytes(StandardCharsets.UTF_8)));
-
-        } catch (Exception e) {
-            System.out.println("Error Mientras se Encriptaba : " + e.toString());
+        } catch (BadPaddingException e) {
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            e.printStackTrace();
+        } catch (InvalidAlgorithmParameterException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
         }
         return stringAEncriptar;
     }
@@ -70,21 +98,16 @@ public class AES256Enocder implements Transformable {
     @Override
     public String decode(String stringADesencriptar) {
         try {
-            byte[] iv = {1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0};
-
-            IvParameterSpec ivspec = new IvParameterSpec(iv);
-            SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-            KeySpec spec = new PBEKeySpec(password.toCharArray(), salt.getBytes(), 65536, 256);
-            SecretKey tmp = factory.generateSecret(spec);
-            SecretKeySpec secretKey = new SecretKeySpec(tmp.getEncoded(), "AES");
-            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
-
             cipher.init(Cipher.DECRYPT_MODE, secretKey, ivspec);
-
             return new String(cipher.doFinal(Base64.getDecoder().decode(stringADesencriptar)));
-
-        } catch (Exception e) {
-            System.out.println("Error Mientras se Desencriptaba: " + e.toString());
+        } catch (BadPaddingException e) {
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            e.printStackTrace();
+        } catch (InvalidAlgorithmParameterException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
         }
         return stringADesencriptar;
     }

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import edu.upc.mishu.App;
 import edu.upc.mishu.R;
 import edu.upc.mishu.dto.User;
 import edu.upc.mishu.interfaces.RegisterObservable;
@@ -28,7 +29,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private EditText textPasswordRepeat;
     private EditText textHint;
     private Button btnSubmit;
-    private Transformable encoder;
+
     private List<RegisterObserver> registerObserverList=new ArrayList<>();
     public static RegisterActivity instance;
 
@@ -93,8 +94,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             ToastUtils.toast(getString(R.string.register_no_same_password));
             return null;
         }
-        encoder=new AES256Enocder(pwd1);
-        res.setEmailEncoded(encoder.encode(res.getEmail()));
+        App.encoder=AES256Enocder.getInstance(pwd1);
+        res.setEmailEncoded(App.encoder.encode(res.getEmail()));
         res.setHint(textHint.getText().toString());
         return res;
     }

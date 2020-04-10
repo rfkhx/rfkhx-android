@@ -2,6 +2,7 @@ package edu.upc.mishu.model;
 
 import com.xuexiang.xutil.tip.ToastUtils;
 
+import edu.upc.mishu.App;
 import edu.upc.mishu.dto.User;
 import edu.upc.mishu.interfaces.LoginObserver;
 import edu.upc.mishu.interfaces.RegisterObserver;

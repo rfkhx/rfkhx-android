@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.List;
 
+import edu.upc.mishu.App;
 import edu.upc.mishu.R;
 import edu.upc.mishu.dto.PasswordRecord;
 import edu.upc.mishu.model.AES256Enocder;
@@ -18,8 +19,6 @@ import edu.upc.mishu.model.AES256Enocder;
 public class ModifyPssswordActivity extends AppCompatActivity {
 
     private static final String TAG = "ModifyActivity";
-
-    private AES256Enocder encoder = new AES256Enocder("");
 
     private EditText type;
     private EditText name;
@@ -75,7 +74,7 @@ public class ModifyPssswordActivity extends AppCompatActivity {
                 passwordRecord.setPassword(password.getText().toString());
                 passwordRecord.setNote(note.getText().toString());
 
-                passwordRecord.encode(encoder,1);
+                passwordRecord.encode(App.encoder,1);
                 passwordRecord.save();
 
                 Log.e(TAG, "onClick: pr"+passwordRecord.toString() );

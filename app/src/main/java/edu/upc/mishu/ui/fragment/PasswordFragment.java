@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.upc.mishu.App;
 import edu.upc.mishu.ui.activities.ModifyPssswordActivity;
 import edu.upc.mishu.ui.activities.AddPasswordActivity;
 import edu.upc.mishu.R;
@@ -48,7 +49,6 @@ public class PasswordFragment extends Fragment {
 //            }
 //        }
 //    };
-    private AES256Enocder encoder = new AES256Enocder("");
 
     public static PasswordFragment newInstance(){
         if(instance == null){
@@ -75,7 +75,7 @@ public class PasswordFragment extends Fragment {
 
         passwordRecordList = PasswordRecord.listAll(PasswordRecord.class);
         for(PasswordRecord item:passwordRecordList){
-            item.decode(encoder,1);
+            item.decode(App.encoder,1);
             Log.e(TAG, "init: "+item.toString() +item.getId());
             PasswordItem pt = new PasswordItem();
             pt.setImageId(R.drawable.reset);
@@ -137,7 +137,7 @@ public class PasswordFragment extends Fragment {
                 }
                 passwordRecordList = PasswordRecord.listAll(PasswordRecord.class);
                 for(PasswordRecord p1:passwordRecordList){
-                    p1.decode(encoder,1);
+                    p1.decode(App.encoder,1);
                     Log.e(TAG, "Del after"+p1.toString() );
                 }
                 list.remove(menuInfo.position);

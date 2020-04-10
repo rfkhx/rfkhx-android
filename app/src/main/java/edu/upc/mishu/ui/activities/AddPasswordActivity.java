@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import edu.upc.mishu.App;
 import edu.upc.mishu.R;
 import edu.upc.mishu.dto.PasswordRecord;
 import edu.upc.mishu.model.AES256Enocder;
@@ -17,8 +18,6 @@ import edu.upc.mishu.model.AES256Enocder;
 public class AddPasswordActivity extends AppCompatActivity {
 
     private static final String TAG = "AddActivity";
-
-    private AES256Enocder encoder = new AES256Enocder("123456");
 
     private EditText type;
     private EditText name;
@@ -68,7 +67,7 @@ public class AddPasswordActivity extends AppCompatActivity {
                         passwordRecord.setUsername(username.getText().toString());
                         passwordRecord.setPassword(password.getText().toString());
                         passwordRecord.setNote(note.getText().toString());
-                        passwordRecord.encode(encoder,1);
+                        passwordRecord.encode(App.encoder,1);
                         passwordRecord.save();
                         Log.i(TAG, "run: "+passwordRecord.toString());
                     }

@@ -1,7 +1,5 @@
 package edu.upc.mishu;
 
-import android.app.Application;
-
 import com.orm.SugarApp;
 import com.xuexiang.xhttp2.XHttp;
 import com.xuexiang.xhttp2.XHttpSDK;
@@ -15,12 +13,17 @@ import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.util.concurrent.TimeUnit;
 
+import edu.upc.mishu.dto.User;
 import edu.upc.mishu.http.OKHttpUpdateHttpService;
+import edu.upc.mishu.interfaces.Transformable;
 import okhttp3.OkHttpClient;
 
 import static com.xuexiang.xupdate.entity.UpdateError.ERROR.CHECK_NO_NEW_VERSION;
 
 public class App extends SugarApp {
+    public static User user=null;
+    public static Transformable encoder=null;
+    public static String password=null;
 
     @Override
     public void onCreate() {

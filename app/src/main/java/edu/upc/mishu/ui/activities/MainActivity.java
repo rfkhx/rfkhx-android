@@ -13,7 +13,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.upc.mishu.App;
 import edu.upc.mishu.R;
+import edu.upc.mishu.interfaces.Transformable;
 import edu.upc.mishu.ui.adapter.ViewPagerAdapter;
 import edu.upc.mishu.dto.PasswordRecord;
 import edu.upc.mishu.ui.fragment.EctFragment;
@@ -29,7 +31,6 @@ public class MainActivity extends AppCompatActivity  {
     private ViewPager viewPager;
     private List<Fragment> fragmentList;
     private BottomNavigationView navigation;
-    private AES256Enocder encoder = new AES256Enocder("");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     private void init(){
+        Transformable encoder= App.encoder;
         PasswordRecord.deleteAll(PasswordRecord.class);
         PasswordRecord.builder().type("login").name("腾讯").url("http://www.tencent.com/").username("test1").password("123123").note("test").build().encode(encoder,1).save();
         PasswordRecord.builder().type("login").name("百度").url("https://www.baidu.com/").username("test2").password("123456").note("test").build().encode(encoder,1).save();

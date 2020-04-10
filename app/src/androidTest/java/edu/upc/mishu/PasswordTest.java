@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
 import java.util.Iterator;
 
 import edu.upc.mishu.dto.PasswordRecord;
-import edu.upc.mishu.model.Encoder;
+import edu.upc.mishu.model.AES256Enocder;
 import edu.upc.mishu.interfaces.Transformable;
 
 import static org.junit.Assert.*;
@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
  */
 @RunWith(AndroidJUnit4.class)
 public class PasswordTest {
-    private Transformable encoder=new Encoder();
+    private Transformable encoder=AES256Enocder.getInstance("dfbhdthcde");
     private int times=3;
 
     private String encodeString(String str){
