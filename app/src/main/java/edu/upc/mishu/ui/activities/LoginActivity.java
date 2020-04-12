@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.style.AlignmentSpan;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -31,7 +30,6 @@ import edu.upc.mishu.dto.User;
 import edu.upc.mishu.interfaces.LoginObservable;
 import edu.upc.mishu.interfaces.LoginObserver;
 import edu.upc.mishu.interfaces.RegisterObserver;
-import edu.upc.mishu.interfaces.Transformable;
 import edu.upc.mishu.model.AES256Enocder;
 import edu.upc.mishu.model.ExampleLoginObserver;
 
@@ -75,6 +73,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         attachObservers();
 
+        if(emaillist.size()!=0){
+            textEmail.setText(emaillist.get(0));
+        }
         //回车下一项、回车提交登陆
         textEmail.setOnEditorActionListener((v,keyCode,event)->{
             if(keyCode== KeyEvent.KEYCODE_ENTER){
@@ -136,6 +137,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 if(!RegexUtils.isEmail(textEmail.getText().toString())){
                     Toast.makeText(this,getString(R.string.login_wrong_username_or_password),Toast.LENGTH_SHORT).show();
                     Log.i(TAG, "onClick: "+getString(R.string.login_email_invalid));
+                    break;
+                }
+                if(textPassword.getText().toString().trim().equals("")){
+                    //空密码，什么也不做
                     break;
                 }
                 Iterator<User> userIterator=User.findAsIterator(User.class,"email=?",textEmail.getText().toString());
