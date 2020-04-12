@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.style.AlignmentSpan;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -73,6 +74,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         btnSubmit.setOnClickListener(this);
 
         attachObservers();
+
+        //回车下一项、回车提交登陆
+        textEmail.setOnEditorActionListener((v,keyCode,event)->{
+            if(keyCode== KeyEvent.KEYCODE_ENTER){
+                textPassword.requestFocus();
+                return true;
+            }
+            return false;
+        });
+        //回车登陆
+        textPassword.setOnEditorActionListener((v,keyCode,event)->{
+            Log.i(TAG,"密码框按键"+keyCode);
+
+            if(keyCode==KeyEvent.KEYCODE_ENDCALL){
+                Log.i(TAG,"密码框回车");
+                btnSubmit.callOnClick();
+                return true;
+            }
+            return false;
+        });
 
         if(!emaillist.isEmpty()){
             textEmail.setText(emaillist.get(0));
