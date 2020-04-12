@@ -18,13 +18,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/login_email"
-            android:inputType="textEmailAddress"/>
+            android:inputType="textEmailAddress"
+            android:imeOptions="actionNext"/>
         <EditText
             android:id="@+id/login_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:hint="@string/login_password"/>
+            android:hint="@string/login_password"
+            android:imeOptions="actionDone"/>
         <Button
             android:id="@+id/login_submit"
             android:layout_width="match_parent"
