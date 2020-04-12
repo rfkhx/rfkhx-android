@@ -73,7 +73,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         attachObservers();
 
-        textEmail.setText(emaillist.get(0));
+        if(emaillist.size()!=0){
+            textEmail.setText(emaillist.get(0));
+        }
         textEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {

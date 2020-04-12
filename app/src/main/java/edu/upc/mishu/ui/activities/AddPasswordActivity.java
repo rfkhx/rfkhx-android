@@ -68,17 +68,22 @@ public class AddPasswordActivity extends AppCompatActivity {
                     public void run() {
                         Log.i(TAG, "run: is run ");
                         PasswordRecord passwordRecord = new PasswordRecord();
+                        Log.i(TAG, "run: get");
                         passwordRecord.setType("login");
                         passwordRecord.setName(name.getText().toString());
                         passwordRecord.setUrl(url.getText().toString());
                         passwordRecord.setUsername(username.getText().toString());
                         passwordRecord.setPassword(password.getText().toString());
                         passwordRecord.setNote(note.getText().toString());
+                        Log.i(TAG, "run: get over");
                         passwordRecord.encode(encoder,1);
+                        Log.i(TAG, "run: encode over");
                         passwordRecord.save();
                         Log.i(TAG, "run: "+passwordRecord.toString());
                     }
                 }).start();
+
+                
 
                 Log.e(TAG, "onClick: pr"+passwordRecord.toString() );
                 Intent intent = new Intent();
