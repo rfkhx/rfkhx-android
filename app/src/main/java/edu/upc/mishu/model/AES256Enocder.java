@@ -31,7 +31,7 @@ public class AES256Enocder implements Transformable {
     private static final String TAG = "AES加密";
     @Getter
     @Setter
-    private String password = "WgG6dcDBsHzpc6A";//密钥
+    private String password;//密钥
     private String salt = "uhTP682F3vyxHaB";//补充完整密文
 
     private Cipher cipher;
@@ -46,7 +46,7 @@ public class AES256Enocder implements Transformable {
         byte[] iv = {1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0};
 
         ivspec = new IvParameterSpec(iv);
-        SecretKeyFactory factory = null;
+        SecretKeyFactory factory;
         try {
             factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
             KeySpec spec = new PBEKeySpec(password.toCharArray(), salt.getBytes(), 65536, 256);

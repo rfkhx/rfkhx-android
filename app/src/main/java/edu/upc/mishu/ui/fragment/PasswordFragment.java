@@ -21,13 +21,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.upc.mishu.App;
-import edu.upc.mishu.ui.activities.ModifyPssswordActivity;
-import edu.upc.mishu.ui.activities.AddPasswordActivity;
 import edu.upc.mishu.R;
+import edu.upc.mishu.dto.PasswordRecord;
+import edu.upc.mishu.ui.activities.AddPasswordActivity;
+import edu.upc.mishu.ui.activities.ModifyPssswordActivity;
 import edu.upc.mishu.ui.activities.ShowPasswordActivity;
 import edu.upc.mishu.ui.adapter.ListViewAdapter;
-import edu.upc.mishu.dto.PasswordRecord;
-import edu.upc.mishu.model.AES256Enocder;
 import edu.upc.mishu.vo.PasswordItem;
 
 
@@ -131,7 +130,7 @@ public class PasswordFragment extends Fragment {
                 Toast.makeText(getActivity(),"del",Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "Del"+ list.get(menuInfo.position).getWebsite());
                 for(PasswordRecord p1:passwordRecordList){
-                    if(p1.getName()==list.get(menuInfo.position).getWebsite()){
+                    if(p1.getName().equals(list.get(menuInfo.position).getWebsite())){
                         p1.delete();
                     }
                 }
@@ -174,12 +173,7 @@ public class PasswordFragment extends Fragment {
             }
         });
 
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                return false;
-            }
-        });
+        listView.setOnItemLongClickListener((parent, view, position, id) -> false);
 
     }
 
@@ -204,6 +198,7 @@ public class PasswordFragment extends Fragment {
                     Log.e(TAG,"增加后返回活动");
                     PasswordItem passwordItem = new PasswordItem();
                     passwordItem.setImageId(R.drawable.reset);
+                    assert data != null;
                     passwordItem.setUsername(data.getStringExtra("username"));
                     passwordItem.setWebsite(data.getStringExtra("name"));
                     list.set(data.getIntExtra("id",0),passwordItem);

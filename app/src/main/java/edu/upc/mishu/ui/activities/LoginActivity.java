@@ -1,14 +1,11 @@
 package edu.upc.mishu.ui.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +13,8 @@ import android.widget.ListPopupWindow;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.xuexiang.xutil.common.RegexUtils;
 import com.xuexiang.xutil.tip.ToastUtils;
@@ -99,30 +98,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if(!emaillist.isEmpty()){
             textEmail.setText(emaillist.get(0));
         }
-        textEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus){
-                    showlist();
-                }
+        textEmail.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus){
+                showlist();
             }
         });
     }
 
     private void showlist(){
         final ListPopupWindow listPopupWindow = new ListPopupWindow(this);
-        listPopupWindow.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,emaillist));
+        listPopupWindow.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, emaillist));
         listPopupWindow.setAnchorView(textEmail);
         listPopupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
         listPopupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
 
-        listPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                textEmail.setText(emaillist.get(position));
-                listPopupWindow.dismiss();
-            }
+        listPopupWindow.setOnItemClickListener((parent, view, position, id) -> {
+            textEmail.setText(emaillist.get(position));
+            listPopupWindow.dismiss();
         });
         listPopupWindow.show();
     }

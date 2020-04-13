@@ -1,21 +1,13 @@
 package edu.upc.mishu.ui.activities;
 
-import android.annotation.SuppressLint;
-import android.drm.DrmStore;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -25,19 +17,14 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import edu.upc.mishu.App;
 import edu.upc.mishu.R;
-import edu.upc.mishu.interfaces.Transformable;
-import edu.upc.mishu.ui.adapter.ViewPagerAdapter;
 import edu.upc.mishu.dto.PasswordRecord;
+import edu.upc.mishu.interfaces.Transformable;
 import edu.upc.mishu.ui.fragment.EctFragment;
 import edu.upc.mishu.ui.fragment.PasswordFragment;
 import edu.upc.mishu.ui.fragment.SettingFragment;
 import edu.upc.mishu.ui.fragment.SynchronousFragment;
-import edu.upc.mishu.model.AES256Enocder;
 
 public class MainActivity extends AppCompatActivity  {
 
@@ -71,26 +58,19 @@ public class MainActivity extends AppCompatActivity  {
         toolbar.setNavigationIcon(R.drawable.default_personlogo);
 
         toolbar.inflateMenu(R.menu.toolbarmenu);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MainActivity.this,"click",Toast.LENGTH_SHORT).show();
-                drawerLayout.openDrawer(GravityCompat.START);
-            }
+        toolbar.setNavigationOnClickListener(v -> {
+            Toast.makeText(MainActivity.this,"click",Toast.LENGTH_SHORT).show();
+            drawerLayout.openDrawer(GravityCompat.START);
         });
 
         //搜索的入口
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.toolbar_search:
-                        Toast.makeText(MainActivity.this,"tooasdfi",Toast.LENGTH_SHORT).show();
-                        return true;
-                }
-                return false;
+        toolbar.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()){
+                case R.id.toolbar_search:
+                    Toast.makeText(MainActivity.this,"tooasdfi",Toast.LENGTH_SHORT).show();
+                    return true;
             }
+            return false;
         });
 
 
@@ -122,34 +102,31 @@ public class MainActivity extends AppCompatActivity  {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment,passwordFragment).show(passwordFragment).commit();
 
         navigation = findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId()){
-                    case R.id.navigation_pass:
-                        if (lastFragment !=0){
-                            title.setText("密码");
-                            switchFragment(lastFragment,0);
-                            lastFragment = 0;
-                        }
-                        return true;
-                    case R.id.navigation_synchronous:
-                        if(lastFragment != 1){
-                            title.setText("同步");
-                            switchFragment(lastFragment,1);
-                            lastFragment = 1;
-                        }
-                        return true;
-                    case R.id.navigation_etc:
-                        if(lastFragment != 2){
-                            title.setText("密码生成");
-                            switchFragment(lastFragment,2);
-                            lastFragment = 2;
-                        }
-                        return  true;
-                }
-                return false;
+        navigation.setOnNavigationItemSelectedListener(menuItem -> {
+            switch (menuItem.getItemId()){
+                case R.id.navigation_pass:
+                    if (lastFragment !=0){
+                        title.setText("密码");
+                        switchFragment(lastFragment,0);
+                        lastFragment = 0;
+                    }
+                    return true;
+                case R.id.navigation_synchronous:
+                    if(lastFragment != 1){
+                        title.setText("同步");
+                        switchFragment(lastFragment,1);
+                        lastFragment = 1;
+                    }
+                    return true;
+                case R.id.navigation_etc:
+                    if(lastFragment != 2){
+                        title.setText("密码生成");
+                        switchFragment(lastFragment,2);
+                        lastFragment = 2;
+                    }
+                    return  true;
             }
+            return false;
         });
 
 

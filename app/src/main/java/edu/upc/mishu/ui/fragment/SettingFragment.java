@@ -14,6 +14,8 @@ import androidx.fragment.app.Fragment;
 import com.xuexiang.xupdate.XUpdate;
 import com.xuexiang.xutil.tip.ToastUtils;
 
+import java.util.Objects;
+
 import edu.upc.mishu.R;
 
 public class SettingFragment extends Fragment {
@@ -29,31 +31,22 @@ public class SettingFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_setting,container,false);
-        return view;
+        return inflater.inflate(R.layout.fragment_setting,container,false);
 
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Button button1 = getActivity().findViewById(R.id.button_setting);
-        button1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(),"setting",Toast.LENGTH_SHORT).show();
-            }
-        });
+        Button button1 = Objects.requireNonNull(getActivity()).findViewById(R.id.button_setting);
+        button1.setOnClickListener(v -> Toast.makeText(getActivity(),"setting",Toast.LENGTH_SHORT).show());
 
         Button button2 = getActivity().findViewById(R.id.btn_chkupdate);
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ToastUtils.toast(getString(R.string.update_checking));
-                XUpdate.newBuild(getActivity())
-                        .updateUrl(getString(R.string.update_url))
-                        .update();
-            }
+        button2.setOnClickListener(v -> {
+            ToastUtils.toast(getString(R.string.update_checking));
+            XUpdate.newBuild(getActivity())
+                    .updateUrl(getString(R.string.update_url))
+                    .update();
         });
 
 

@@ -9,15 +9,15 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+/**
+ * 本地存储用户信息
+ */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @ToString
-/**
- * 本地存储用户信息
- */
 public class User extends SugarRecord<User> {
     //用户的邮箱
     private String email;

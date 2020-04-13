@@ -77,7 +77,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             return null;
         }
         Iterator<User> iterator=User.findAsIterator(User.class,"email=?",email);
-        User res=null;
+        User res;
         if(iterator.hasNext()){
             res=iterator.next();
         }else {

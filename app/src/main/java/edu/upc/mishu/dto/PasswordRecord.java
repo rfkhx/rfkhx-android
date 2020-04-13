@@ -77,6 +77,12 @@ public class PasswordRecord extends SugarRecord<PasswordRecord> implements Seria
         return this;
     }
 
+    /**
+     * 解密，应在数据库读入数据后调用
+     * @param encoder 所用的加密器
+     * @param times 加密的次数
+     * @return this（链式调用）
+     */
     public PasswordRecord decode(Transformable encoder,int times){
         name=nameEncoded;
         url=urlEncoded;

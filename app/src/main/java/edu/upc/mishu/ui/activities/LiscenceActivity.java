@@ -2,6 +2,7 @@ package edu.upc.mishu.ui.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ public class LiscenceActivity extends AppCompatActivity implements View.OnClickL
     CheckBox checkBoxRead;
     WebView webLiscence;
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

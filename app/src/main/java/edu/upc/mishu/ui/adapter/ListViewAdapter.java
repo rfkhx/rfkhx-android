@@ -26,9 +26,9 @@ public class ListViewAdapter extends BaseAdapter {
     }
 
     public final class Zujian {
-      public ImageView imageView ;
-      public TextView webtext;
-      public TextView usertext;
+      ImageView imageView ;
+      TextView webtext;
+      TextView usertext;
 
     }
 
@@ -51,13 +51,13 @@ public class ListViewAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Zujian zujian = null;
+        Zujian zujian;
         if (convertView == null){
             convertView = layoutInflater.inflate(R.layout.listview_item,null);
             zujian = new Zujian();
-            zujian.imageView = (ImageView) convertView.findViewById(R.id.image_view);
-            zujian.webtext = (TextView) convertView.findViewById(R.id.web_text);
-            zujian.usertext = (TextView) convertView.findViewById(R.id.username_text);
+            zujian.imageView = convertView.findViewById(R.id.image_view);
+            zujian.webtext = convertView.findViewById(R.id.web_text);
+            zujian.usertext = convertView.findViewById(R.id.username_text);
             convertView.setTag(zujian);
         }
         else   {

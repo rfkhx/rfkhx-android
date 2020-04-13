@@ -30,7 +30,6 @@ import java.util.TreeMap;
 
 import okhttp3.Call;
 import okhttp3.Request;
-import okhttp3.Response;
 
 /**
  * 使用okhttp
@@ -46,7 +45,7 @@ public class OKHttpUpdateHttpService implements IUpdateHttpService {
         this(false);
     }
 
-    public OKHttpUpdateHttpService(boolean isPostJson) {
+    private OKHttpUpdateHttpService(boolean isPostJson) {
         mIsPostJson = isPostJson;
     }
 

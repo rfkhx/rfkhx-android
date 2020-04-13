@@ -10,7 +10,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -38,7 +37,7 @@ public class ShowPasswordActivity extends AppCompatActivity {
 
         Intent intent_show = getIntent();
         String project_name = intent_show.getStringExtra("project_name");
-        Log.e("P1传入的值Project_name",project_name);
+        Log.e("P1传入的值Project_name", project_name != null ? project_name : "null");
         username = findViewById(R.id.show_username_text);
         password = findViewById(R.id.show_password_text);
         url = findViewById(R.id.show_url_text);
@@ -46,40 +45,31 @@ public class ShowPasswordActivity extends AppCompatActivity {
         passwordRecordList = PasswordRecord.listAll(PasswordRecord.class);
         for (PasswordRecord p1 : passwordRecordList) {
             if (p1.getUsernameEncoded().equals(project_name)) {
-                url.setText(p1.getUrlEncoded().toString());
-                username.setText(p1.getUsernameEncoded().toString());
-                password.setText(p1.getPasswordEncoded().toString());
-                Log.e("P1有相等的值",p1.getUsernameEncoded().toString());
-                Log.e("P1的url",p1.getUsernameEncoded().toString());
-                Log.e("P1d额username",p1.getUsernameEncoded().toString());
-                Log.e("P1的password",p1.getPasswordEncoded().toString());
+                url.setText(p1.getUrlEncoded());
+                username.setText(p1.getUsernameEncoded());
+                password.setText(p1.getPasswordEncoded());
+                Log.e("P1有相等的值", p1.getUsernameEncoded());
+                Log.e("P1的url", p1.getUsernameEncoded());
+                Log.e("P1d额username", p1.getUsernameEncoded());
+                Log.e("P1的password", p1.getPasswordEncoded());
 
                 ImageButton imagebutton_password=findViewById(R.id.ImageButton_copy_password);
                 ImageButton imagebutton_username=findViewById(R.id.ImageButton_copy_username);
                 ImageButton imagebutton_url=findViewById(R.id.ImageButton_copy_url);
                 final ClipboardManager cm = (ClipboardManager) getBaseContext().getSystemService(Context.CLIPBOARD_SERVICE);
 
-                imagebutton_password.setOnClickListener(new View.OnClickListener(){
-                    @Override
-                    public void onClick(View v) {
-                        cm.setPrimaryClip(ClipData.newPlainText(null,password.getText().toString()));
-                        Toast toast=Toast.makeText(getApplicationContext(), "复制成功", Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
+                imagebutton_password.setOnClickListener(v -> {
+                    cm.setPrimaryClip(ClipData.newPlainText(null,password.getText().toString()));
+                    Toast toast=Toast.makeText(getApplicationContext(), "复制成功", Toast.LENGTH_SHORT);
+                    toast.show();
                 });
-                imagebutton_username.setOnClickListener(new View.OnClickListener(){
-                    @Override
-                    public void onClick(View v) {
-                        cm.setPrimaryClip(ClipData.newPlainText(null,username.getText().toString()));
-                        Toast.makeText(getApplicationContext(), "复制成功", Toast.LENGTH_SHORT).show();
-                    }
+                imagebutton_username.setOnClickListener(v -> {
+                    cm.setPrimaryClip(ClipData.newPlainText(null,username.getText().toString()));
+                    Toast.makeText(getApplicationContext(), "复制成功", Toast.LENGTH_SHORT).show();
                 });
-                imagebutton_url.setOnClickListener(new View.OnClickListener(){
-                    @Override
-                    public void onClick(View v) {
-                        cm.setPrimaryClip(ClipData.newPlainText(null,url.getText().toString()));
-                        Toast.makeText(getApplicationContext(), "复制成功", Toast.LENGTH_SHORT).show();
-                    }
+                imagebutton_url.setOnClickListener(v -> {
+                    cm.setPrimaryClip(ClipData.newPlainText(null,url.getText().toString()));
+                    Toast.makeText(getApplicationContext(), "复制成功", Toast.LENGTH_SHORT).show();
                 });
 
             }

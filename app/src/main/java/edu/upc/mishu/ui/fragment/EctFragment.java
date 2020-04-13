@@ -18,6 +18,8 @@ import androidx.fragment.app.Fragment;
 
 import com.xuexiang.xutil.tip.ToastUtils;
 
+import java.util.Objects;
+
 import edu.upc.mishu.R;
 import edu.upc.mishu.utils.SimplePasswordGenerator;
 import edu.upc.mishu.utils.StringSettingUtil;
@@ -96,7 +98,8 @@ public class EctFragment extends Fragment implements View.OnClickListener, SeekB
                 generatePassword();
                 break;
             case R.id.generator_copy:
-                ClipboardManager clipboardManager= (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipboardManager clipboardManager= (ClipboardManager) Objects.requireNonNull(getContext()).getSystemService(Context.CLIPBOARD_SERVICE);
+                assert clipboardManager != null;
                 clipboardManager.setPrimaryClip(ClipData.newPlainText("mishu",tvGeneratedPassword.getText()));
                 ToastUtils.toast("密码已经复制！");
                 break;
