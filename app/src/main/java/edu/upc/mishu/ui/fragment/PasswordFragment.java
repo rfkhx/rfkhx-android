@@ -66,7 +66,7 @@ public class PasswordFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_password,container,false);
-        listView = (ListView) view.findViewById(R.id.list_view);
+        listView = view.findViewById(R.id.list_view);
         init();
         return view;
     }

@@ -56,4 +56,6 @@
     <string name="textview_password_show">密码</string>
     <string name="textview_url_show">URL</string>
     <string name="copy">复制</string>
+
+    <string name="toolbar_search">搜索</string>
 </resources>
