@@ -1,10 +1,25 @@
 package edu.upc.mishu.ui.activities;
 
+import android.annotation.SuppressLint;
+import android.drm.DrmStore;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -34,7 +49,10 @@ public class MainActivity extends AppCompatActivity  {
     private SettingFragment settingFragment;
     private Fragment[] fragments;
     private int lastFragment;//上一个fragment
+    private Toolbar toolbar;
+    private TextView title;
 
+    private DrawerLayout drawerLayout;
     private BottomNavigationView navigation;
 
     @Override
@@ -45,6 +63,44 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     private void init(){
+
+        drawerLayout = findViewById(R.id.main_drawer_layout);
+        drawerLayout.setScrimColor(Color.WHITE);
+
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setNavigationIcon(R.drawable.default_personlogo);
+
+        toolbar.inflateMenu(R.menu.toolbarmenu);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this,"click",Toast.LENGTH_SHORT).show();
+                drawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
+
+        //搜索的入口
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.toolbar_search:
+                        Toast.makeText(MainActivity.this,"tooasdfi",Toast.LENGTH_SHORT).show();
+                        return true;
+                }
+                return false;
+            }
+        });
+
+
+
+
+
+        title = findViewById(R.id.toolbar_title);
+        title.setText("密码" );
+
+
         Transformable encoder= App.encoder;
         PasswordRecord.deleteAll(PasswordRecord.class);
         PasswordRecord.builder().type("login").name("腾讯").url("http://www.tencent.com/").username("test1").password("123123").note("test").build().encode(encoder,1).save();
@@ -72,18 +128,21 @@ public class MainActivity extends AppCompatActivity  {
                 switch (menuItem.getItemId()){
                     case R.id.navigation_pass:
                         if (lastFragment !=0){
+                            title.setText("密码");
                             switchFragment(lastFragment,0);
                             lastFragment = 0;
                         }
                         return true;
                     case R.id.navigation_synchronous:
                         if(lastFragment != 1){
+                            title.setText("同步");
                             switchFragment(lastFragment,1);
                             lastFragment = 1;
                         }
                         return true;
                     case R.id.navigation_etc:
                         if(lastFragment != 2){
+                            title.setText("密码生成");
                             switchFragment(lastFragment,2);
                             lastFragment = 2;
                         }
@@ -92,13 +151,24 @@ public class MainActivity extends AppCompatActivity  {
                 return false;
             }
         });
+
+
+        DisplayMetrics metric = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metric);
+        int windowsWight = metric.widthPixels;
+        int windowsHeight = metric.heightPixels;
+        View leftMenu = findViewById(R.id.left_layout);
+        ViewGroup.LayoutParams leftParams = leftMenu.getLayoutParams();
+        leftParams.height = windowsHeight;
+        leftParams.width = windowsWight;
+        leftMenu.setLayoutParams(leftParams);
     }
 
     private void switchFragment(int lastFragment,int index)
     {
         FragmentTransaction transaction =getSupportFragmentManager().beginTransaction();
         transaction.hide(fragments[lastFragment]);//隐藏上个Fragment
-        if(fragments[index].isAdded()==false)
+        if(!fragments[index].isAdded())
         {
             transaction.add(R.id.fragment,fragments[index]);
         }
