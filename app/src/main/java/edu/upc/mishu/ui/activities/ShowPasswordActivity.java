@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.List;
 
+import edu.upc.mishu.App;
 import edu.upc.mishu.R;
 import edu.upc.mishu.dto.PasswordRecord;
 
@@ -44,14 +45,15 @@ public class ShowPasswordActivity extends AppCompatActivity {
 
         passwordRecordList = PasswordRecord.listAll(PasswordRecord.class);
         for (PasswordRecord p1 : passwordRecordList) {
-            if (p1.getUsernameEncoded().equals(project_name)) {
-                url.setText(p1.getUrlEncoded());
-                username.setText(p1.getUsernameEncoded());
-                password.setText(p1.getPasswordEncoded());
-                Log.e("P1有相等的值", p1.getUsernameEncoded());
-                Log.e("P1的url", p1.getUsernameEncoded());
-                Log.e("P1d额username", p1.getUsernameEncoded());
-                Log.e("P1的password", p1.getPasswordEncoded());
+            p1.decode(App.encoder,1);//得到解密的内容
+            if (p1.getUsername().equals(project_name)) {
+                url.setText(p1.getUrl());
+                username.setText(p1.getUsername());
+                password.setText(p1.getPassword());
+                Log.e("P1有相等的值", p1.getUsername());
+                Log.e("P1的url", p1.getUsername());
+                Log.e("P1d额username", p1.getUsername());
+                Log.e("P1的password", p1.getPassword());
 
                 ImageButton imagebutton_password=findViewById(R.id.ImageButton_copy_password);
                 ImageButton imagebutton_username=findViewById(R.id.ImageButton_copy_username);
