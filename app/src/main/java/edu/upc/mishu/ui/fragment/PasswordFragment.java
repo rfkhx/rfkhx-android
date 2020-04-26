@@ -77,6 +77,7 @@ public class PasswordFragment extends Fragment {
             item.decode(App.encoder,1);
             Log.e(TAG, "init: "+item.toString() +item.getId());
             PasswordItem pt = new PasswordItem();
+            pt.setId_database(item.getId());//数据库记录ID
             pt.setImageId(R.drawable.reset);
             pt.setUsername(item.getUsername());
             pt.setWebsite(item.getName());

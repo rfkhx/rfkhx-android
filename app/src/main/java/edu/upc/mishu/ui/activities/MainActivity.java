@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity  {
             switch (item.getItemId()){
                 case R.id.toolbar_search:
                     Toast.makeText(MainActivity.this,"tooasdfi",Toast.LENGTH_SHORT).show();
+
                     return true;
             }
             return false;
