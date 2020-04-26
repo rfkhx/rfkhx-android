@@ -61,6 +61,7 @@ public class AddPasswordActivity extends AppCompatActivity {
                 passwordRecord1.setPassword(password.getText().toString());
                 passwordRecord1.setNote(note.getText().toString());
                 passwordRecord1.encode(App.encoder,1);
+                Log.e("增加编码后",passwordRecord1.toString());
                 passwordRecord1.save();
                 Log.i(TAG, "run: "+ passwordRecord1.toString());
             }).start();
