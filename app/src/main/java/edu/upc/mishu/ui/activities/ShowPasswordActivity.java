@@ -94,7 +94,7 @@ public class ShowPasswordActivity extends AppCompatActivity {
         int width = size.x;
         int height = size.y;
         WindowManager.LayoutParams layoutParams =getWindow().getAttributes();
-        layoutParams.height = (int) (height*0.5);
+        layoutParams.height = (int) (height*0.6);
         layoutParams.width = (int) (width*0.8);
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         getWindow().getDecorView().setBackgroundResource(R.drawable.dialog_background);

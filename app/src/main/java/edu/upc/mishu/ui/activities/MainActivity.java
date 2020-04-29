@@ -1,5 +1,6 @@
 package edu.upc.mishu.ui.activities;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -67,8 +68,8 @@ public class MainActivity extends AppCompatActivity  {
         toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()){
                 case R.id.toolbar_search:
-                    Toast.makeText(MainActivity.this,"tooasdfi",Toast.LENGTH_SHORT).show();
-
+                    Intent intent = new Intent (this,SearchActivity.class);
+                    startActivity(intent);
                     return true;
             }
             return false;
