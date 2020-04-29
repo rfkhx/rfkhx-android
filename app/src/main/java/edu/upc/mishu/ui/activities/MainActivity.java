@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import edu.upc.mishu.App;
 import edu.upc.mishu.R;
@@ -74,7 +75,6 @@ public class MainActivity extends AppCompatActivity  {
             }
             return false;
         });
-
 
 
 

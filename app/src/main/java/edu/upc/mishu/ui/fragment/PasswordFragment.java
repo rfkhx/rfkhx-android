@@ -17,6 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +26,7 @@ import edu.upc.mishu.App;
 import edu.upc.mishu.R;
 import edu.upc.mishu.dto.PasswordRecord;
 import edu.upc.mishu.ui.activities.AddPasswordActivity;
+import edu.upc.mishu.ui.activities.MainActivity;
 import edu.upc.mishu.ui.activities.ModifyPssswordActivity;
 import edu.upc.mishu.ui.activities.ShowPasswordActivity;
 import edu.upc.mishu.ui.adapter.ListViewAdapter;
@@ -37,6 +40,7 @@ public class PasswordFragment extends Fragment {
     private ListViewAdapter listViewAdapter;
     private List<PasswordItem> list = new ArrayList<>();
     private List<PasswordRecord> passwordRecordList ;
+    private FloatingActionButton floatingActionButton;
 
 //    private Handler handler = new Handler(){
 //        @Override
@@ -66,6 +70,7 @@ public class PasswordFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_password,container,false);
         listView = view.findViewById(R.id.list_view);
+        floatingActionButton=view.findViewById(R.id.floatingActionButton);
         init();
         return view;
     }
@@ -114,6 +119,10 @@ public class PasswordFragment extends Fragment {
 //
 //            }
 //        }).start();
+        floatingActionButton.setOnClickListener(v -> {
+            Intent intent_add=new Intent(getActivity(), AddPasswordActivity.class);
+            startActivity(intent_add);
+        });
     }
 
     @Override//生成长安菜单
