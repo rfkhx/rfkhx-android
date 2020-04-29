@@ -10,12 +10,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.daimajia.swipe.SimpleSwipeListener;
+import com.daimajia.swipe.SwipeLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +41,7 @@ public class PasswordFragment extends Fragment {
     private ListViewAdapter listViewAdapter;
     private List<PasswordItem> list = new ArrayList<>();
     private List<PasswordRecord> passwordRecordList ;
+    private SwipeLayout swipeLayout;
 
 //    private Handler handler = new Handler(){
 //        @Override
@@ -86,75 +91,7 @@ public class PasswordFragment extends Fragment {
         }
         listViewAdapter = new ListViewAdapter(getActivity(),list);
         listView.setAdapter(listViewAdapter);
-//        PasswordItem pi = new PasswordItem();
-//        pi.setUsername("wait");
-//        pi.setWebsite("wait");
-//        pi.setImageId(R.drawable.mishu_icon_background);
-//        list.add(pi);
-//        listViewAdapter = new ListViewAdapter(getActivity(),list);
-//        listView.setAdapter(listViewAdapter);
-//
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                list.remove(list.get(0));
-//                passwordRecordList = PasswordRecord.listAll(PasswordRecord.class);
-//                for(PasswordRecord item:passwordRecordList){
-//                    item.decode(encoder,1);
-//                    Log.e(TAG, "init: "+item.toString() +item.getId());
-//                    PasswordItem pt = new PasswordItem();
-//                    pt.setImageId(R.drawable.reset);
-//                    pt.setUsername(item.getUsername());
-//                    pt.setWebsite(item.getName());
-//                    if(!list.contains(pt)){
-//                        list.add(pt);
-//                    }
-//                }
-//
-//            }
-//        }).start();
-    }
 
-    @Override//生成长安菜单
-    public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
-        MenuInflater menuInflater = getActivity().getMenuInflater();
-        menuInflater.inflate(R.menu.contextmenu,menu);
-        super.onCreateContextMenu(menu, v, menuInfo);
-    }
-
-    @Override//增删改按钮
-    public boolean onContextItemSelected(@NonNull MenuItem item) {
-        AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        switch (item.getItemId()){
-            case R.id.menu_del:
-                Toast.makeText(getActivity(),"del",Toast.LENGTH_SHORT).show();
-                Log.e(TAG, "Del"+ list.get(menuInfo.position).getWebsite());
-                for(PasswordRecord p1:passwordRecordList){
-                    if(p1.getName().equals(list.get(menuInfo.position).getWebsite())){
-                        p1.delete();
-                    }
-                }
-                passwordRecordList = PasswordRecord.listAll(PasswordRecord.class);
-                for(PasswordRecord p1:passwordRecordList){
-                    p1.decode(App.encoder,1);
-                    Log.e(TAG, "Del after"+p1.toString() );
-                }
-                list.remove(menuInfo.position);
-                listViewAdapter.notifyDataSetChanged();
-                break;
-            case R.id.menu_alter:
-                Intent intent_alter = new Intent (getActivity(), ModifyPssswordActivity.class);
-                intent_alter.putExtra("name",list.get(menuInfo.position).getWebsite());
-                intent_alter.putExtra("id",menuInfo.position);
-                Log.e("修改传参",list.get(menuInfo.position).getWebsite());
-                startActivityForResult(intent_alter,2);
-                break;
-            case R.id.menu_add:
-                Intent intent = new Intent (getActivity(), AddPasswordActivity.class);
-                startActivityForResult(intent,1);
-
-        }
-        return super.onContextItemSelected(item);
     }
 
     @Override
@@ -165,7 +102,7 @@ public class PasswordFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 PasswordItem passwordItem = list.get(position);
-                Log.e(TAG, "onItemClick: "+passwordItem.getUsername());
+                Log.i(TAG, "onItemClick: "+passwordItem.toString());
                 Toast.makeText(getActivity(),passwordItem.getWebsite(),Toast.LENGTH_SHORT).show();
                 Intent intent_show=new Intent(getActivity(), ShowPasswordActivity.class);
                 intent_show.putExtra("project_name",passwordItem.getUsername());
@@ -194,7 +131,8 @@ public class PasswordFragment extends Fragment {
                 }
                 break;
             case 2:
-                if(resultCode==-1){
+                if(resultCode == -1){
+                    Log.i(TAG, "onActivityResult: "+data.toString());
                     Log.e(TAG,"增加后返回活动");
                     PasswordItem passwordItem = new PasswordItem();
                     passwordItem.setImageId(R.drawable.reset);

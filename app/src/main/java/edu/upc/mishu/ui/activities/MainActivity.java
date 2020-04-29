@@ -1,13 +1,22 @@
 package edu.upc.mishu.ui.activities;
 
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.DragEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -16,6 +25,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
+import com.xuexiang.xupdate.XUpdate;
+import com.xuexiang.xutil.tip.ToastUtils;
+
+import java.util.List;
 
 import edu.upc.mishu.App;
 import edu.upc.mishu.R;
@@ -25,6 +39,7 @@ import edu.upc.mishu.ui.fragment.EctFragment;
 import edu.upc.mishu.ui.fragment.PasswordFragment;
 import edu.upc.mishu.ui.fragment.SettingFragment;
 import edu.upc.mishu.ui.fragment.SynchronousFragment;
+import edu.upc.mishu.utils.ImportAndExport;
 
 public class MainActivity extends AppCompatActivity  {
 
@@ -41,7 +56,11 @@ public class MainActivity extends AppCompatActivity  {
 
     private DrawerLayout drawerLayout;
     private BottomNavigationView navigation;
+    private NavigationView leftnavigation;
 
+
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,10 +68,12 @@ public class MainActivity extends AppCompatActivity  {
         init();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void init(){
 
         drawerLayout = findViewById(R.id.main_drawer_layout);
-        drawerLayout.setScrimColor(Color.WHITE);
+
+//        drawerLayout.setScrimColor(Color.WHITE);
 
         toolbar = findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.default_personlogo);
@@ -72,10 +93,6 @@ public class MainActivity extends AppCompatActivity  {
             }
             return false;
         });
-
-
-
-
 
         title = findViewById(R.id.toolbar_title);
         title.setText("密码" );
@@ -129,16 +146,34 @@ public class MainActivity extends AppCompatActivity  {
             return false;
         });
 
+        leftnavigation = findViewById(R.id.left_navigation);
+        leftnavigation.setNavigationItemSelectedListener(menuItem -> {
+            switch (menuItem.getItemId()) {
+                case R.id.left_navigation_setting:
+                    ImportAndExport importAndExport = new ImportAndExport();
+                    importAndExport.Export("test",MainActivity.this);
+                    Toast.makeText(MainActivity.this,"setting",Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.left_navigation_update:
+                    ToastUtils.toast(getString(R.string.update_checking));
+                    XUpdate.newBuild(MainActivity.this)
+                            .updateUrl(getString(R.string.update_url))
+                            .update();
+                    break;
+            }
+            return false;
+        });
 
-        DisplayMetrics metric = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metric);
-        int windowsWight = metric.widthPixels;
-        int windowsHeight = metric.heightPixels;
-        View leftMenu = findViewById(R.id.left_layout);
-        ViewGroup.LayoutParams leftParams = leftMenu.getLayoutParams();
-        leftParams.height = windowsHeight;
-        leftParams.width = windowsWight;
-        leftMenu.setLayoutParams(leftParams);
+
+//        DisplayMetrics metric = new DisplayMetrics();
+//        getWindowManager().getDefaultDisplay().getMetrics(metric);
+//        int windowsWight = metric.widthPixels;
+//        int windowsHeight = metric.heightPixels;
+//        View leftMenu = findViewById(R.id.left_layout);
+//        ViewGroup.LayoutParams leftParams = leftMenu.getLayoutParams();
+//        leftParams.height = windowsHeight;
+//        leftParams.width = windowsWight;
+//        leftMenu.setLayoutParams(leftParams);
     }
 
     private void switchFragment(int lastFragment,int index)
@@ -150,5 +185,22 @@ public class MainActivity extends AppCompatActivity  {
             transaction.add(R.id.fragment,fragments[index]);
         }
         transaction.show(fragments[index]).commitAllowingStateLoss();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch(requestCode){
+            case 3:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                } else {
+                    Toast.makeText(this, "权限被拒绝了", Toast.LENGTH_LONG).show();
+                }
+                break;
+            default:
+                break;
+
+        }
     }
 }
