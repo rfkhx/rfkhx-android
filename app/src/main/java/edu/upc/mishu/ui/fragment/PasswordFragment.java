@@ -125,7 +125,7 @@ public class PasswordFragment extends Fragment {
 //        }).start();
         floatingActionButton.setOnClickListener(v -> {
             Intent intent_add=new Intent(getActivity(), AddPasswordActivity.class);
-            startActivity(intent_add);
+            startActivityForResult(intent_add,1);
         });
     }
 
