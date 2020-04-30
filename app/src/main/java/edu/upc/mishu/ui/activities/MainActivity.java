@@ -1,5 +1,6 @@
 package edu.upc.mishu.ui.activities;
 
+import android.content.Intent;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -25,6 +26,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.xuexiang.xupdate.XUpdate;
 import com.xuexiang.xutil.tip.ToastUtils;
@@ -88,7 +90,8 @@ public class MainActivity extends AppCompatActivity  {
         toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()){
                 case R.id.toolbar_search:
-                    Toast.makeText(MainActivity.this,"tooasdfi",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent (this,SearchActivity.class);
+                    startActivity(intent);
                     return true;
             }
             return false;

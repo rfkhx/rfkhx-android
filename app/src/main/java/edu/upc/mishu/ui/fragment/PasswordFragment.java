@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -21,6 +20,8 @@ import androidx.fragment.app.Fragment;
 import com.daimajia.swipe.SimpleSwipeListener;
 import com.daimajia.swipe.SwipeLayout;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +29,7 @@ import edu.upc.mishu.App;
 import edu.upc.mishu.R;
 import edu.upc.mishu.dto.PasswordRecord;
 import edu.upc.mishu.ui.activities.AddPasswordActivity;
+import edu.upc.mishu.ui.activities.MainActivity;
 import edu.upc.mishu.ui.activities.ModifyPssswordActivity;
 import edu.upc.mishu.ui.activities.ShowPasswordActivity;
 import edu.upc.mishu.ui.adapter.ListViewAdapter;
@@ -41,6 +43,7 @@ public class PasswordFragment extends Fragment {
     private ListViewAdapter listViewAdapter;
     private List<PasswordItem> list = new ArrayList<>();
     private List<PasswordRecord> passwordRecordList ;
+    private FloatingActionButton floatingActionButton;
     private SwipeLayout swipeLayout;
 
 //    private Handler handler = new Handler(){
@@ -71,6 +74,7 @@ public class PasswordFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_password,container,false);
         listView = view.findViewById(R.id.list_view);
+        floatingActionButton=view.findViewById(R.id.floatingActionButton);
         init();
         return view;
     }
@@ -82,6 +86,7 @@ public class PasswordFragment extends Fragment {
             item.decode(App.encoder,1);
             Log.e(TAG, "init: "+item.toString() +item.getId());
             PasswordItem pt = new PasswordItem();
+            pt.setId_database(item.getId());//数据库记录ID
             pt.setImageId(R.drawable.reset);
             pt.setUsername(item.getUsername());
             pt.setWebsite(item.getName());
@@ -91,7 +96,44 @@ public class PasswordFragment extends Fragment {
         }
         listViewAdapter = new ListViewAdapter(getActivity(),list);
         listView.setAdapter(listViewAdapter);
+//        PasswordItem pi = new PasswordItem();
+//        pi.setUsername("wait");
+//        pi.setWebsite("wait");
+//        pi.setImageId(R.drawable.mishu_icon_background);
+//        list.add(pi);
+//        listViewAdapter = new ListViewAdapter(getActivity(),list);
+//        listView.setAdapter(listViewAdapter);
+//
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                list.remove(list.get(0));
+//                passwordRecordList = PasswordRecord.listAll(PasswordRecord.class);
+//                for(PasswordRecord item:passwordRecordList){
+//                    item.decode(encoder,1);
+//                    Log.e(TAG, "init: "+item.toString() +item.getId());
+//                    PasswordItem pt = new PasswordItem();
+//                    pt.setImageId(R.drawable.reset);
+//                    pt.setUsername(item.getUsername());
+//                    pt.setWebsite(item.getName());
+//                    if(!list.contains(pt)){
+//                        list.add(pt);
+//                    }
+//                }
+//
+//            }
+//        }).start();
+        floatingActionButton.setOnClickListener(v -> {
+            Intent intent_add=new Intent(getActivity(), AddPasswordActivity.class);
+            startActivity(intent_add);
+        });
+    }
 
+    @Override//生成长安菜单
+    public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
+        MenuInflater menuInflater = getActivity().getMenuInflater();
+        menuInflater.inflate(R.menu.contextmenu,menu);
+        super.onCreateContextMenu(menu, v, menuInfo);
     }
 
     @Override

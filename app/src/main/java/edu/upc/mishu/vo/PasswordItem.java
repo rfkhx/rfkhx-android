@@ -8,6 +8,7 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 public class PasswordItem {
+    private  Long id_database;
     private int imageId;
     private String website;
     private String username;
