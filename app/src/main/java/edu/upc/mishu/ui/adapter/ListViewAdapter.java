@@ -9,6 +9,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.bumptech.glide.Glide;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 import edu.upc.mishu.R;
@@ -23,6 +27,7 @@ public class ListViewAdapter extends BaseAdapter {
         super();
         layoutInflater=LayoutInflater.from(context);
         data = list;
+        this.context=context;
     }
 
     public final class Zujian {
@@ -36,8 +41,6 @@ public class ListViewAdapter extends BaseAdapter {
     public int getCount() {
         return data.size();
     }
-
-
 
     @Override
     public long getItemId(int position) {
@@ -64,6 +67,20 @@ public class ListViewAdapter extends BaseAdapter {
             zujian = (Zujian) convertView.getTag();
         }
         zujian.imageView.setImageResource(data.get(position).getImageId());
+
+        String strUrl = data.get(position).getUrl();
+        URL url= null;
+        try {
+            url = new URL(new URL(strUrl),"/favicon.ico");
+            Glide.with(context)
+                    .load(url.toString())
+                    .placeholder(R.drawable.create_navigation)//图片加载出来前，显示的图片
+                    .error(R.drawable.create_navigation)//图片加载失败后，显示的图片
+                    .into(zujian.imageView);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
         zujian.webtext.setText(data.get(position).getWebsite());
         zujian.usertext.setText(data.get(position).getUsername());
         return convertView;

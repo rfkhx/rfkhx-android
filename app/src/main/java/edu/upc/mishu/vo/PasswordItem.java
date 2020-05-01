@@ -11,5 +11,6 @@ public class PasswordItem {
     private int imageId;
     private String website;
     private String username;
+    private String url;
     public PasswordItem (){};
 }

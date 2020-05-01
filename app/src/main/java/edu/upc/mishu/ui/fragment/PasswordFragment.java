@@ -80,6 +80,7 @@ public class PasswordFragment extends Fragment {
             pt.setImageId(R.drawable.reset);
             pt.setUsername(item.getUsername());
             pt.setWebsite(item.getName());
+            pt.setUrl(item.getUrl());
             if(!list.contains(pt)){
                 list.add(pt);
             }
