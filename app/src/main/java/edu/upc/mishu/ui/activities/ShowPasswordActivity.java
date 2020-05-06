@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.List;
 
+import edu.upc.mishu.App;
 import edu.upc.mishu.R;
 import edu.upc.mishu.dto.PasswordRecord;
 
@@ -26,6 +27,7 @@ public class ShowPasswordActivity extends AppCompatActivity {
     private TextView username;
     private TextView password;
     private TextView url;
+    private  TextView note;
     private List<PasswordRecord> passwordRecordList;
 
     @Override
@@ -41,21 +43,26 @@ public class ShowPasswordActivity extends AppCompatActivity {
         username = findViewById(R.id.show_username_text);
         password = findViewById(R.id.show_password_text);
         url = findViewById(R.id.show_url_text);
+        note=findViewById(R.id.show_note_text);
 
         passwordRecordList = PasswordRecord.listAll(PasswordRecord.class);
         for (PasswordRecord p1 : passwordRecordList) {
-            if (p1.getUsernameEncoded().equals(project_name)) {
-                url.setText(p1.getUrlEncoded());
-                username.setText(p1.getUsernameEncoded());
-                password.setText(p1.getPasswordEncoded());
-                Log.e("P1有相等的值", p1.getUsernameEncoded());
-                Log.e("P1的url", p1.getUsernameEncoded());
-                Log.e("P1d额username", p1.getUsernameEncoded());
-                Log.e("P1的password", p1.getPasswordEncoded());
+            p1.decode(App.encoder,1);//得到解密的内容
+            if (p1.getUsername().equals(project_name)) {
+                url.setText(p1.getUrl());
+                username.setText(p1.getUsername());
+                password.setText(p1.getPassword());
+                note.setText(p1.getNote());
+
+                Log.e("P1有相等的值", p1.getUsername());
+                Log.e("P1的url", p1.getUsername());
+                Log.e("P1d额username", p1.getUsername());
+                Log.e("P1的password", p1.getPassword());
 
                 ImageButton imagebutton_password=findViewById(R.id.ImageButton_copy_password);
                 ImageButton imagebutton_username=findViewById(R.id.ImageButton_copy_username);
                 ImageButton imagebutton_url=findViewById(R.id.ImageButton_copy_url);
+                ImageButton imagebutton_note=findViewById(R.id.ImageButton_copy_note);
                 final ClipboardManager cm = (ClipboardManager) getBaseContext().getSystemService(Context.CLIPBOARD_SERVICE);
 
                 imagebutton_password.setOnClickListener(v -> {
@@ -71,6 +78,10 @@ public class ShowPasswordActivity extends AppCompatActivity {
                     cm.setPrimaryClip(ClipData.newPlainText(null,url.getText().toString()));
                     Toast.makeText(getApplicationContext(), "复制成功", Toast.LENGTH_SHORT).show();
                 });
+                imagebutton_note.setOnClickListener(v -> {
+                    cm.setPrimaryClip(ClipData.newPlainText(null,note.getText().toString()));
+                    Toast.makeText(getApplicationContext(), "复制成功", Toast.LENGTH_SHORT).show();
+                });
 
             }
         }
@@ -83,7 +94,7 @@ public class ShowPasswordActivity extends AppCompatActivity {
         int width = size.x;
         int height = size.y;
         WindowManager.LayoutParams layoutParams =getWindow().getAttributes();
-        layoutParams.height = (int) (height*0.5);
+        layoutParams.height = (int) (height*0.6);
         layoutParams.width = (int) (width*0.8);
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         getWindow().getDecorView().setBackgroundResource(R.drawable.dialog_background);

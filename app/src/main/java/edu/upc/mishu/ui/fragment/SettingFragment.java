@@ -31,23 +31,23 @@ public class SettingFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_setting,container,false);
+        return inflater.inflate(R.layout.lefthead,container,false);
 
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Button button1 = Objects.requireNonNull(getActivity()).findViewById(R.id.button_setting);
-        button1.setOnClickListener(v -> Toast.makeText(getActivity(),"setting",Toast.LENGTH_SHORT).show());
-
-        Button button2 = getActivity().findViewById(R.id.btn_chkupdate);
-        button2.setOnClickListener(v -> {
-            ToastUtils.toast(getString(R.string.update_checking));
-            XUpdate.newBuild(getActivity())
-                    .updateUrl(getString(R.string.update_url))
-                    .update();
-        });
+//        Button button1 = Objects.requireNonNull(getActivity()).findViewById(R.id.button_setting);
+//        button1.setOnClickListener(v -> Toast.makeText(getActivity(),"setting",Toast.LENGTH_SHORT).show());
+//
+//        Button button2 = getActivity().findViewById(R.id.btn_chkupdate);
+//        button2.setOnClickListener(v -> {
+//            ToastUtils.toast(getString(R.string.update_checking));
+//            XUpdate.newBuild(getActivity())
+//                    .updateUrl(getString(R.string.update_url))
+//                    .update();
+//        });
 
 
     }

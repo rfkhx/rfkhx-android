@@ -17,6 +17,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.daimajia.swipe.SimpleSwipeListener;
+import com.daimajia.swipe.SwipeLayout;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +29,7 @@ import edu.upc.mishu.App;
 import edu.upc.mishu.R;
 import edu.upc.mishu.dto.PasswordRecord;
 import edu.upc.mishu.ui.activities.AddPasswordActivity;
+import edu.upc.mishu.ui.activities.MainActivity;
 import edu.upc.mishu.ui.activities.ModifyPssswordActivity;
 import edu.upc.mishu.ui.activities.ShowPasswordActivity;
 import edu.upc.mishu.ui.adapter.ListViewAdapter;
@@ -37,6 +43,8 @@ public class PasswordFragment extends Fragment {
     private ListViewAdapter listViewAdapter;
     private List<PasswordItem> list = new ArrayList<>();
     private List<PasswordRecord> passwordRecordList ;
+    private FloatingActionButton floatingActionButton;
+    private SwipeLayout swipeLayout;
 
 //    private Handler handler = new Handler(){
 //        @Override
@@ -66,6 +74,7 @@ public class PasswordFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_password,container,false);
         listView = view.findViewById(R.id.list_view);
+        floatingActionButton=view.findViewById(R.id.floatingActionButton);
         init();
         return view;
     }
@@ -77,6 +86,7 @@ public class PasswordFragment extends Fragment {
             item.decode(App.encoder,1);
             Log.e(TAG, "init: "+item.toString() +item.getId());
             PasswordItem pt = new PasswordItem();
+            pt.setId_database(item.getId());//数据库记录ID
             pt.setImageId(R.drawable.reset);
             pt.setUsername(item.getUsername());
             pt.setWebsite(item.getName());
@@ -114,6 +124,10 @@ public class PasswordFragment extends Fragment {
 //
 //            }
 //        }).start();
+        floatingActionButton.setOnClickListener(v -> {
+            Intent intent_add=new Intent(getActivity(), AddPasswordActivity.class);
+            startActivityForResult(intent_add,1);
+        });
     }
 
     @Override//生成长安菜单
@@ -166,7 +180,7 @@ public class PasswordFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 PasswordItem passwordItem = list.get(position);
-                Log.e(TAG, "onItemClick: "+passwordItem.getUsername());
+                Log.i(TAG, "onItemClick: "+passwordItem.toString());
                 Toast.makeText(getActivity(),passwordItem.getWebsite(),Toast.LENGTH_SHORT).show();
                 Intent intent_show=new Intent(getActivity(), ShowPasswordActivity.class);
                 intent_show.putExtra("project_name",passwordItem.getUsername());
@@ -195,7 +209,8 @@ public class PasswordFragment extends Fragment {
                 }
                 break;
             case 2:
-                if(resultCode==-1){
+                if(resultCode == -1){
+                    Log.i(TAG, "onActivityResult: "+data.toString());
                     Log.e(TAG,"增加后返回活动");
                     PasswordItem passwordItem = new PasswordItem();
                     passwordItem.setImageId(R.drawable.reset);

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/left_navigation_setting"
+        android:icon="@drawable/setting_navigation"
+        android:title="@string/navigation_setting"/>
+
+    <item android:id="@+id/left_navigation_update"
+        android:icon="@drawable/synchronous_navigation"
+        android:title="@string/navigation_synchronous"/>
+</menu>

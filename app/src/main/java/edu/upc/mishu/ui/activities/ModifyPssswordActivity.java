@@ -44,13 +44,15 @@ public class ModifyPssswordActivity extends AppCompatActivity {
 
         passwordRecordList = PasswordRecord.listAll(PasswordRecord.class);
         for(PasswordRecord p1:passwordRecordList){
-            if(p1.getNameEncoded().equals(name_alter)){
+            p1.decode(App.encoder,1);//得到解密的内容
+            Log.e("P1getName的值",p1.getName());
+            if(p1.getName().equals(name_alter)){
                 type.setText("type");
-                name.setText(p1.getNameEncoded());
-                url.setText(p1.getUrlEncoded());
-                username.setText(p1.getUsernameEncoded());
-                password.setText(p1.getPasswordEncoded());
-                note.setText(p1.getNoteEncoded());
+                name.setText(p1.getName());
+                url.setText(p1.getUrl());
+                username.setText(p1.getUsername());
+                password.setText(p1.getPassword());
+                note.setText(p1.getNote());
                 Log.e("P1的值",p1.toString());
             }
         }
