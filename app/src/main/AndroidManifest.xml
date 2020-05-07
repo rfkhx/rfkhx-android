@@ -18,7 +18,8 @@
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
         <activity android:name=".ui.activities.RegisterActivity" />
-        <activity android:name=".ui.activities.LoginActivity" />
+        <activity android:name=".ui.activities.LoginActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize"/>
         <activity android:name=".ui.activities.AddPasswordActivity" />
         <activity android:name=".ui.activities.ModifyPssswordActivity"/>
         <activity android:name=".ui.activities.SearchActivity"/>

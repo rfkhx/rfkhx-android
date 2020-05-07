@@ -19,14 +19,16 @@
             android:layout_height="wrap_content"
             android:hint="@string/login_email"
             android:inputType="textEmailAddress"
-            android:imeOptions="actionNext"/>
+            android:imeOptions="actionNext"
+            android:importantForAutofill="no"/>
         <EditText
             android:id="@+id/login_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:hint="@string/login_password"
-            android:imeOptions="actionDone"/>
+            android:imeOptions="actionDone"
+            android:importantForAutofill="no"/>
         <Button
             android:id="@+id/login_submit"
             android:layout_width="match_parent"

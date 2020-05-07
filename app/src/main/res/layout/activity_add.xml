@@ -16,7 +16,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintHeight_percent=".15"/>
+        app:layout_constraintHeight_percent=".15"
+        android:importantForAutofill="no"/>
 
 
     <EditText
@@ -28,7 +29,8 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_type"
-        app:layout_constraintHeight_percent=".15"/>
+        app:layout_constraintHeight_percent=".15"
+        android:importantForAutofill="no"/>
 
 
     <EditText
@@ -40,7 +42,8 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_name"
-        app:layout_constraintHeight_percent=".15"/>
+        app:layout_constraintHeight_percent=".15"
+        android:importantForAutofill="no"/>
 
     <EditText
         android:id="@+id/add_username"
@@ -51,7 +54,8 @@
         app:layout_constraintTop_toBottomOf="@+id/add_url"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintHeight_percent=".15"/>
+        app:layout_constraintHeight_percent=".15"
+        android:importantForAutofill="no"/>
 
     <EditText
         android:id="@+id/add_password"
@@ -62,8 +66,8 @@
         app:layout_constraintTop_toBottomOf="@+id/add_username"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintHeight_percent=".15"/>
-
+        app:layout_constraintHeight_percent=".15"
+        android:importantForAutofill="no"/>
 
     <EditText
         android:id="@+id/add_note"
@@ -74,7 +78,8 @@
         app:layout_constraintTop_toBottomOf="@+id/add_password"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintHeight_percent=".15"/>
+        app:layout_constraintHeight_percent=".15"
+        android:importantForAutofill="no"/>
 
     <Button
         android:id="@+id/add_save"

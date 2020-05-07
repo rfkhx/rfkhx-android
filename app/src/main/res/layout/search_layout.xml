@@ -25,7 +25,8 @@
             android:textSize="16sp"
             android:imeOptions="actionSearch"
             android:inputType="text"
-            android:hint="请输入关键字"/>
+            android:hint="请输入关键字"
+            android:importantForAutofill="no"/>
 
         <ImageView
             android:visibility="gone"

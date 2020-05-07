@@ -20,7 +20,8 @@
             android:id="@+id/register_text_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:importantForAutofill="no"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -30,7 +31,8 @@
             android:id="@+id/register_text_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"/>
+            android:inputType="textPassword"
+            android:importantForAutofill="no"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -45,7 +47,8 @@
             android:id="@+id/register_text_password_repeat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"/>
+            android:inputType="textPassword"
+            android:importantForAutofill="no"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -55,7 +58,8 @@
         <EditText
             android:id="@+id/register_text_hint"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:importantForAutofill="no"/>
 
         <TextView
             android:layout_width="match_parent"
