@@ -40,7 +40,7 @@ public class PasswordFragment extends Fragment {
     private static final String TAG = "PasswordFragment";
     private static PasswordFragment instance  = null;
     private ListView listView;
-    private ListViewAdapter listViewAdapter;
+    private ListViewAdapter listViewAdapter = new ListViewAdapter();
     private List<PasswordItem> list = new ArrayList<>();
     private List<PasswordRecord> passwordRecordList ;
     private FloatingActionButton floatingActionButton;
@@ -95,7 +95,7 @@ public class PasswordFragment extends Fragment {
                 list.add(pt);
             }
         }
-        listViewAdapter = new ListViewAdapter(getActivity(),list);
+        listViewAdapter = new ListViewAdapter(getActivity(),list,this);
         listView.setAdapter(listViewAdapter);
 //        PasswordItem pi = new PasswordItem();
 //        pi.setUsername("wait");
@@ -130,48 +130,6 @@ public class PasswordFragment extends Fragment {
         });
     }
 
-    @Override//生成长安菜单
-    public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
-        MenuInflater menuInflater = getActivity().getMenuInflater();
-        menuInflater.inflate(R.menu.contextmenu,menu);
-        super.onCreateContextMenu(menu, v, menuInfo);
-    }
-
-    @Override//增删改按钮
-    public boolean onContextItemSelected(@NonNull MenuItem item) {
-        AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        switch (item.getItemId()){
-            case R.id.menu_del:
-                Toast.makeText(getActivity(),"del",Toast.LENGTH_SHORT).show();
-                Log.e(TAG, "Del"+ list.get(menuInfo.position).getWebsite());
-                for(PasswordRecord p1:passwordRecordList){
-                    if(p1.getName().equals(list.get(menuInfo.position).getWebsite())){
-                        p1.delete();
-                    }
-                }
-                passwordRecordList = PasswordRecord.listAll(PasswordRecord.class);
-                for(PasswordRecord p1:passwordRecordList){
-                    p1.decode(App.encoder,1);
-                    Log.e(TAG, "Del after"+p1.toString() );
-                }
-                list.remove(menuInfo.position);
-                listViewAdapter.notifyDataSetChanged();
-                break;
-            case R.id.menu_alter:
-                Intent intent_alter = new Intent (getActivity(), ModifyPssswordActivity.class);
-                intent_alter.putExtra("name",list.get(menuInfo.position).getWebsite());
-                intent_alter.putExtra("id",menuInfo.position);
-                Log.e("修改传参",list.get(menuInfo.position).getWebsite());
-                startActivityForResult(intent_alter,2);
-                break;
-            case R.id.menu_add:
-                Intent intent = new Intent (getActivity(), AddPasswordActivity.class);
-                startActivityForResult(intent,1);
-
-        }
-        return super.onContextItemSelected(item);
-    }
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -194,7 +152,7 @@ public class PasswordFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        Log.e(TAG, "onActivityResult: 返回值requestCode：" +requestCode);
+        Log.i(TAG, "onActivityResult: 返回值requestCode：" +requestCode);
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
             case 1:
@@ -211,7 +169,7 @@ public class PasswordFragment extends Fragment {
             case 2:
                 if(resultCode == -1){
                     Log.i(TAG, "onActivityResult: "+data.toString());
-                    Log.e(TAG,"增加后返回活动");
+                    Log.i(TAG,"增加后返回活动");
                     PasswordItem passwordItem = new PasswordItem();
                     passwordItem.setImageId(R.drawable.reset);
                     assert data != null;

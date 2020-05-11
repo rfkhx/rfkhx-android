@@ -3,9 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="edu.upc.mishu">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!--SDCard写权限-->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/> <!--SDCard读权限-->
-
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- SDCard写权限 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".App"
@@ -17,15 +16,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
+        <activity android:name=".ui.activities.ExportActivity"
+            android:theme="@style/activityTheme" ></activity>
         <activity android:name=".ui.activities.RegisterActivity" />
-        <activity android:name=".ui.activities.LoginActivity"
-            android:windowSoftInputMode="stateVisible|adjustResize"/>
+        <activity
+            android:name=".ui.activities.LoginActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity android:name=".ui.activities.AddPasswordActivity" />
-        <activity android:name=".ui.activities.ModifyPssswordActivity"/>
-        <activity android:name=".ui.activities.SearchActivity"/>
-        <activity android:name=".ui.activities.ShowPasswordActivity"
-            android:theme="@style/activityTheme"/>
-        <activity android:name=".ui.activities.LiscenceActivity" >
+        <activity android:name=".ui.activities.ModifyPssswordActivity" />
+        <activity android:name=".ui.activities.SearchActivity" />
+        <activity
+            android:name=".ui.activities.ShowPasswordActivity"
+            android:theme="@style/activityTheme" />
+        <activity android:name=".ui.activities.LiscenceActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -46,16 +49,19 @@
         <meta-data
             android:name="DOMAIN_PACKAGE_NAME"
             android:value="edu.upc.mishu.dto" />
+
         <service
             android:name=".services.GeneratorTileService"
-            android:label="@string/navigation_item3"
             android:icon="@drawable/create_navigation"
+            android:label="@string/navigation_item3"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
-            <meta-data android:name="android.service.quicksettings.ACTIVE_TILE"
-                  android:value="true" />
+
+            <meta-data
+                android:name="android.service.quicksettings.ACTIVE_TILE"
+                android:value="true" />
         </service>
     </application>
 
