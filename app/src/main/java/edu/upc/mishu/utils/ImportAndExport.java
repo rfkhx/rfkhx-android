@@ -12,6 +12,9 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -23,10 +26,15 @@ import java.util.List;
 
 import edu.upc.mishu.App;
 import edu.upc.mishu.dto.PasswordRecord;
+import edu.upc.mishu.ui.fragment.PasswordFragment;
 
 public class ImportAndExport {
     private static final String TAG = "ImportAndExport";
     private List<PasswordRecord> list;
+    private String dir=null;
+    public String getDir(){
+        return dir;
+    }
 
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -59,7 +67,43 @@ public class ImportAndExport {
 
         try{
             //写入数据
-//            File file = new File(publicfiledir+File.separator+Filename+File.separator+"text.csv");
+            File file =new File(publicfiledir + File.separator +Filename+File.separator+"userdata.csv");
+            dir = file.getPath();
+            List<PasswordRecord> data = PasswordRecord.listAll(PasswordRecord.class);
+//            JSONArray jsonArray = new JSONArray();
+//            for (PasswordRecord item :data ){
+//                item.decode(App.encoder,1);
+//                JSONObject jsonObject = new JSONObject();
+//                jsonObject.put("类型",item.getType());
+//                jsonObject.put("项目名",item.getName());
+//                jsonObject.put("网址",item.getUrl());
+//                jsonObject.put("用户名",item.getUsername());
+//                jsonObject.put("密码",item.getPassword());
+//                jsonObject.put("备注",item.getNote());
+//                jsonArray.put(jsonObject);
+//            }
+            StringBuilder stringBuilder =new StringBuilder();
+            stringBuilder.append("类型").append(",");
+            stringBuilder.append("项目名").append(",");
+            stringBuilder.append("网址").append(",");
+            stringBuilder.append("用户名").append(",");
+            stringBuilder.append("密码").append(",");
+            stringBuilder.append("备注").append(",");
+            stringBuilder.append("\n");
+            for (PasswordRecord item : data ){
+                item.decode(App.encoder,1);
+                stringBuilder.append(item.getType()).append(",");
+                stringBuilder.append(item.getName()).append(",");
+                stringBuilder.append(item.getUrl()).append(",");
+                stringBuilder.append(item.getUsername()).append(",");
+                stringBuilder.append(item.getPassword()).append(",");
+                stringBuilder.append(item.getNote()).append(",");
+                stringBuilder.append("\n");
+            }
+            FileOutputStream outputStream = new FileOutputStream(file);
+            //outputStream.write(jsonArray.toString().getBytes());
+            outputStream.write(stringBuilder.toString().getBytes());
+            outputStream.close();
         }catch (Exception e){
             e.printStackTrace();
         }

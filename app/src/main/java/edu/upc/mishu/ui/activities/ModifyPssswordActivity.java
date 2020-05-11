@@ -54,6 +54,7 @@ public class ModifyPssswordActivity extends AppCompatActivity {
                 password.setText(p1.getPassword());
                 note.setText(p1.getNote());
                 Log.e("P1的值",p1.toString());
+                break;
             }
         }
 
@@ -84,8 +85,9 @@ public class ModifyPssswordActivity extends AppCompatActivity {
             finish();
             passwordRecordList = PasswordRecord.listAll(PasswordRecord.class);
             for(PasswordRecord p1:passwordRecordList){
+                p1.decode(App.encoder,1);
                 Log.i("修改后密码值",p1.toString());
-        }
-    });
+            }
+        });
     }
 }

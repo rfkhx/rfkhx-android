@@ -1,11 +1,14 @@
 package edu.upc.mishu.ui.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.sip.SipSession;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.DragEvent;
@@ -17,7 +20,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -42,6 +47,7 @@ import edu.upc.mishu.ui.fragment.PasswordFragment;
 import edu.upc.mishu.ui.fragment.SettingFragment;
 import edu.upc.mishu.ui.fragment.SynchronousFragment;
 import edu.upc.mishu.utils.ImportAndExport;
+import edu.upc.mishu.vo.PasswordItem;
 
 public class MainActivity extends AppCompatActivity  {
 
@@ -69,6 +75,7 @@ public class MainActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_main);
         init();
     }
+
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void init(){
@@ -152,10 +159,22 @@ public class MainActivity extends AppCompatActivity  {
         leftnavigation = findViewById(R.id.left_navigation);
         leftnavigation.setNavigationItemSelectedListener(menuItem -> {
             switch (menuItem.getItemId()) {
-                case R.id.left_navigation_setting:
-                    ImportAndExport importAndExport = new ImportAndExport();
-                    importAndExport.Export("test",MainActivity.this);
-                    Toast.makeText(MainActivity.this,"setting",Toast.LENGTH_SHORT).show();
+                case R.id.left_navigation_export:
+                    new AlertDialog.Builder(this)
+                            .setTitle("提醒")
+                            .setMessage("您是否要导出数据到本地")
+                            .setNegativeButton("否",null)
+                            .setPositiveButton("是", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent intent = new Intent(MainActivity.this,ExportActivity.class);
+                                    startActivity(intent);
+                                    Toast.makeText(MainActivity.this,"123123",Toast.LENGTH_SHORT).show();
+                                }
+                            })
+
+                            .show();
+
                     break;
                 case R.id.left_navigation_update:
                     ToastUtils.toast(getString(R.string.update_checking));
@@ -189,6 +208,7 @@ public class MainActivity extends AppCompatActivity  {
         }
         transaction.show(fragments[index]).commitAllowingStateLoss();
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

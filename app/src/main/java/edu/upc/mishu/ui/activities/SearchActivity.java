@@ -68,7 +68,7 @@ public class SearchActivity extends AppCompatActivity {
                          list.add(pt);
                      }
                  }
-                 listViewAdapter = new ListViewAdapter(SearchActivity.this,list);
+                 listViewAdapter = new ListViewAdapter(SearchActivity.this,list,null);
                  listView.setAdapter(listViewAdapter);
                  //listViewAdapter.notifyDataSetChanged();
                  return true;

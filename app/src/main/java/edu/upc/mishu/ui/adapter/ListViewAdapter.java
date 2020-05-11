@@ -10,8 +10,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListPopupWindow;
 import android.widget.TextView;
 
+
+import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 
@@ -19,6 +22,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import com.daimajia.swipe.SwipeLayout;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import edu.upc.mishu.App;
@@ -34,15 +38,20 @@ import edu.upc.mishu.vo.PasswordItem;
 public class ListViewAdapter extends BaseAdapter {
     private static final String TAG = "ListViewAdapter";
     private List<PasswordItem> data;
-    private Context context;
+    public Context context;
     private LayoutInflater layoutInflater;
     private List<PasswordRecord> list;
-    public ListViewAdapter(Context context , List<PasswordItem> list){
+    private Fragment fm;
+
+    public  ListViewAdapter(){};
+
+    //Fragment 和 Activity 有点不同
+    public ListViewAdapter(Context context , List<PasswordItem> list, Fragment fm){
         super();
         layoutInflater=LayoutInflater.from(context);
         this.context = context;
         data = list;
-        this.context=context;
+        this.fm = fm;
     }
 
     public final class Zujian {
@@ -142,7 +151,9 @@ public class ListViewAdapter extends BaseAdapter {
                         Log.i(TAG, "onClick: id"+position);
                         zujian.swipeLayout.close();
                         //adapter 活动跳转
-                        ((Activity)context).startActivityForResult(intent_alter,2);
+                        //((Activity)context).startActivityForResult(intent_alter,123);
+                        fm.startActivityForResult(intent_alter,2);
+                        Log.i(TAG, "onClick: start by adapter");
                     }
                 });
             }
@@ -168,5 +179,9 @@ public class ListViewAdapter extends BaseAdapter {
             }
         });
         return convertView;
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        Log.d(TAG, "onActivityResult"+requestCode+resultCode+data.toString());
     }
 }

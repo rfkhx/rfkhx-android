@@ -143,8 +143,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     break;
                 }
                 User user=userIterator.next();
+
+                //encoder 初始化
                 App.password=textPassword.getText().toString();
                 App.encoder=AES256Enocder.getInstance(App.password);
+
+
+
                 if(App.encoder.decode(user.getEmailEncoded()).equals(user.getEmail())){
                     notify(user);
                     Intent intent1=new Intent(this,MainActivity.class);
