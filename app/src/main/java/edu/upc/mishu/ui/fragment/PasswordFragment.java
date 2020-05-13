@@ -1,6 +1,7 @@
 package edu.upc.mishu.ui.fragment;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -33,6 +34,7 @@ import edu.upc.mishu.ui.activities.MainActivity;
 import edu.upc.mishu.ui.activities.ModifyPssswordActivity;
 import edu.upc.mishu.ui.activities.ShowPasswordActivity;
 import edu.upc.mishu.ui.adapter.ListViewAdapter;
+import edu.upc.mishu.utils.AppInfo;
 import edu.upc.mishu.vo.PasswordItem;
 
 
@@ -45,6 +47,8 @@ public class PasswordFragment extends Fragment {
     private List<PasswordRecord> passwordRecordList ;
     private FloatingActionButton floatingActionButton;
     private SwipeLayout swipeLayout;
+
+
 
 //    private Handler handler = new Handler(){
 //        @Override
@@ -181,3 +185,5 @@ public class PasswordFragment extends Fragment {
         }
     }
 }
+
+

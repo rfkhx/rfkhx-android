@@ -3,6 +3,7 @@ package edu.upc.mishu.ui.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,6 +62,7 @@ public class ListViewAdapter extends BaseAdapter {
       Button delete;
       Button alter;
       SwipeLayout swipeLayout;
+      Button open;
 
     }
 
@@ -91,6 +93,7 @@ public class ListViewAdapter extends BaseAdapter {
             zujian.swipeLayout = convertView.findViewById(R.id.swipe_layout);
             zujian.delete = convertView.findViewById(R.id.delete);
             zujian.alter = convertView.findViewById(R.id.alter);
+            zujian.open = convertView.findViewById(R.id.open);
             convertView.setTag(zujian);
         }
         else   {
@@ -155,6 +158,11 @@ public class ListViewAdapter extends BaseAdapter {
                         fm.startActivityForResult(intent_alter,2);
                         Log.i(TAG, "onClick: start by adapter");
                     }
+                });
+
+                zujian.open.setOnClickListener(v -> {
+                    Intent intent = context.getPackageManager().getLaunchIntentForPackage("com.tencent.mobileqq");
+                    context.startActivity(intent);
                 });
             }
 

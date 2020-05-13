@@ -2,25 +2,15 @@ package edu.upc.mishu.ui.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.Context;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.net.sip.SipSession;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.DragEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,11 +21,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.xuexiang.xupdate.XUpdate;
 import com.xuexiang.xutil.tip.ToastUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.upc.mishu.App;
@@ -46,8 +36,7 @@ import edu.upc.mishu.ui.fragment.EctFragment;
 import edu.upc.mishu.ui.fragment.PasswordFragment;
 import edu.upc.mishu.ui.fragment.SettingFragment;
 import edu.upc.mishu.ui.fragment.SynchronousFragment;
-import edu.upc.mishu.utils.ImportAndExport;
-import edu.upc.mishu.vo.PasswordItem;
+import edu.upc.mishu.utils.AppInfo;
 
 public class MainActivity extends AppCompatActivity  {
 
@@ -61,6 +50,8 @@ public class MainActivity extends AppCompatActivity  {
     private int lastFragment;//上一个fragment
     private Toolbar toolbar;
     private TextView title;
+
+
 
     private DrawerLayout drawerLayout;
     private BottomNavigationView navigation;
@@ -182,6 +173,7 @@ public class MainActivity extends AppCompatActivity  {
                             .updateUrl(getString(R.string.update_url))
                             .update();
                     break;
+
             }
             return false;
         });
@@ -226,4 +218,6 @@ public class MainActivity extends AppCompatActivity  {
 
         }
     }
+
+
 }

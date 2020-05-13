@@ -8,4 +8,5 @@
     <item android:id="@+id/left_navigation_update"
         android:icon="@drawable/synchronous_navigation"
         android:title="@string/navigation_synchronous"/>
+
 </menu>
