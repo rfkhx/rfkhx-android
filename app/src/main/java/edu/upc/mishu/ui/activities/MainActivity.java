@@ -1,12 +1,16 @@
 package edu.upc.mishu.ui.activities;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
+import android.view.autofill.AutofillManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +23,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -32,6 +37,7 @@ import edu.upc.mishu.App;
 import edu.upc.mishu.R;
 import edu.upc.mishu.dto.PasswordRecord;
 import edu.upc.mishu.interfaces.Transformable;
+import edu.upc.mishu.services.AutofillServiceTest;
 import edu.upc.mishu.ui.fragment.EctFragment;
 import edu.upc.mishu.ui.fragment.PasswordFragment;
 import edu.upc.mishu.ui.fragment.SettingFragment;
@@ -50,6 +56,7 @@ public class MainActivity extends AppCompatActivity  {
     private int lastFragment;//上一个fragment
     private Toolbar toolbar;
     private TextView title;
+    private AutofillManager autofillManager;
 
 
 
@@ -68,6 +75,7 @@ public class MainActivity extends AppCompatActivity  {
     }
 
 
+    @SuppressLint("NewApi")
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void init(){
 
@@ -99,18 +107,7 @@ public class MainActivity extends AppCompatActivity  {
         title.setText("密码" );
 
 
-        Transformable encoder= App.encoder;
-        PasswordRecord.deleteAll(PasswordRecord.class);
-        PasswordRecord.builder().type("login").name("腾讯").url("http://www.tencent.com/").username("test1").password("123123").note("test").build().encode(encoder,1).save();
-        PasswordRecord.builder().type("login").name("百度").url("https://www.baidu.com/").username("test2").password("123456").note("test").build().encode(encoder,1).save();
-        PasswordRecord.builder().type("login").name("阿里云").url("https://www.aliyun.com/").username("test3").password("123789").note("test").build().encode(encoder,1).save();
-        PasswordRecord.builder().type("login").name("新浪").url("https://www.sina.com.cn/").username("test4").password("123321").note("test").build().encode(encoder,1).save();
-        PasswordRecord.builder().type("login").name("知乎").url("https://www.zhihu.com/hot").username("test5").password("12312431").note("test").build().encode(encoder,1).save();
-        PasswordRecord.builder().type("login").name("163邮箱").url("https://mail.163.com/").username("test6").password("123").note("test").build().encode(encoder,1).save();
-        PasswordRecord.builder().type("login").name("3DM").url("https://www.3dmgame.com/").username("test7").password("1238892").note("test").build().encode(encoder,1).save();
-        PasswordRecord.builder().type("login").name("游民星空").url("https://www.gamersky.com/").username("test8").password("2310").note("test").build().encode(encoder,1).save();
-        PasswordRecord.builder().type("login").name("百度贴吧").url("https://tieba.baidu.com/").username("test9").password("1239").note("test").build().encode(encoder,1).save();
-        PasswordRecord.builder().type("login").name("腾讯邮箱").url("https://mail.qq.com/").username("test10").password("0901").note("test").build().encode(encoder,1).save();
+
 
         passwordFragment = new PasswordFragment();
         synchronousFragment = new SynchronousFragment();
@@ -173,6 +170,18 @@ public class MainActivity extends AppCompatActivity  {
                             .updateUrl(getString(R.string.update_url))
                             .update();
                     break;
+                case R.id.left_navigation_autoFill:
+                    autofillManager = getSystemService(AutofillManager.class);
+                    if(!autofillManager.hasEnabledAutofillServices()){
+                        Intent intent = new Intent(Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE);
+                        intent.setData(Uri.parse("package:com.android.settings"));
+                        startActivityForResult(intent, 0);
+                    }
+                    startService(new Intent(getBaseContext(),AutofillServiceTest.class));
+                    break;
+                case R.id.left_navigation_add:
+                    adddata();
+                    break;
 
             }
             return false;
@@ -219,5 +228,22 @@ public class MainActivity extends AppCompatActivity  {
         }
     }
 
+    public void adddata(){
+        Log.i(TAG, "auto: ");
+        Transformable encoder= App.encoder;
+        PasswordRecord.deleteAll(PasswordRecord.class);
+        List<PasswordRecord> list = PasswordRecord.listAll(PasswordRecord.class);
+        Log.i(TAG, "auto list size " + list.size());
+        PasswordRecord.builder().type("login").name("腾讯").url("http://www.tencent.com/").username("test1").password("123123").note("test").build().encode(encoder,1).save();
+        PasswordRecord.builder().type("login").name("百度").url("https://www.baidu.com/").username("test2").password("123456").note("test").build().encode(encoder,1).save();
+        PasswordRecord.builder().type("login").name("阿里云").url("https://www.aliyun.com/").username("test3").password("123789").note("test").build().encode(encoder,1).save();
+        PasswordRecord.builder().type("login").name("新浪").url("https://www.sina.com.cn/").username("test4").password("123321").note("test").build().encode(encoder,1).save();
+        PasswordRecord.builder().type("login").name("知乎").url("https://www.zhihu.com/hot").username("test5").password("12312431").note("test").build().encode(encoder,1).save();
+        PasswordRecord.builder().type("login").name("163邮箱").url("https://mail.163.com/").username("test6").password("123").note("test").build().encode(encoder,1).save();
+        PasswordRecord.builder().type("login").name("3DM").url("https://www.3dmgame.com/").username("test7").password("1238892").note("test").build().encode(encoder,1).save();
+        PasswordRecord.builder().type("login").name("游民星空").url("https://www.gamersky.com/").username("test8").password("2310").note("test").build().encode(encoder,1).save();
+        PasswordRecord.builder().type("login").name("百度贴吧").url("https://tieba.baidu.com/").username("test9").password("1239").note("test").build().encode(encoder,1).save();
+        PasswordRecord.builder().type("login").name("腾讯邮箱").url("https://mail.qq.com/").username("test10").password("0901").note("test").build().encode(encoder,1).save();
+    }
 
 }

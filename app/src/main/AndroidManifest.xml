@@ -16,8 +16,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
-        <activity android:name=".ui.activities.ExportActivity"
-            android:theme="@style/activityTheme" ></activity>
+
+        <activity
+            android:name=".ui.activities.ExportActivity"
+            android:theme="@style/activityTheme" />
         <activity android:name=".ui.activities.RegisterActivity" />
         <activity
             android:name=".ui.activities.LoginActivity"
@@ -62,6 +64,13 @@
             <meta-data
                 android:name="android.service.quicksettings.ACTIVE_TILE"
                 android:value="true" />
+        </service>
+        <service android:name=".services.AutofillServiceTest"
+            android:label="Autofill Service Test"
+            android:permission="android.permission.BIND_AUTOFILL_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.autofill.AutofillService"/>
+            </intent-filter>
         </service>
     </application>
 
