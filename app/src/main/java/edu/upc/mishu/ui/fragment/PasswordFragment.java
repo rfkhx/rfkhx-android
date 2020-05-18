@@ -17,11 +17,17 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.daimajia.swipe.SimpleSwipeListener;
 import com.daimajia.swipe.SwipeLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.scwang.smartrefresh.header.BezierCircleHeader;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +52,7 @@ public class PasswordFragment extends Fragment {
     private List<PasswordItem> list = new ArrayList<>();
     private List<PasswordRecord> passwordRecordList ;
     private FloatingActionButton floatingActionButton;
-    private SwipeLayout swipeLayout;
+    private SmartRefreshLayout smartRefreshLayout;
 
 
 
@@ -79,11 +85,34 @@ public class PasswordFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_password,container,false);
         listView = view.findViewById(R.id.list_view);
         floatingActionButton=view.findViewById(R.id.floatingActionButton);
+        smartRefreshLayout = view.findViewById(R.id.smart_refresh_layout);
         init();
         return view;
     }
 
     private void init(){
+
+        smartRefreshLayout.setRefreshHeader(new BezierCircleHeader(getContext()));
+        smartRefreshLayout.setOnRefreshListener(refreshLayout -> {
+            passwordRecordList = PasswordRecord.listAll(PasswordRecord.class);
+            for(PasswordRecord item:passwordRecordList){
+                item.decode(App.encoder,1);
+                Log.i(TAG, "init: "+item.toString() +item.getId());
+                PasswordItem pt = new PasswordItem();
+                pt.setId_database(item.getId());//数据库记录ID
+                pt.setImageId(R.drawable.reset);
+                pt.setUsername(item.getUsername());
+                pt.setWebsite(item.getName());
+                pt.setUrl(item.getUrl());
+                Log.i(TAG, "auto contains result" +list.contains(pt));
+                if(!list.contains(pt)){
+                    list.add(pt);
+                }
+            }
+            listViewAdapter.notifyDataSetChanged();
+            refreshLayout.finishRefresh();
+        });
+
 
         passwordRecordList = PasswordRecord.listAll(PasswordRecord.class);
         for(PasswordRecord item:passwordRecordList){
@@ -101,33 +130,8 @@ public class PasswordFragment extends Fragment {
         }
         listViewAdapter = new ListViewAdapter(getActivity(),list,this);
         listView.setAdapter(listViewAdapter);
-//        PasswordItem pi = new PasswordItem();
-//        pi.setUsername("wait");
-//        pi.setWebsite("wait");
-//        pi.setImageId(R.drawable.mishu_icon_background);
-//        list.add(pi);
-//        listViewAdapter = new ListViewAdapter(getActivity(),list);
-//        listView.setAdapter(listViewAdapter);
-//
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                list.remove(list.get(0));
-//                passwordRecordList = PasswordRecord.listAll(PasswordRecord.class);
-//                for(PasswordRecord item:passwordRecordList){
-//                    item.decode(encoder,1);
-//                    Log.e(TAG, "init: "+item.toString() +item.getId());
-//                    PasswordItem pt = new PasswordItem();
-//                    pt.setImageId(R.drawable.reset);
-//                    pt.setUsername(item.getUsername());
-//                    pt.setWebsite(item.getName());
-//                    if(!list.contains(pt)){
-//                        list.add(pt);
-//                    }
-//                }
-//
-//            }
-//        }).start();
+
+
         floatingActionButton.setOnClickListener(v -> {
             Intent intent_add=new Intent(getActivity(), AddPasswordActivity.class);
             startActivityForResult(intent_add,1);

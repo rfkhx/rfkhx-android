@@ -9,4 +9,12 @@
         android:icon="@drawable/synchronous_navigation"
         android:title="@string/navigation_synchronous"/>
 
+    <item android:id="@+id/left_navigation_add"
+        android:icon="@drawable/autofill"
+        android:title="add"/>
+
+    <item android:id="@+id/left_navigation_autoFill"
+        android:icon="@drawable/autofill"
+        android:title="@string/navigation_autoFill"/>
+
 </menu>

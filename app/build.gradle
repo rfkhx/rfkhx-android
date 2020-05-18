@@ -59,4 +59,8 @@ dependencies {
     //noinspection GradleCompatible
     implementation 'com.android.support:support-v4:20.0.0'
     implementation "com.daimajia.swipelayout:library:1.2.0@aar"
+
+    //下拉刷新
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.2'
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.2'
 }
