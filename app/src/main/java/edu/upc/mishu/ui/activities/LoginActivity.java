@@ -2,6 +2,9 @@ package edu.upc.mishu.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -68,7 +71,29 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         textEmail=findViewById(R.id.login_email);
         textPassword=findViewById(R.id.login_password);
         btnSubmit=findViewById(R.id.login_submit);
+        btnSubmit.setEnabled(false);
         btnSubmit.setOnClickListener(this);
+        textPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Log.i(TAG, "onTextChanged: 1111");
+                if (TextUtils.isEmpty(textPassword.getText())){
+                    btnSubmit.setEnabled(false);
+                }else{
+                    btnSubmit.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         attachObservers();
 
@@ -86,6 +111,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         //回车登陆
         textPassword.setOnEditorActionListener((v,keyCode,event)->{
             Log.i(TAG,"密码框按键"+keyCode);
+
 
             if(keyCode==KeyEvent.KEYCODE_ENDCALL){
                 Log.i(TAG,"密码框回车");

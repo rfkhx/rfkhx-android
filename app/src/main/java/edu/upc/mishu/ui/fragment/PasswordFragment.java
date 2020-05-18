@@ -136,6 +136,7 @@ public class PasswordFragment extends Fragment {
             Intent intent_add=new Intent(getActivity(), AddPasswordActivity.class);
             startActivityForResult(intent_add,1);
         });
+
     }
 
     @Override
@@ -145,6 +146,7 @@ public class PasswordFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 PasswordItem passwordItem = list.get(position);
                 Log.i(TAG, "onItemClick: "+passwordItem.toString());
                 Toast.makeText(getActivity(),passwordItem.getWebsite(),Toast.LENGTH_SHORT).show();

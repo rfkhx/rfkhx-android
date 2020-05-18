@@ -25,4 +25,11 @@
 
     </style>
 
+    <!--EditText 样式-->
+
+    <style name="editText" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@android:color/darker_gray</item>
+        <item name="colorControlActivated">#2979FF</item>
+    </style>
+
 </resources>
