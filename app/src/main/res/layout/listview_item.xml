@@ -8,23 +8,31 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="70dp">
-        <Button
-            android:id="@+id/delete"
-            android:layout_width="wrap_content"
-            android:layout_height="70dp"
-            android:text="@string/menu_del"/>
+
 
         <Button
             android:id="@+id/alter"
             android:layout_width="wrap_content"
             android:layout_height="70dp"
-            android:text="@string/menu_alter"/>
+            android:text="@string/menu_alter"
+            android:background="#44ADB1"
+            android:textColor="#ECEFF1"/>
+
+        <Button
+            android:id="@+id/delete"
+            android:layout_width="wrap_content"
+            android:layout_height="70dp"
+            android:text="@string/menu_del"
+            android:background="#D60F26"
+            android:textColor="#ECEFF1"/>
 
         <Button
             android:id="@+id/open"
             android:layout_width="wrap_content"
             android:layout_height="70dp"
-            android:text="打开"/>
+            android:text="打开"
+            android:background="#E56087"
+            android:textColor="#ECEFF1"/>
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

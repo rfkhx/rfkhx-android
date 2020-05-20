@@ -60,7 +60,7 @@ public class EctFragment extends Fragment implements View.OnClickListener, SeekB
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_etc,container,false);
+        View view = inflater.inflate(R.layout.fragment_createpassword,container,false);
 
         tvGeneratedPassword=view.findViewById(R.id.generator_generated_password);
 

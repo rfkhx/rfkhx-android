@@ -8,17 +8,6 @@
     android:paddingRight="20dp"
     android:paddingBottom="20dp">
 
-    <EditText
-        android:id="@+id/add_type"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:hint="@string/textview_hint_type"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintHeight_percent=".15"
-        android:importantForAutofill="no"/>
-
 
     <EditText
         android:id="@+id/add_name"
@@ -28,7 +17,8 @@
         android:textSize="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_type"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="20dp"
         app:layout_constraintHeight_percent=".15"
         android:importantForAutofill="no"/>
 
