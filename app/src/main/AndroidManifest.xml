@@ -21,7 +21,8 @@
 
         <activity
             android:name=".ui.activities.ExportActivity"
-            android:theme="@style/activityTheme" />
+            android:theme="@style/activityTheme"
+            />
         <activity android:name=".ui.activities.RegisterActivity" />
         <activity
             android:name=".ui.activities.LoginActivity"
