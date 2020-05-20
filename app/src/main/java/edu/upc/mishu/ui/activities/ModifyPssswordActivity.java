@@ -25,6 +25,7 @@ public class ModifyPssswordActivity extends AppCompatActivity {
     private EditText password;
     private EditText note;
     private List<PasswordRecord> passwordRecordList ;
+    private PasswordRecord passwordRecordOne;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +47,7 @@ public class ModifyPssswordActivity extends AppCompatActivity {
             p1.decode(App.encoder,1);//得到解密的内容
             Log.e("P1getName的值",p1.getName());
             if(p1.getName().equals(name_alter)){
+                passwordRecordOne=p1;
                 name.setText(p1.getName());
                 url.setText(p1.getUrl());
                 username.setText(p1.getUsername());
@@ -72,6 +74,8 @@ public class ModifyPssswordActivity extends AppCompatActivity {
             passwordRecord.setNote(note.getText().toString());
 
             passwordRecord.encode(App.encoder,1);
+
+            passwordRecordOne.delete();
             passwordRecord.save();
 
             Log.e(TAG, "onClick: pr"+passwordRecord.toString() );
