@@ -35,7 +35,6 @@ public class ModifyPssswordActivity extends AppCompatActivity {
         final int id=intent_last.getIntExtra("id",0);
         Log.e("传入后的name_alter", "getName"+ name_alter);
 
-        type = findViewById(R.id.add_type);
         name = findViewById(R.id.add_name);
         url =  findViewById(R.id.add_url);
         username = findViewById(R.id.add_username);
@@ -47,7 +46,6 @@ public class ModifyPssswordActivity extends AppCompatActivity {
             p1.decode(App.encoder,1);//得到解密的内容
             Log.e("P1getName的值",p1.getName());
             if(p1.getName().equals(name_alter)){
-                type.setText("type");
                 name.setText(p1.getName());
                 url.setText(p1.getUrl());
                 username.setText(p1.getUsername());
@@ -66,7 +64,7 @@ public class ModifyPssswordActivity extends AppCompatActivity {
             //保存密码
 
             PasswordRecord passwordRecord = new PasswordRecord();
-            passwordRecord.setType("login");
+            passwordRecord.setType("");
             passwordRecord.setName(name.getText().toString());
             passwordRecord.setUrl(url.getText().toString());
             passwordRecord.setUsername(username.getText().toString());

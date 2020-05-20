@@ -2,6 +2,9 @@ package edu.upc.mishu.ui.fragment;
 
 import android.content.Intent;
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -16,6 +19,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -79,6 +83,7 @@ public class PasswordFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -90,25 +95,36 @@ public class PasswordFragment extends Fragment {
         return view;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void init(){
 
         smartRefreshLayout.setRefreshHeader(new BezierCircleHeader(getContext()));
         smartRefreshLayout.setOnRefreshListener(refreshLayout -> {
             passwordRecordList = PasswordRecord.listAll(PasswordRecord.class);
+            list.removeAll(list);
+            Log.i(TAG, "init: 数据库数据条数" + passwordRecordList.size());
             for(PasswordRecord item:passwordRecordList){
                 item.decode(App.encoder,1);
                 Log.i(TAG, "init: "+item.toString() +item.getId());
                 PasswordItem pt = new PasswordItem();
                 pt.setId_database(item.getId());//数据库记录ID
-                pt.setImageId(R.drawable.reset);
+                if(item.getType().equals("Android")){
+                    try {
+                        pt.setImageId(getContext().getPackageManager().getApplicationIcon(item.getName()).getAlpha());
+                    } catch (PackageManager.NameNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }else {
+                    pt.setImageId(R.drawable.reset);
+                }
                 pt.setUsername(item.getUsername());
                 pt.setWebsite(item.getName());
                 pt.setUrl(item.getUrl());
-                Log.i(TAG, "auto contains result" +list.contains(pt));
                 if(!list.contains(pt)){
                     list.add(pt);
                 }
             }
+            Log.i(TAG, "init: list size "+list.size());
             listViewAdapter.notifyDataSetChanged();
             refreshLayout.finishRefresh();
         });
@@ -167,12 +183,22 @@ public class PasswordFragment extends Fragment {
         switch (requestCode){
             case 1:
                 if(resultCode == -1) {
-                    Log.e(TAG, "onActivityResult: " );
-                    PasswordItem passwordItem = new PasswordItem();
-                    passwordItem.setImageId(R.drawable.reset);
-                    passwordItem.setUsername(data.getStringExtra("username"));
-                    passwordItem.setWebsite(data.getStringExtra("name"));
-                    list.add(passwordItem);
+                    passwordRecordList = PasswordRecord.listAll(PasswordRecord.class);
+                    list.removeAll(list);
+                    for(PasswordRecord item:passwordRecordList){
+                        item.decode(App.encoder,1);
+                        Log.i(TAG, "init: "+item.toString() +item.getId());
+                        PasswordItem pt = new PasswordItem();
+                        pt.setId_database(item.getId());//数据库记录ID
+                        pt.setImageId(R.drawable.reset);
+                        pt.setUsername(item.getUsername());
+                        pt.setWebsite(item.getName());
+                        pt.setUrl(item.getUrl());
+                        Log.i(TAG, "auto contains result" +list.contains(pt));
+                        if(!list.contains(pt)){
+                            list.add(pt);
+                        }
+                    }
                     listViewAdapter.notifyDataSetChanged();
                 }
                 break;

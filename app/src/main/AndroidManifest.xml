@@ -15,7 +15,9 @@
         android:roundIcon="@mipmap/mishu_icon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:replace="android:icon">
+        tools:replace="android:icon"
+        android:screenOrientation="portrait"
+        >
 
         <activity
             android:name=".ui.activities.ExportActivity"
