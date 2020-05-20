@@ -1,6 +1,7 @@
 package edu.upc.mishu.ui.activities;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -8,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.autofill.AutofillManager;
@@ -19,6 +21,8 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.biometric.BiometricManager;
+import androidx.biometric.BiometricPrompt;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -32,6 +36,7 @@ import com.xuexiang.xutil.tip.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
 
 import edu.upc.mishu.App;
 import edu.upc.mishu.R;
@@ -57,7 +62,7 @@ public class MainActivity extends AppCompatActivity  {
     private Toolbar toolbar;
     private TextView title;
     private AutofillManager autofillManager;
-
+    private BiometricManager biometricManager;
 
 
     private DrawerLayout drawerLayout;
@@ -189,6 +194,60 @@ public class MainActivity extends AppCompatActivity  {
 //                    startService(new Intent(getBaseContext(),AutofillServiceTest.class));
                     adddata();
                     break;
+                case R.id.test:
+                    biometricManager = BiometricManager.from(this);
+                    switch (biometricManager.canAuthenticate()){
+                        case BiometricManager.BIOMETRIC_SUCCESS:
+                            Log.i(TAG, "biometric success");
+                            break;
+                        case BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE:
+                            Log.i(TAG, "biometric no hardware");
+                            break;
+                        case BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE:
+                            Log.i(TAG, "biometric cannot usr");
+                            break;
+                        case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
+                            Log.i(TAG, "biometric no user data");
+                            break;
+                    }
+                    BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder()
+                            .setTitle("Biometric")
+                            .setSubtitle("Log in using your biometric credential")
+                            .setDeviceCredentialAllowed(true)
+                            .build();
+                    BiometricPrompt biometricPrompt = new BiometricPrompt(MainActivity.this, new Executor() {
+                        @Override
+                        public void execute(Runnable command) {
+                            Handler handler = new Handler();
+                            handler.post(command);
+                        }
+                    }, new BiometricPrompt.AuthenticationCallback() {
+                        @Override
+                        public void onAuthenticationFailed() {
+                            super.onAuthenticationFailed();
+                            Toast.makeText(getApplicationContext(),
+                                    "Authentication error: " , Toast.LENGTH_SHORT)
+                                    .show();
+                        }
+
+                        @Override
+                        public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
+                            super.onAuthenticationSucceeded(result);
+                            Log.i(TAG, "biometric success111111");
+                            BiometricPrompt.CryptoObject auth = result.getCryptoObject();
+                        }
+
+                        @Override
+                        public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
+                            super.onAuthenticationError(errorCode, errString);
+                            Toast.makeText(getApplicationContext(),
+                                    "Authentication filed: " , Toast.LENGTH_SHORT)
+                                    .show();
+                        }
+                    });
+                    biometricPrompt.authenticate(promptInfo);
+
+
             }
             return false;
         });
