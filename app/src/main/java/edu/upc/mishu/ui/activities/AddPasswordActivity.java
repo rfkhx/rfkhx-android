@@ -60,39 +60,48 @@ public class AddPasswordActivity extends AppCompatActivity {
 
             Log.e(TAG,"P1的空值："+passwordRecord.getName().toString());
             Log.e(TAG,"P1的空值："+passwordRecord.getName());
-            //保证项目名的唯一性
-            if(StringUtils.isEmpty(passwordRecord.getName().toString())||StringUtils.isEmptyTrim(passwordRecord.getName().toString())){
-                //Toast.makeText(getApplicationContext(), "项目名不能为空", Toast.LENGTH_SHORT).show();
-                AlertDialog alertDialog1 = new AlertDialog.Builder(this)
-                        .setTitle("提示")//标题
-                        .setMessage("项目名不能为空")//内容
-                        .create();
-                alertDialog1.show();
-            }else{
-                boolean flag=false;
-                for(PasswordRecord p1:passwordRecordList) {
-                    p1.decode(App.encoder, 1);//得到解密的内容
-                    if(p1.getName().toString().equals(passwordRecord.getName().toString())){
-                        AlertDialog alertDialog1 = new AlertDialog.Builder(this)
-                                .setTitle("提示")//标题
-                                .setMessage("项目名已存在")//内容
-                                .create();
-                        alertDialog1.show();
-                        flag=true;
-                        break;
-                    }
-                }
-                if(!flag){
-                    passwordRecord.encode(App.encoder,1);
-                    passwordRecord.save();
-                    Log.e(TAG, "onClick: pr"+passwordRecord.toString() );
-                    Intent intent = new Intent();
-                    intent.putExtra("name",passwordRecord.getName());
-                    intent.putExtra("username",passwordRecord.getUsername());
-                    setResult(RESULT_OK,intent);
-                    finish();
-                }
-            }
+            passwordRecord.encode(App.encoder,1);
+            passwordRecord.save();
+            Log.e(TAG, "onClick: pr"+passwordRecord.toString() );
+            Intent intent = new Intent();
+            intent.putExtra("name",passwordRecord.getName());
+            intent.putExtra("username",passwordRecord.getUsername());
+            setResult(RESULT_OK,intent);
+            finish();
+
+//            //保证项目名的唯一性
+//            if(StringUtils.isEmpty(passwordRecord.getName().toString())||StringUtils.isEmptyTrim(passwordRecord.getName().toString())){
+//                //Toast.makeText(getApplicationContext(), "项目名不能为空", Toast.LENGTH_SHORT).show();
+//                AlertDialog alertDialog1 = new AlertDialog.Builder(this)
+//                        .setTitle("提示")//标题
+//                        .setMessage("项目名不能为空")//内容
+//                        .create();
+//                alertDialog1.show();
+//            }else{
+//                boolean flag=false;
+//                for(PasswordRecord p1:passwordRecordList) {
+//                    p1.decode(App.encoder, 1);//得到解密的内容
+//                    if(p1.getName().toString().equals(passwordRecord.getName().toString())){
+//                        AlertDialog alertDialog1 = new AlertDialog.Builder(this)
+//                                .setTitle("提示")//标题
+//                                .setMessage("项目名已存在")//内容
+//                                .create();
+//                        alertDialog1.show();
+//                        flag=true;
+//                        break;
+//                    }
+//                }
+//                if(!flag){
+//                    passwordRecord.encode(App.encoder,1);
+//                    passwordRecord.save();
+//                    Log.e(TAG, "onClick: pr"+passwordRecord.toString() );
+//                    Intent intent = new Intent();
+//                    intent.putExtra("name",passwordRecord.getName());
+//                    intent.putExtra("username",passwordRecord.getUsername());
+//                    setResult(RESULT_OK,intent);
+//                    finish();
+//                }
+//            }
         });
 
     }

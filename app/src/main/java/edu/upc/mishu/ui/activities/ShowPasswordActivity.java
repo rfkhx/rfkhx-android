@@ -44,8 +44,9 @@ public class ShowPasswordActivity extends AppCompatActivity {
         init();
 
         Intent intent_show = getIntent();
-        String project_name = intent_show.getStringExtra("project_name");
-        Log.e("P1传入的值Project_name", project_name != null ? project_name : "null");
+        String project_name = intent_show.getStringExtra("project_id");
+        Long project_id=intent_show.getLongExtra("project_id",0);
+        Log.e("P1传入的值Project_id", project_id.toString() != null ? project_id.toString() : "null");
         username = findViewById(R.id.show_username_text);
         password = findViewById(R.id.show_password_text);
         url = findViewById(R.id.show_url_text);
@@ -54,7 +55,7 @@ public class ShowPasswordActivity extends AppCompatActivity {
         passwordRecordList = PasswordRecord.listAll(PasswordRecord.class);
         for (PasswordRecord p1 : passwordRecordList) {
             p1.decode(App.encoder, 1);//得到解密的内容
-            if (p1.getName().equals(project_name)) {
+            if (p1.getId()==project_id) {
                 url.setText(p1.getUrl());
                 username.setText(p1.getUsername());
                 password.setText(p1.getPassword());

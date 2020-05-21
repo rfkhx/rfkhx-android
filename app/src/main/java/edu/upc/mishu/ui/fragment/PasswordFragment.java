@@ -167,7 +167,7 @@ public class PasswordFragment extends Fragment {
                 Log.i(TAG, "onItemClick: "+passwordItem.toString());
                 Toast.makeText(getActivity(),passwordItem.getWebsite(),Toast.LENGTH_SHORT).show();
                 Intent intent_show=new Intent(getActivity(), ShowPasswordActivity.class);
-                intent_show.putExtra("project_name",passwordItem.getWebsite());
+                intent_show.putExtra("project_id",passwordItem.getId_database());
                 startActivity(intent_show);
             }
         });

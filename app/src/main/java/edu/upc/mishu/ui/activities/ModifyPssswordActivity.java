@@ -33,7 +33,7 @@ public class ModifyPssswordActivity extends AppCompatActivity {
 
         Intent intent_last=getIntent();
         final String name_alter=intent_last.getStringExtra("name");
-        final int id=intent_last.getIntExtra("id",0);
+        final Long id=intent_last.getLongExtra("project_id",0);
         Log.e("传入后的name_alter", "getName"+ name_alter);
 
         name = findViewById(R.id.add_name);
@@ -46,7 +46,7 @@ public class ModifyPssswordActivity extends AppCompatActivity {
         for(PasswordRecord p1:passwordRecordList){
             p1.decode(App.encoder,1);//得到解密的内容
             Log.e("P1getName的值",p1.getName());
-            if(p1.getName().equals(name_alter)){
+            if(p1.getId()==id){
                 passwordRecordOne=p1;
                 name.setText(p1.getName());
                 url.setText(p1.getUrl());
