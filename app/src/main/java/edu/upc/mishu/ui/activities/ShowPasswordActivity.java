@@ -54,7 +54,7 @@ public class ShowPasswordActivity extends AppCompatActivity {
         passwordRecordList = PasswordRecord.listAll(PasswordRecord.class);
         for (PasswordRecord p1 : passwordRecordList) {
             p1.decode(App.encoder, 1);//得到解密的内容
-            if (p1.getUsername().equals(project_name)) {
+            if (p1.getName().equals(project_name)) {
                 url.setText(p1.getUrl());
                 username.setText(p1.getUsername());
                 password.setText(p1.getPassword());
