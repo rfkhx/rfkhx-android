@@ -59,7 +59,7 @@ public class AddPasswordActivity extends AppCompatActivity {
             passwordRecord.setNote(note.getText().toString());
 
 
-            if(StringUtils.isEmpty(passwordRecord.getName().toString())||StringUtils.isEmptyTrim(passwordRecord.getName().toString())||(passwordRecord.getName().toString().indexOf(" "))==-1){
+            if(StringUtils.isEmpty(passwordRecord.getName().toString())||StringUtils.isEmptyTrim(passwordRecord.getName().toString())){
                 //Toast.makeText(getApplicationContext(), "项目名不能为空", Toast.LENGTH_SHORT).show();
                 AlertDialog alertDialog1 = new AlertDialog.Builder(this)
                         .setTitle("提示")//标题
