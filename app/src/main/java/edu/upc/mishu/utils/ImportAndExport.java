@@ -12,9 +12,6 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -26,7 +23,6 @@ import java.util.List;
 
 import edu.upc.mishu.App;
 import edu.upc.mishu.dto.PasswordRecord;
-import edu.upc.mishu.ui.fragment.PasswordFragment;
 
 public class ImportAndExport {
     private static final String TAG = "ImportAndExport";

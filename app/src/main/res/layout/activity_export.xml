@@ -18,7 +18,6 @@
 
     <EditText
         android:id="@+id/export_input"
-        android:hint="输入完成回车即可验证"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/export_title"
@@ -30,5 +29,7 @@
         android:imeOptions="actionDone"
         android:importantForAutofill="no"
         android:inputType="textPassword"/>
+        android:singleLine="true"
+        android:importantForAutofill="no"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
