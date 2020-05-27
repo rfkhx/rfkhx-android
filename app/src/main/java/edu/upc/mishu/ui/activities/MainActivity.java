@@ -2,8 +2,10 @@ package edu.upc.mishu.ui.activities;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -11,6 +13,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
+import android.security.keystore.KeyGenParameterSpec;
+import android.security.keystore.KeyProperties;
+import android.security.keystore.UserNotAuthenticatedException;
 import android.util.Log;
 import android.view.autofill.AutofillManager;
 import android.widget.TextView;
@@ -23,6 +28,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.biometric.BiometricManager;
 import androidx.biometric.BiometricPrompt;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -34,9 +40,26 @@ import com.google.android.material.navigation.NavigationView;
 import com.xuexiang.xupdate.XUpdate;
 import com.xuexiang.xutil.tip.ToastUtils;
 
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.KeyGenerator;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
 
 import edu.upc.mishu.App;
 import edu.upc.mishu.R;
@@ -49,9 +72,12 @@ import edu.upc.mishu.ui.fragment.SettingFragment;
 import edu.upc.mishu.ui.fragment.SynchronousFragment;
 import edu.upc.mishu.utils.AppInfo;
 
+@RequiresApi(api = Build.VERSION_CODES.M)
 public class MainActivity extends AppCompatActivity  {
 
     private static final String TAG = "MainActivity";
+    private static final String KEY_NAME ="MiShu";
+    private static final int VALIDITY_DURATION = 300;
 
     private PasswordFragment passwordFragment;
     private SynchronousFragment synchronousFragment;
@@ -195,58 +221,12 @@ public class MainActivity extends AppCompatActivity  {
                     adddata();
                     break;
                 case R.id.test:
-                    biometricManager = BiometricManager.from(this);
-                    switch (biometricManager.canAuthenticate()){
-                        case BiometricManager.BIOMETRIC_SUCCESS:
-                            Log.i(TAG, "biometric success");
-                            break;
-                        case BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE:
-                            Log.i(TAG, "biometric no hardware");
-                            break;
-                        case BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE:
-                            Log.i(TAG, "biometric cannot usr");
-                            break;
-                        case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
-                            Log.i(TAG, "biometric no user data");
-                            break;
-                    }
-                    BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder()
-                            .setTitle("Biometric")
-                            .setSubtitle("Log in using your biometric credential")
-                            .setDeviceCredentialAllowed(true)
-                            .build();
-                    BiometricPrompt biometricPrompt = new BiometricPrompt(MainActivity.this, new Executor() {
-                        @Override
-                        public void execute(Runnable command) {
-                            Handler handler = new Handler();
-                            handler.post(command);
-                        }
-                    }, new BiometricPrompt.AuthenticationCallback() {
-                        @Override
-                        public void onAuthenticationFailed() {
-                            super.onAuthenticationFailed();
-                            Toast.makeText(getApplicationContext(),
-                                    "Authentication error: " , Toast.LENGTH_SHORT)
-                                    .show();
-                        }
-
-                        @Override
-                        public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
-                            super.onAuthenticationSucceeded(result);
-                            Log.i(TAG, "biometric success111111");
-                            BiometricPrompt.CryptoObject auth = result.getCryptoObject();
-                        }
-
-                        @Override
-                        public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
-                            super.onAuthenticationError(errorCode, errString);
-                            Toast.makeText(getApplicationContext(),
-                                    "Authentication filed: " , Toast.LENGTH_SHORT)
-                                    .show();
-                        }
-                    });
-                    biometricPrompt.authenticate(promptInfo);
-
+                    SharedPreferences sharedPreferences =getSharedPreferences("Mishu", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putInt("flag",0);
+                    editor.commit();
+                    Intent intent = new Intent(MainActivity.this,Logintest.class);
+                    startActivity(intent);
 
             }
             return false;
@@ -308,5 +288,8 @@ public class MainActivity extends AppCompatActivity  {
         PasswordRecord.builder().type("PC").name("百度贴吧").url("https://tieba.baidu.com/").username("test9").password("1239").note("test").build().encode(encoder,1).save();
         PasswordRecord.builder().type("PC").name("腾讯邮箱").url("https://mail.qq.com/").username("test10").password("0901").note("test").build().encode(encoder,1).save();
     }
+
+
+
 
 }

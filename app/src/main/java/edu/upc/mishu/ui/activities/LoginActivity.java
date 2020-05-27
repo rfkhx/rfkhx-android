@@ -1,6 +1,11 @@
 package edu.upc.mishu.ui.activities;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -17,7 +22,10 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.biometric.BiometricPrompt;
+import androidx.core.content.ContextCompat;
 
 import com.xuexiang.xutil.common.RegexUtils;
 import com.xuexiang.xutil.tip.ToastUtils;
@@ -25,6 +33,7 @@ import com.xuexiang.xutil.tip.ToastUtils;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.Executor;
 
 import edu.upc.mishu.App;
 import edu.upc.mishu.R;
@@ -46,6 +55,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private List<String> emaillist = new ArrayList<>();
     private ArrayAdapter<String> adapter;
 
+    private Executor executor;
+    private BiometricPrompt biometricPrompt;
+    private BiometricPrompt.PromptInfo promptInfo;
+    private SharedPreferences sharedPreferences;
+
+
     private void attachObservers(){
         attach(new ExampleLoginObserver());
     }
@@ -57,11 +72,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
 
         Iterator<User> userIterator= User.findAll(User.class);
+        setBiometricPrompt();
 
         while(userIterator.hasNext()){
             User user = userIterator.next();
             emaillist.add(user.getEmail());
             Log.i(TAG, "onCreate: "+emaillist.toString());
+        }
+
+
+        sharedPreferences = getSharedPreferences("Mishu",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Log.i(TAG, "share flag" +sharedPreferences.getInt("flag",-1));
+        if(sharedPreferences.getInt("flag",-1) == -1){
+            editor.putInt("flag",0);
+            editor.commit();
         }
 
 
@@ -128,6 +153,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 showlist();
             }
         });
+
+        if(sharedPreferences.getInt("flag",-1) == 1){
+            biometricPrompt.authenticate(promptInfo);
+        }
     }
 
     private void showlist(){
@@ -144,6 +173,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         });
         listPopupWindow.show();
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -161,28 +191,46 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     //空密码，什么也不做
                     break;
                 }
-                Iterator<User> userIterator=User.findAsIterator(User.class,"email=?",textEmail.getText().toString());
-                if(!userIterator.hasNext()){
-                    ToastUtils.toast(getString(R.string.login_wrong_username_or_password));
-                    Log.i(TAG, "onClick: "+getString(R.string.login_wrong_username_or_password));
-                    break;
-                }
-                User user=userIterator.next();
+
 
                 //encoder 初始化
                 App.password=textPassword.getText().toString();
                 App.encoder=AES256Enocder.getInstance(App.password);
 
 
-
-                if(App.encoder.decode(user.getEmailEncoded()).equals(user.getEmail())){
-                    notify(user);
-                    Intent intent1=new Intent(this,MainActivity.class);
-                    startActivity(intent1);
-                    finish();
-                }else{
-                    notify(null);
+                if(sharedPreferences.getString(textEmail.getText().toString(),"").equals("") ){
+                    Log.i(TAG, "share commit pass");
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString(textEmail.getText().toString(),textPassword.getText().toString());
+                    editor.commit();
                 }
+               if(sharedPreferences.getInt("flag",-1) !=1){
+                   new AlertDialog.Builder(this)
+                           .setTitle("提示")
+                           .setMessage("是否要启用指纹解锁")
+                           .setNegativeButton("否", new DialogInterface.OnClickListener() {
+                               @Override
+                               public void onClick(DialogInterface dialog, int which) {
+                                   SharedPreferences.Editor editor =sharedPreferences.edit();
+                                   editor.putInt("flag",0);
+                                   editor.commit();
+                                   panduan();
+                               }
+                           })
+                           .setPositiveButton("是", new DialogInterface.OnClickListener() {
+                               @Override
+                               public void onClick(DialogInterface dialog, int which) {
+                                   SharedPreferences.Editor editor =sharedPreferences.edit();
+                                   editor.putInt("flag",1);
+                                   editor.commit();
+                                   Log.i(TAG, "share flag" +sharedPreferences.getInt("flag",-1));
+                                   panduan();
+                               }
+                           })
+                           .show();
+               }
+
+
                 break;
         }
     }
@@ -210,6 +258,65 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         for (LoginObserver observer :
                 loginObserverList) {
             observer.onLogin(user);
+        }
+    }
+
+    private void setBiometricPrompt(){
+        executor = ContextCompat.getMainExecutor(this);
+        biometricPrompt = new BiometricPrompt(LoginActivity.this, executor, new BiometricPrompt.AuthenticationCallback() {
+            @Override
+            public void onAuthenticationFailed() {
+                super.onAuthenticationFailed();
+                Toast.makeText(getApplicationContext(), "Authentication failed",
+                        Toast.LENGTH_SHORT)
+                        .show();
+            }
+
+            @Override
+            public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
+                super.onAuthenticationSucceeded(result);
+                Toast.makeText(getApplicationContext(),
+                        "Authentication succeeded!", Toast.LENGTH_SHORT).show();
+
+                SharedPreferences sharedPreferences = getSharedPreferences("Mishu",Context.MODE_PRIVATE);
+                Log.i(TAG, "share read pass " +sharedPreferences.getString(textEmail.getText().toString(),""));
+                App.password = sharedPreferences.getString(textEmail.getText().toString(),"");
+                App.encoder=AES256Enocder.getInstance(App.password);
+                Intent intent1=new Intent(LoginActivity.this,MainActivity.class);
+                startActivity(intent1);
+
+            }
+
+            @Override
+            public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
+                super.onAuthenticationError(errorCode, errString);
+                Toast.makeText(getApplicationContext(),
+                        "Authentication error: " + errString, Toast.LENGTH_SHORT)
+                        .show();
+            }
+        });
+
+        promptInfo =new BiometricPrompt.PromptInfo.Builder()
+                .setTitle("Biomteric")
+                .setSubtitle("log in using your biomteric credential")
+                .setNegativeButtonText("取消")
+                .build();
+    }
+
+    private void panduan (){
+        Iterator<User> userIterator=User.findAsIterator(User.class,"email=?",textEmail.getText().toString());
+        if(!userIterator.hasNext()){
+            ToastUtils.toast(getString(R.string.login_wrong_username_or_password));
+            Log.i(TAG, "onClick: "+getString(R.string.login_wrong_username_or_password));
+        }
+        User user=userIterator.next();
+        if(App.encoder.decode(user.getEmailEncoded()).equals(user.getEmail())){
+            notify(user);
+            Intent intent1=new Intent(LoginActivity.this,MainActivity.class);
+            startActivity(intent1);
+            finish();
+        }else{
+            notify(null);
         }
     }
 }
