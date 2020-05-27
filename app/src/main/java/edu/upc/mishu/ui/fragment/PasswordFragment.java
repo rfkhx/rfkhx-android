@@ -211,6 +211,7 @@ public class PasswordFragment extends Fragment {
                     assert data != null;
                     passwordItem.setUsername(data.getStringExtra("username"));
                     passwordItem.setWebsite(data.getStringExtra("name"));
+                    passwordItem.setId_database(data.getLongExtra("project_id",0));
                     list.set(data.getIntExtra("id",0),passwordItem);
                     listViewAdapter.notifyDataSetChanged();
                 }

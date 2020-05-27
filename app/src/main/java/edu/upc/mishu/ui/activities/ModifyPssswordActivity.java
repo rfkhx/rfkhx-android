@@ -6,10 +6,7 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.xuexiang.xutil.common.StringUtils;
 
 import java.util.List;
 
@@ -28,7 +25,6 @@ public class ModifyPssswordActivity extends AppCompatActivity {
     private EditText password;
     private EditText note;
     private List<PasswordRecord> passwordRecordList ;
-    private PasswordRecord passwordRecordOne;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +46,6 @@ public class ModifyPssswordActivity extends AppCompatActivity {
             p1.decode(App.encoder,1);//得到解密的内容
             Log.e("P1getName的值",p1.getName());
             if(p1.getId()==id){
-                passwordRecordOne=p1;
                 name.setText(p1.getName());
                 url.setText(p1.getUrl());
                 username.setText(p1.getUsername());
@@ -69,6 +64,7 @@ public class ModifyPssswordActivity extends AppCompatActivity {
             //保存密码
 
             PasswordRecord passwordRecord = new PasswordRecord();
+            passwordRecord.setId(id);
             passwordRecord.setType("");
             passwordRecord.setName(name.getText().toString());
             passwordRecord.setUrl(url.getText().toString());
@@ -76,27 +72,21 @@ public class ModifyPssswordActivity extends AppCompatActivity {
             passwordRecord.setPassword(password.getText().toString());
             passwordRecord.setNote(note.getText().toString());
 
-            if(StringUtils.isEmpty(passwordRecord.getName().toString())||StringUtils.isEmptyTrim(passwordRecord.getName().toString())){
-                //Toast.makeText(getApplicationContext(), "项目名不能为空", Toast.LENGTH_SHORT).show();
-                AlertDialog alertDialog1 = new AlertDialog.Builder(this)
-                        .setTitle("提示")//标题
-                        .setMessage("项目名不能为空或者包含空格")//内容
-                        .create();
-                alertDialog1.show();
-            }else {
-                passwordRecord.encode(App.encoder,1);
-                passwordRecordOne.delete();
-                passwordRecord.save();
+            passwordRecord.encode(App.encoder,1);
+            passwordRecord.save();
 
-                Log.e(TAG, "onClick: pr"+passwordRecord.toString() );
-                Intent intent = new Intent();
-                intent.putExtra("name",passwordRecord.getName());
-                intent.putExtra("username",passwordRecord.getUsername());
-                intent.putExtra("id",id);
-                setResult(RESULT_OK,intent);
-                finish();
+            Log.e(TAG, "onClick: pr"+passwordRecord.toString() );
+            Intent intent = new Intent();
+            intent.putExtra("name",passwordRecord.getName());
+            intent.putExtra("username",passwordRecord.getUsername());
+            intent.putExtra("project_id",id);
+            setResult(RESULT_OK,intent);
+            finish();
+            passwordRecordList = PasswordRecord.listAll(PasswordRecord.class);
+            for(PasswordRecord p1:passwordRecordList){
+                p1.decode(App.encoder,1);
+                Log.i("修改后密码值",p1.toString());
             }
-
         });
     }
 }
