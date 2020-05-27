@@ -47,17 +47,15 @@ public class AddPasswordActivity extends AppCompatActivity {
             passwordRecord.setUsername(username.getText().toString());
             passwordRecord.setPassword(password.getText().toString());
             passwordRecord.setNote(note.getText().toString());
-            passwordRecord.encode(App.encoder,1);
-            passwordRecord.save();
 
-
-
-            Log.e(TAG, "onClick: pr"+passwordRecord.toString() );
-            Intent intent = new Intent();
-            intent.putExtra("name",passwordRecord.getName());
-            intent.putExtra("username",passwordRecord.getUsername());
-            setResult(RESULT_OK,intent);
-            finish();
+                passwordRecord.encode(App.encoder,1);
+                passwordRecord.save();
+                Log.e(TAG, "onClick: pr"+passwordRecord.toString() );
+                Intent intent = new Intent();
+                intent.putExtra("name",passwordRecord.getName());
+                intent.putExtra("username",passwordRecord.getUsername());
+                setResult(RESULT_OK,intent);
+                finish();
         });
 
     }
