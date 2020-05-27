@@ -225,9 +225,6 @@ public class MainActivity extends AppCompatActivity  {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putInt("flag",0);
                     editor.commit();
-                    Intent intent = new Intent(MainActivity.this,Logintest.class);
-                    startActivity(intent);
-
             }
             return false;
         });
