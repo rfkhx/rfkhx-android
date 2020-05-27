@@ -151,7 +151,7 @@ public class ListViewAdapter extends BaseAdapter {
                             item.decode(App.encoder, 1);
 //                            Log.i(TAG, "onClick: " + data.get(position).getUsername());
 //                            Log.i(TAG, "onClick: item:" + item.toString());
-                            if (item.getUsername().equals(data.get(position).getUsername())) {
+                            if (item.getId()==data.get(position).getId_database()) {
                                 item.delete();
                                 break;
                             }
@@ -168,8 +168,8 @@ public class ListViewAdapter extends BaseAdapter {
                         Intent intent_alter = new Intent(context, ModifyPssswordActivity.class);
                         intent_alter.putExtra("name", data.get(position).getWebsite());
                         Log.i(TAG, "onClick: name" + data.get(position).getWebsite());
-                        intent_alter.putExtra("id", position);
-                        Log.i(TAG, "onClick: id" + position);
+                        intent_alter.putExtra("project_id",data.get(position).getId_database());
+                        Log.i(TAG, "onClick: id" + data.get(position).getId_database());
                         zujian.swipeLayout.close();
                         //adapter 活动跳转
                         fm.startActivityForResult(intent_alter, 2);

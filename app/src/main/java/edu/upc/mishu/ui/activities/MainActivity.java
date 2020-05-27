@@ -1,14 +1,21 @@
 package edu.upc.mishu.ui.activities;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
+import android.security.keystore.KeyGenParameterSpec;
+import android.security.keystore.KeyProperties;
+import android.security.keystore.UserNotAuthenticatedException;
 import android.util.Log;
 import android.view.autofill.AutofillManager;
 import android.widget.TextView;
@@ -19,6 +26,9 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.biometric.BiometricManager;
+import androidx.biometric.BiometricPrompt;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -30,8 +40,26 @@ import com.google.android.material.navigation.NavigationView;
 import com.xuexiang.xupdate.XUpdate;
 import com.xuexiang.xutil.tip.ToastUtils;
 
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.KeyGenerator;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
 
 import edu.upc.mishu.App;
 import edu.upc.mishu.R;
@@ -44,9 +72,12 @@ import edu.upc.mishu.ui.fragment.SettingFragment;
 import edu.upc.mishu.ui.fragment.SynchronousFragment;
 import edu.upc.mishu.utils.AppInfo;
 
+@RequiresApi(api = Build.VERSION_CODES.M)
 public class MainActivity extends AppCompatActivity  {
 
     private static final String TAG = "MainActivity";
+    private static final String KEY_NAME ="MiShu";
+    private static final int VALIDITY_DURATION = 300;
 
     private PasswordFragment passwordFragment;
     private SynchronousFragment synchronousFragment;
@@ -57,7 +88,7 @@ public class MainActivity extends AppCompatActivity  {
     private Toolbar toolbar;
     private TextView title;
     private AutofillManager autofillManager;
-
+    private BiometricManager biometricManager;
 
 
     private DrawerLayout drawerLayout;
@@ -189,6 +220,14 @@ public class MainActivity extends AppCompatActivity  {
 //                    startService(new Intent(getBaseContext(),AutofillServiceTest.class));
                     adddata();
                     break;
+                case R.id.test:
+                    SharedPreferences sharedPreferences =getSharedPreferences("Mishu", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putInt("flag",0);
+                    editor.commit();
+                    Intent intent = new Intent(MainActivity.this,Logintest.class);
+                    startActivity(intent);
+
             }
             return false;
         });
@@ -249,5 +288,8 @@ public class MainActivity extends AppCompatActivity  {
         PasswordRecord.builder().type("PC").name("百度贴吧").url("https://tieba.baidu.com/").username("test9").password("1239").note("test").build().encode(encoder,1).save();
         PasswordRecord.builder().type("PC").name("腾讯邮箱").url("https://mail.qq.com/").username("test10").password("0901").note("test").build().encode(encoder,1).save();
     }
+
+
+
 
 }

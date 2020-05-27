@@ -9,6 +9,10 @@
         android:icon="@drawable/synchronous_navigation"
         android:title="@string/navigation_synchronous"/>
 
+    <item android:id="@+id/test"
+        android:icon="@drawable/default_personlogo"
+        android:title="test"/>
+
     <item android:id="@+id/left_navigation_autoFill"
         android:icon="@drawable/autofill"
         android:title="@string/navigation_autoFill"/>
