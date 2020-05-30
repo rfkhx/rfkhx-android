@@ -48,7 +48,7 @@ public class ModifyPssswordActivity extends AppCompatActivity {
         for(PasswordRecord p1:passwordRecordList){
             p1.decode(App.encoder,1);//得到解密的内容
             Log.e("P1getName的值",p1.getName());
-            if(p1.getId()==id){
+            if(p1.getId().equals(id)){
                 name.setText(p1.getName());
                 url.setText(p1.getUrl());
                 username.setText(p1.getUsername());
