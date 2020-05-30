@@ -196,8 +196,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 //encoder 初始化
                 App.password=textPassword.getText().toString();
                 App.encoder=AES256Enocder.getInstance(App.password);
-
-
+                App.user=textEmail.getText().toString();
+                System.out.println(App.password+App.user);
                 if(sharedPreferences.getString(textEmail.getText().toString(),"").equals("") ){
                     Log.i(TAG, "share commit pass");
                     SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -282,6 +282,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 Log.i(TAG, "share read pass " +sharedPreferences.getString(textEmail.getText().toString(),""));
                 App.password = sharedPreferences.getString(textEmail.getText().toString(),"");
                 App.encoder=AES256Enocder.getInstance(App.password);
+                App.user=textEmail.getText().toString();
+                Log.e(TAG,"用户名+密码"+App.user+App.password);
                 Intent intent1=new Intent(LoginActivity.this,MainActivity.class);
                 startActivity(intent1);
 
