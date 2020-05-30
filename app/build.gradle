@@ -68,4 +68,7 @@ dependencies {
 
     //生物识别
     implementation "androidx.biometric:biometric:1.0.1"
+
+    //fastjson解析json
+    implementation 'com.alibaba:fastjson:1.1.55.android'
 }
