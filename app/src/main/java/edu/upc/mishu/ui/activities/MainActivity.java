@@ -220,13 +220,11 @@ public class MainActivity extends AppCompatActivity  {
 //                    startService(new Intent(getBaseContext(),AutofillServiceTest.class));
                     adddata();
                     break;
-                case R.id.test:
+                case R.id.iv_close:
                     SharedPreferences sharedPreferences =getSharedPreferences("Mishu", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putInt("flag",0);
                     editor.commit();
-                    Intent intent = new Intent(MainActivity.this,Logintest.class);
-                    startActivity(intent);
 
             }
             return false;
