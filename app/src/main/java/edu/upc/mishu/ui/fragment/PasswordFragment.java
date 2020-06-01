@@ -100,53 +100,15 @@ public class PasswordFragment extends Fragment {
 
         smartRefreshLayout.setRefreshHeader(new BezierCircleHeader(getContext()));
         smartRefreshLayout.setOnRefreshListener(refreshLayout -> {
-            passwordRecordList = PasswordRecord.listAll(PasswordRecord.class);
-            list.removeAll(list);
-            Log.i(TAG, "init: 数据库数据条数" + passwordRecordList.size());
-            for(PasswordRecord item:passwordRecordList){
-                item.decode(App.encoder,1);
-                Log.i(TAG, "init: "+item.toString() +item.getId());
-                PasswordItem pt = new PasswordItem();
-                pt.setId_database(item.getId());//数据库记录ID
-                if(item.getType().equals("Android")){
-                    try {
-                        pt.setImageId(getContext().getPackageManager().getApplicationIcon(item.getName()).getAlpha());
-                    } catch (PackageManager.NameNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                }else {
-                    pt.setImageId(R.drawable.reset);
-                }
-                pt.setUsername(item.getUsername());
-                pt.setWebsite(item.getName());
-                pt.setUrl(item.getUrl());
-                if(!list.contains(pt)){
-                    list.add(pt);
-                    Log.e(TAG,"init"+pt.toString());
-                }
-            }
-            Log.i(TAG, "init: list size "+list.size());
-            listViewAdapter.notifyDataSetChanged();
+            refresh();
             refreshLayout.finishRefresh();
         });
 
 
-        passwordRecordList = PasswordRecord.listAll(PasswordRecord.class);
-        for(PasswordRecord item:passwordRecordList){
-            item.decode(App.encoder,1);
-            Log.e(TAG, "init: "+item.toString() +item.getId());
-            PasswordItem pt = new PasswordItem();
-            pt.setId_database(item.getId());//数据库记录ID
-            pt.setImageId(R.drawable.reset);
-            pt.setUsername(item.getUsername());
-            pt.setWebsite(item.getName());
-            pt.setUrl(item.getUrl());
-            if(!list.contains(pt)){
-                list.add(pt);
-            }
-        }
+
         listViewAdapter = new ListViewAdapter(getActivity(),list,this);
         listView.setAdapter(listViewAdapter);
+        refresh();
 
 
         floatingActionButton.setOnClickListener(v -> {
@@ -184,39 +146,33 @@ public class PasswordFragment extends Fragment {
         switch (requestCode){
             case 1:
                 if(resultCode == -1) {
-                    passwordRecordList = PasswordRecord.listAll(PasswordRecord.class);
-                    list.removeAll(list);
-                    for(PasswordRecord item:passwordRecordList){
-                        item.decode(App.encoder,1);
-                        Log.i(TAG, "init: "+item.toString() +item.getId());
-                        PasswordItem pt = new PasswordItem();
-                        pt.setId_database(item.getId());//数据库记录ID
-                        pt.setImageId(R.drawable.reset);
-                        pt.setUsername(item.getUsername());
-                        pt.setWebsite(item.getName());
-                        pt.setUrl(item.getUrl());
-                        Log.i(TAG, "auto contains result" +list.contains(pt));
-                        if(!list.contains(pt)){
-                            list.add(pt);
-                        }
-                    }
-                    listViewAdapter.notifyDataSetChanged();
+                   refresh();
                 }
                 break;
-            case 2:
-                if(resultCode == -1){
-                    Log.i(TAG, "onActivityResult: "+data.toString());
-                    Log.i(TAG,"增加后返回活动");
-                    PasswordItem passwordItem = new PasswordItem();
-                    passwordItem.setImageId(R.drawable.reset);
-                    assert data != null;
-                    passwordItem.setUsername(data.getStringExtra("username"));
-                    passwordItem.setWebsite(data.getStringExtra("name"));
-                    passwordItem.setId_database(data.getLongExtra("project_id",0));
-                    list.set(data.getIntExtra("id",0),passwordItem);
-                    listViewAdapter.notifyDataSetChanged();
-                }
         }
+    }
+
+    public void refresh(){
+        passwordRecordList = PasswordRecord.listAll(PasswordRecord.class);
+        if(list.size() != 0){
+            list.removeAll(list);
+        }
+        for(PasswordRecord item:passwordRecordList){
+            item.decode(App.encoder,1);
+            Log.i(TAG, "init: "+item.toString() +item.getId());
+            PasswordItem pt = new PasswordItem();
+            pt.setId_database(item.getId());//数据库记录ID
+            pt.setImageId(R.drawable.reset);
+            pt.setUsername(item.getUsername());
+            pt.setWebsite(item.getName());
+            pt.setUrl(item.getUrl());
+            Log.i(TAG, "auto contains result" +list.contains(pt));
+            if(!list.contains(pt)){
+                list.add(pt);
+            }
+        }
+
+        listViewAdapter.notifyDataSetChanged();
     }
 }
 

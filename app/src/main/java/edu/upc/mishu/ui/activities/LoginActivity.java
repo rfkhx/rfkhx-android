@@ -204,6 +204,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     editor.putString(textEmail.getText().toString(),textPassword.getText().toString());
                     editor.commit();
                 }
+
                if(sharedPreferences.getInt("flag",-1) !=1){
                    new AlertDialog.Builder(this)
                            .setTitle("提示")
@@ -292,9 +293,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
                 super.onAuthenticationError(errorCode, errString);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt("flag",0);
+                editor.commit();
                 Toast.makeText(getApplicationContext(),
-                        "Authentication error: " + errString, Toast.LENGTH_SHORT)
+                        "Authentication" + errString, Toast.LENGTH_SHORT)
                         .show();
+
             }
         });
 
