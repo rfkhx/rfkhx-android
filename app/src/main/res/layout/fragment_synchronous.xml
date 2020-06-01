@@ -5,12 +5,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <Button
+        android:id="@+id/sync_up"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintHeight_percent=".1"
-        android:text="@string/navigation_synchronous"/>
+        android:text="@string/navigation_synchronous_up"/>
 
+    <Button
+        android:id="@+id/sync_down"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sync_up"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHeight_percent=".1"
+        android:text="@string/navigation_synchronous_down"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

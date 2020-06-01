@@ -122,6 +122,7 @@ public class PasswordFragment extends Fragment {
                 pt.setUrl(item.getUrl());
                 if(!list.contains(pt)){
                     list.add(pt);
+                    Log.e(TAG,"init"+pt.toString());
                 }
             }
             Log.i(TAG, "init: list size "+list.size());
