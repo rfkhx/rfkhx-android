@@ -43,6 +43,6 @@ public class OKHttpSycnHttpService {
         System.out.println(password.toString());
         okHttpSyncHttpService.login("1736862060@qq.com","111111");
         okHttpSyncHttpService.createOrEditRecord(passwordRecordJSONS);
-        System.out.println(okHttpSyncHttpService.getAllRecords());;
+
     }
 }

@@ -75,7 +75,7 @@ public class OKHttpSyncHttpService {
         }
     }
 
-    public void createOrEditRecord(List<PasswordRecordJSON> passwordRecordJSONS) {//上传
+    public boolean createOrEditRecord(List<PasswordRecordJSON> passwordRecordJSONS) {//上传
         login(App.user,App.password);
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
@@ -91,10 +91,12 @@ public class OKHttpSyncHttpService {
             try {
                 Response response = client.newCall(request).execute();
             } catch (IOException e) {
-                Log.e("OKHttpSyncHttpService","上传同步失败");
+                Log.e("OKHttpSyncHttpService","上传同步失败"+item.toString());
                 e.printStackTrace();
+                return false;
             }
         }
+        return true;
     }
 
 }

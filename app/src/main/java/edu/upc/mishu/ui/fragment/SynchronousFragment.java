@@ -1,6 +1,7 @@
 package edu.upc.mishu.ui.fragment;
 
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -79,6 +80,8 @@ public class SynchronousFragment extends Fragment {
                             item.save();
                         }
                     }).start();
+                    Toast.makeText(getContext(),
+                            "已下载，请刷新", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -104,9 +107,19 @@ public class SynchronousFragment extends Fragment {
                         passwordRecordJSONList.add(itemJSON);//这个地方总是出玄学bug?
                     }
                     new Thread(() -> {
-                        okHttpSyncHttpService.createOrEditRecord(passwordRecordJSONList);
+                        boolean flag=okHttpSyncHttpService.createOrEditRecord(passwordRecordJSONList);
+                        if(flag){
+                            Looper.prepare();
+                            Toast.makeText(getContext(),
+                                    "上传成功", Toast.LENGTH_SHORT).show();
+                            Looper.loop();
+                        }else {
+                            Looper.prepare();
+                            Toast.makeText(getContext(),
+                                    "上传失败，请稍后重试", Toast.LENGTH_SHORT).show();
+                            Looper.loop();
+                        }
                     }).start();
-                    Toast.makeText(getContext(),"同步成功", Toast.LENGTH_SHORT).show();
                 }
             }
         });
