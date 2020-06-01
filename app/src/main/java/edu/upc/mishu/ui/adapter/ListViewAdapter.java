@@ -151,7 +151,7 @@ public class ListViewAdapter extends BaseAdapter {
                             item.decode(App.encoder, 1);
 //                            Log.i(TAG, "onClick: " + data.get(position).getUsername());
 //                            Log.i(TAG, "onClick: item:" + item.toString());
-                            if (item.getId()==data.get(position).getId_database()) {
+                            if (item.getId().equals(data.get(position).getId_database())) {
                                 item.delete();
                                 break;
                             }

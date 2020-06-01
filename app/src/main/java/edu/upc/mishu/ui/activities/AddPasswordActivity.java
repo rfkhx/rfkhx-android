@@ -5,15 +5,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.orm.StringUtil;
 import com.xuexiang.xutil.common.StringUtils;
-
-import java.util.List;
 
 import edu.upc.mishu.App;
 import edu.upc.mishu.R;
@@ -29,14 +25,11 @@ public class AddPasswordActivity extends AppCompatActivity {
     private EditText username;
     private EditText password;
     private EditText note;
-    private List<PasswordRecord> passwordRecordList ;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
 
-        passwordRecordList= PasswordRecord.listAll(PasswordRecord.class);
         Button button1 = findViewById(R.id.add_save);
 
         button1.setOnClickListener(v -> {
@@ -58,17 +51,13 @@ public class AddPasswordActivity extends AppCompatActivity {
             passwordRecord.setPassword(password.getText().toString());
             passwordRecord.setNote(note.getText().toString());
 
-
-            if(StringUtils.isEmpty(passwordRecord.getName().toString())||StringUtils.isEmptyTrim(passwordRecord.getName().toString())){
-                //Toast.makeText(getApplicationContext(), "项目名不能为空", Toast.LENGTH_SHORT).show();
+            if(StringUtils.isEmpty(passwordRecord.getName().toString())||StringUtils.isEmptyTrim(passwordRecord.getName().toString())||(passwordRecord.getName().toString().indexOf(" "))!=-1) {
                 AlertDialog alertDialog1 = new AlertDialog.Builder(this)
                         .setTitle("提示")//标题
                         .setMessage("项目名不能为空或者包含空格")//内容
                         .create();
                 alertDialog1.show();
-            }else{
-                Log.e(TAG,"P1的空值："+passwordRecord.getName().toString());
-                Log.e(TAG,"P1的空值："+passwordRecord.getName());
+            }else {
                 passwordRecord.encode(App.encoder,1);
                 passwordRecord.save();
                 Log.e(TAG, "onClick: pr"+passwordRecord.toString() );
