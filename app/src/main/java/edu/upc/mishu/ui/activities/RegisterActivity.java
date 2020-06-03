@@ -3,9 +3,12 @@ package edu.upc.mishu.ui.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.xuexiang.xutil.common.RegexUtils;
 import com.xuexiang.xutil.tip.ToastUtils;
@@ -17,6 +20,7 @@ import java.util.List;
 import edu.upc.mishu.App;
 import edu.upc.mishu.R;
 import edu.upc.mishu.dto.User;
+import edu.upc.mishu.http.OKHttpAccountService;
 import edu.upc.mishu.interfaces.RegisterObservable;
 import edu.upc.mishu.interfaces.RegisterObserver;
 import edu.upc.mishu.model.ExampleRegisterObserver;
@@ -76,13 +80,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             ToastUtils.toast(getString(R.string.register_email_invalid));
             return null;
         }
-        Iterator<User> iterator=User.findAsIterator(User.class,"email=?",email);
-        User res;
-        if(iterator.hasNext()){
-            res=iterator.next();
-        }else {
-            res=new User();
-        }
+//        Iterator<User> iterator=User.findAsIterator(User.class,"email=?",email);
+//        User res;
+//        if(iterator.hasNext()){
+//            res=iterator.next();
+//        }else {
+//            res=new User();
+//        }
+        User res=new User();
         res.setEmail(email);
         String pwd1=textPassword.getText().toString();
         String pwd2=textPasswordRepeat.getText().toString();
@@ -92,6 +97,15 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
         if(!pwd1.equals(pwd2)){
             ToastUtils.toast(getString(R.string.register_no_same_password));
+            return null;
+        }
+        OKHttpAccountService okHttpAccountService=new OKHttpAccountService();
+        boolean flag=okHttpAccountService.registUser(email,pwd1);
+        Log.e("注册",res.toString());
+        System.out.println("这里已经执行了注册");
+        System.out.println("注册返回值"+flag);
+        if(!flag){
+            ToastUtils.toast("账户已存在");
             return null;
         }
         App.encoder=AES256Enocder.getInstance(pwd1);

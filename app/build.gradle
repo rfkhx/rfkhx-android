@@ -71,4 +71,7 @@ dependencies {
 
     //fastjson解析json
     implementation 'com.alibaba:fastjson:1.1.55.android'
+
+    //SHA-1
+    implementation 'commons-codec:commons-codec:1.11'
 }

@@ -38,6 +38,7 @@ import java.util.concurrent.Executor;
 import edu.upc.mishu.App;
 import edu.upc.mishu.R;
 import edu.upc.mishu.dto.User;
+import edu.upc.mishu.http.OKHttpAccountService;
 import edu.upc.mishu.interfaces.LoginObservable;
 import edu.upc.mishu.interfaces.LoginObserver;
 import edu.upc.mishu.interfaces.RegisterObserver;
@@ -311,18 +312,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void panduan (){
-        Iterator<User> userIterator=User.findAsIterator(User.class,"email=?",textEmail.getText().toString());
-        if(!userIterator.hasNext()){
-            ToastUtils.toast(getString(R.string.login_wrong_username_or_password));
-            Log.i(TAG, "onClick: "+getString(R.string.login_wrong_username_or_password));
-        }
-        User user=userIterator.next();
-        if(App.encoder.decode(user.getEmailEncoded()).equals(user.getEmail())){
+//        Iterator<User> userIterator=User.findAsIterator(User.class,"email=?",textEmail.getText().toString());
+//        if(!userIterator.hasNext()){
+//            ToastUtils.toast(getString(R.string.login_wrong_username_or_password));
+//            Log.i(TAG, "onClick: "+getString(R.string.login_wrong_username_or_password));
+//        }
+//        User user=userIterator.next();
+        User user=new User();
+        user.setEmail(textEmail.getText().toString());
+        user.setEmailEncoded(App.encoder.encode(user.getEmail()));
+        OKHttpAccountService okHttpAccountService=new OKHttpAccountService();
+        boolean flag=okHttpAccountService.loginUser(textEmail.getText().toString(),textPassword.getText().toString());
+        if(flag){
             notify(user);
             Intent intent1=new Intent(LoginActivity.this,MainActivity.class);
             startActivity(intent1);
             finish();
         }else{
+            ToastUtils.toast("用户密码错误或不存在");
             notify(null);
         }
     }
