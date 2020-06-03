@@ -27,6 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:text="@string/ok"
-            android:id="@+id/btn_ok"/>
+            android:id="@+id/btn_ok"
+            android:background="#64B5F6"/>
     </LinearLayout>
 </LinearLayout>
