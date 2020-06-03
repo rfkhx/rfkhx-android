@@ -9,12 +9,16 @@
         android:icon="@drawable/synchronous_navigation"
         android:title="@string/navigation_synchronous_check"/>
 
-    <item android:id="@+id/test"
-        android:icon="@drawable/default_personlogo"
-        android:title="test"/>
+    <item android:id="@+id/left_navigation_close"
+        android:icon="@drawable/close"
+        android:title="@string/navigation_close"/>
 
     <item android:id="@+id/left_navigation_autoFill"
         android:icon="@drawable/autofill"
         android:title="@string/navigation_autoFill"/>
+
+    <item android:id="@+id/test"
+        android:icon="@drawable/test"
+        android:title="test"/>
 
 </menu>

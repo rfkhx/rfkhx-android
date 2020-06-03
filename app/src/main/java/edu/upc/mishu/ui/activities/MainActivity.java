@@ -71,6 +71,7 @@ import edu.upc.mishu.ui.fragment.PasswordFragment;
 import edu.upc.mishu.ui.fragment.SettingFragment;
 import edu.upc.mishu.ui.fragment.SynchronousFragment;
 import edu.upc.mishu.utils.AppInfo;
+import edu.upc.mishu.utils.CheckPassword;
 
 @RequiresApi(api = Build.VERSION_CODES.M)
 public class MainActivity extends AppCompatActivity  {
@@ -220,11 +221,25 @@ public class MainActivity extends AppCompatActivity  {
 //                    startService(new Intent(getBaseContext(),AutofillServiceTest.class));
                     adddata();
                     break;
-                case R.id.test:
+                case R.id.iv_close:
                     SharedPreferences sharedPreferences =getSharedPreferences("Mishu", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putInt("flag",0);
                     editor.commit();
+                    break;
+                case R.id.test:
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            CheckPassword checkPassword = new CheckPassword();
+                            checkPassword.setPassword("123456");
+                            //checkPassword.check();
+                            checkPassword.run();
+                            Log.i("check", "count "+checkPassword.getSamePasswordCount());
+                        }
+                    }).start();
+                    break;
+
             }
             return false;
         });
