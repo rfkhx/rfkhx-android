@@ -61,6 +61,7 @@ public class SynchronousFragment extends Fragment {
                     new Thread(() -> {
                         DoubleClick.setLastClickTime(System.currentTimeMillis());
                         PasswordRecord.deleteAll(PasswordRecord.class);
+                        passwordRecordJSONList.clear();
                         passwordRecordJSONList=okHttpSyncHttpService.getAllRecords();
                         System.out.println("同步下载"+passwordRecordJSONList.toString());
                         for(PasswordRecordJSON itemJSON:passwordRecordJSONList){
@@ -99,6 +100,8 @@ public class SynchronousFragment extends Fragment {
                     ProgressDialog progressDialog= ProgressDialog.show(getContext(), "提示","正在上传，请稍后。", false, false);
                     DoubleClick.setLastClickTime(System.currentTimeMillis());
                     passwordRecordList=PasswordRecord.listAll(PasswordRecord.class);
+                    Log.e("删除云端，本地数据库数据",passwordRecordList.toString());
+                    passwordRecordJSONList.clear();
                     for(PasswordRecord item:passwordRecordList){
                         item.decode(App.encoder,1);
                         PasswordRecordJSON itemJSON=new PasswordRecordJSON();
@@ -112,6 +115,7 @@ public class SynchronousFragment extends Fragment {
                     }
                     new Thread(() -> {
                         okHttpSyncHttpService.deleteAll();
+                        Log.e("删除云端",passwordRecordJSONList.toString());
                         boolean flag=okHttpSyncHttpService.createOrEditRecord(passwordRecordJSONList);
                         if(flag){
 //                            Looper.prepare();
