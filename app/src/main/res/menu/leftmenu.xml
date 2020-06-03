@@ -17,4 +17,8 @@
         android:icon="@drawable/autofill"
         android:title="@string/navigation_autoFill"/>
 
+    <item android:id="@+id/test"
+        android:icon="@drawable/test"
+        android:title="test"/>
+
 </menu>
