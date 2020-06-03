@@ -52,6 +52,22 @@ public class OKHttpSyncHttpService {
         //Log.e(TAG,response.toString());
     }
 
+    public void deleteAll(){
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        MediaType mediaType = MediaType.parse("text/plain");
+        RequestBody body = RequestBody.create(mediaType, "");
+        Request request = new Request.Builder()
+                .url("https://upccaishu.top/api/records")
+                .method("DELETE", body)
+                .addHeader("Authorization", token)
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public List<PasswordRecordJSON> getAllRecords(){//向下获取json数据
         login(App.user,App.password);
@@ -77,6 +93,7 @@ public class OKHttpSyncHttpService {
 
     public boolean createOrEditRecord(List<PasswordRecordJSON> passwordRecordJSONS) {//上传
         login(App.user,App.password);
+        deleteAll();
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         MediaType mediaType = MediaType.parse("text/plain");
