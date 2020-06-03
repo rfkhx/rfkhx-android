@@ -1,5 +1,6 @@
 package edu.upc.mishu.ui.fragment;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
@@ -56,6 +57,7 @@ public class SynchronousFragment extends Fragment {
                     Toast.makeText(getContext(),
                             "请"+DoubleClick.isFastDoubleClick()+"秒后重试", Toast.LENGTH_SHORT).show();
                 }else {
+                    ProgressDialog progressDialog= ProgressDialog.show(getContext(), "提示","正在下载，请稍后。", false, false);
                     new Thread(() -> {
                         DoubleClick.setLastClickTime(System.currentTimeMillis());
                         PasswordRecord.deleteAll(PasswordRecord.class);
@@ -76,12 +78,13 @@ public class SynchronousFragment extends Fragment {
                             item.setNote(App.encoder.decode(itemJSON.getNote().replaceAll(" ","+")));
                             item.encode(App.encoder,1);
                             Log.e(TAG,item.toString());
-
                             item.save();
+                            progressDialog.setMessage("已下载，请刷新");
+                            progressDialog.dismiss();
                         }
                     }).start();
-                    Toast.makeText(getContext(),
-                            "已下载，请刷新", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(),
+//                            "已下载，请刷新", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -93,6 +96,7 @@ public class SynchronousFragment extends Fragment {
                     Toast.makeText(getContext(),
                             "请"+DoubleClick.isFastDoubleClick()+"秒后再点击", Toast.LENGTH_SHORT).show();
                 }else {
+                    ProgressDialog progressDialog= ProgressDialog.show(getContext(), "提示","正在上传，请稍后。", false, false);
                     DoubleClick.setLastClickTime(System.currentTimeMillis());
                     passwordRecordList=PasswordRecord.listAll(PasswordRecord.class);
                     for(PasswordRecord item:passwordRecordList){
@@ -107,17 +111,22 @@ public class SynchronousFragment extends Fragment {
                         passwordRecordJSONList.add(itemJSON);//这个地方总是出玄学bug?
                     }
                     new Thread(() -> {
+                        okHttpSyncHttpService.deleteAll();
                         boolean flag=okHttpSyncHttpService.createOrEditRecord(passwordRecordJSONList);
                         if(flag){
-                            Looper.prepare();
-                            Toast.makeText(getContext(),
-                                    "上传成功", Toast.LENGTH_SHORT).show();
-                            Looper.loop();
+//                            Looper.prepare();
+//                            Toast.makeText(getContext(),
+//                                    "上传成功", Toast.LENGTH_SHORT).show();
+//                            Looper.loop();
+                            progressDialog.setMessage("上传成功");
+                            progressDialog.dismiss();
                         }else {
-                            Looper.prepare();
-                            Toast.makeText(getContext(),
-                                    "上传失败，请稍后重试", Toast.LENGTH_SHORT).show();
-                            Looper.loop();
+//                            Looper.prepare();
+//                            Toast.makeText(getContext(),
+//                                    "上传失败，请稍后重试", Toast.LENGTH_SHORT).show();
+//                            Looper.loop();
+                            progressDialog.setMessage("上传失败，请稍后重试");
+                            progressDialog.dismiss();
                         }
                     }).start();
                 }

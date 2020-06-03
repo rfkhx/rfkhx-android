@@ -54,6 +54,7 @@ public class OKHttpSyncHttpService {
     }
 
     public void deleteAll(){
+        login(App.user,App.password);
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         MediaType mediaType = MediaType.parse("text/plain");
@@ -94,7 +95,6 @@ public class OKHttpSyncHttpService {
 
     public boolean createOrEditRecord(List<PasswordRecordJSON> passwordRecordJSONS) {//上传
         login(App.user,App.password);
-        deleteAll();
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         MediaType mediaType = MediaType.parse("text/plain");
