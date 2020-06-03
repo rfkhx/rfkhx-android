@@ -12,6 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -83,8 +84,8 @@ public class OKHttpSyncHttpService {
         try {
             response = client.newCall(request).execute();
             String json=response.body().string();
-            List<PasswordRecordJSON> passwordRecordJSON = JSON.parseArray(json, PasswordRecordJSON.class);
-            return Collections.unmodifiableList(passwordRecordJSON);
+            List<PasswordRecordJSON> passwordRecordJSON =JSON.parseArray(json, PasswordRecordJSON.class);
+            return new ArrayList<>(passwordRecordJSON);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
