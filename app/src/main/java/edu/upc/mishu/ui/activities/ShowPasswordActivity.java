@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
@@ -25,6 +26,8 @@ import edu.upc.mishu.App;
 import edu.upc.mishu.R;
 import edu.upc.mishu.dto.PasswordRecord;
 import edu.upc.mishu.utils.AppInfo;
+import edu.upc.mishu.utils.CheckPassword;
+import edu.upc.mishu.utils.CheckPswMeter;
 
 public class ShowPasswordActivity extends AppCompatActivity {
     private TextView username;
@@ -32,7 +35,6 @@ public class ShowPasswordActivity extends AppCompatActivity {
     private TextView url;
     private TextView note;
     private List<PasswordRecord> passwordRecordList;
-
 
 
     @Override
@@ -44,7 +46,7 @@ public class ShowPasswordActivity extends AppCompatActivity {
         init();
 
         Intent intent_show = getIntent();
-        Long project_id=intent_show.getLongExtra("project_id",0);
+        Long project_id = intent_show.getLongExtra("project_id", 0);
         Log.e("P1传入的值Project_id", project_id.toString() != null ? project_id.toString() : "null");
         username = findViewById(R.id.show_username_text);
         password = findViewById(R.id.show_password_text);
@@ -55,11 +57,11 @@ public class ShowPasswordActivity extends AppCompatActivity {
 
         for (PasswordRecord p1 : passwordRecordList) {
             p1.decode(App.encoder, 1);//得到解密的内容
-            Log.e("展示",p1.toString());
-            Log.e("展示进入",p1.getId().toString());
-            Log.e("展示进入",project_id.toString());
+            Log.e("展示", p1.toString());
+            Log.e("展示进入", p1.getId().toString());
+            Log.e("展示进入", project_id.toString());
             if (p1.getId().equals(project_id)) {
-                Log.e("展示进入",p1.getId().toString());
+                Log.e("展示进入", p1.getId().toString());
                 url.setText(p1.getUrl());
                 username.setText(p1.getUsername());
                 password.setText(p1.getPassword());
@@ -74,6 +76,7 @@ public class ShowPasswordActivity extends AppCompatActivity {
                 ImageButton imagebutton_username = findViewById(R.id.ImageButton_copy_username);
                 ImageButton imagebutton_url = findViewById(R.id.ImageButton_copy_url);
                 ImageButton imagebutton_note = findViewById(R.id.ImageButton_copy_note);
+                ImageButton imageButton_check = findViewById(R.id.ImageButton_check_password);
                 final ClipboardManager cm = (ClipboardManager) getBaseContext().getSystemService(Context.CLIPBOARD_SERVICE);
 
                 imagebutton_password.setOnClickListener(v -> {
@@ -93,7 +96,40 @@ public class ShowPasswordActivity extends AppCompatActivity {
                     cm.setPrimaryClip(ClipData.newPlainText(null, note.getText().toString()));
                     Toast.makeText(getApplicationContext(), "复制成功", Toast.LENGTH_SHORT).show();
                 });
+                imageButton_check.setOnClickListener(v -> {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            CheckPassword checkPassword = new CheckPassword();
+                            checkPassword.setPassword(p1.getPassword());
+                            String info = null;
 
+                            if(p1.getPassword().length()<8){
+                                info = "您的密码长度过短，请及时修改密码";
+                            }else{
+                                CheckPswMeter checkPswMeter = new CheckPswMeter(p1.getPassword());
+                                int s =checkPswMeter.jiafen() + checkPswMeter.jianfen();
+                                if(s < 60){
+                                    info = "您的密码不够复杂，有些泄露的风险，请尽快修改密码";
+                                }else{
+                                    checkPassword.run();
+                                    int count = checkPassword.getSamePasswordCount();
+                                    if(count >0){
+                                        info = "已知您的密码在已经泄露的密码库中共使用过"+count+"次，请尽快修改密码";
+                                    }else{
+                                        info = "您的密码很安全";
+                                    }
+                                }
+                            }
+                            Looper.prepare();
+                            Toast.makeText(ShowPasswordActivity.this, info, Toast.LENGTH_SHORT).show();
+                            Looper.loop();
+
+
+                        }
+                    }).start();
+
+                });
             }
         }
     }
@@ -111,7 +147,6 @@ public class ShowPasswordActivity extends AppCompatActivity {
         getWindow().getDecorView().setBackgroundResource(R.drawable.dialog_background);
 
     }
-
 
 
 }
