@@ -89,4 +89,15 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
     }
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        Log.i(TAG, "onActivityResult: 返回值requestCode：" +requestCode);
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case 1:
+                Intent intent =new Intent(SearchActivity.this,MainActivity.class);
+                startActivity(intent);
+                break;
+        }
+    }
+
 }

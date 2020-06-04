@@ -172,7 +172,12 @@ public class ListViewAdapter extends BaseAdapter {
                         Log.i(TAG, "onClick: id" + data.get(position).getId_database());
                         zujian.swipeLayout.close();
                         //adapter 活动跳转
-                        fm.startActivityForResult(intent_alter, 1);
+                        //fm.startActivityForResult(intent_alter, 1);
+                        if(fm!=null){
+                            fm.startActivityForResult(intent_alter, 1);
+                        }else{
+                            ((Activity)context).startActivityForResult(intent_alter,1);
+                        }
                         Log.i(TAG, "onClick: start by adapter");
                     }
                 });
