@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,8 +26,8 @@ import edu.upc.mishu.utils.DoubleClick;
 
 public class SynchronousFragment extends Fragment {
     private static SynchronousFragment instance  = null;
-    private Button button_sync_up;
-    private  Button button_sync_down;
+    private ImageButton button_sync_up;
+    private  ImageButton button_sync_down;
     private List<PasswordRecord> passwordRecordList ;
     private List<PasswordRecordJSON> passwordRecordJSONList=new ArrayList<>();
     private String TAG="SynchronousFragment";
@@ -81,7 +82,7 @@ public class SynchronousFragment extends Fragment {
                         }
                     }).start();
                     Toast.makeText(getContext(),
-                            "已下载，请刷新", Toast.LENGTH_SHORT).show();
+                            "已同步", Toast.LENGTH_SHORT).show();
                 }
 
             }

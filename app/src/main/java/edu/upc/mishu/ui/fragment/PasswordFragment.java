@@ -119,6 +119,12 @@ public class PasswordFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        refresh();
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         registerForContextMenu(listView);
@@ -150,6 +156,12 @@ public class PasswordFragment extends Fragment {
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        refresh();
     }
 
     public void refresh(){

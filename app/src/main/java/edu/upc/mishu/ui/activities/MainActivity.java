@@ -17,6 +17,7 @@ import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 import android.security.keystore.UserNotAuthenticatedException;
 import android.util.Log;
+import android.view.View;
 import android.view.autofill.AutofillManager;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -72,6 +73,7 @@ import edu.upc.mishu.ui.fragment.SettingFragment;
 import edu.upc.mishu.ui.fragment.SynchronousFragment;
 import edu.upc.mishu.utils.AppInfo;
 import edu.upc.mishu.utils.CheckPassword;
+import edu.upc.mishu.utils.CheckPswMeter;
 
 @RequiresApi(api = Build.VERSION_CODES.M)
 public class MainActivity extends AppCompatActivity  {
@@ -129,7 +131,7 @@ public class MainActivity extends AppCompatActivity  {
 
         toolbar.inflateMenu(R.menu.toolbarmenu);
         toolbar.setNavigationOnClickListener(v -> {
-            Toast.makeText(MainActivity.this,"click",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(MainActivity.this,"click",Toast.LENGTH_SHORT).show();
             drawerLayout.openDrawer(GravityCompat.START);
         });
 
@@ -186,6 +188,9 @@ public class MainActivity extends AppCompatActivity  {
         });
 
         leftnavigation = findViewById(R.id.left_navigation);
+        View headview = leftnavigation.getHeaderView(0);
+        TextView textView = headview.findViewById(R.id.user_name);
+        textView.setText(App.user);
         leftnavigation.setNavigationItemSelectedListener(menuItem -> {
             switch (menuItem.getItemId()) {
                 case R.id.left_navigation_export:
@@ -219,6 +224,11 @@ public class MainActivity extends AppCompatActivity  {
 //                        startActivityForResult(intent, 0);
 //                    }
 //                    startService(new Intent(getBaseContext(),AutofillServiceTest.class));
+                    Intent intent = new Intent(Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE);
+                    intent.setData(Uri.parse("package:com.android.settings"));
+                    startActivityForResult(intent, 0);
+                    Toast.makeText(MainActivity.this,"关闭自动填充",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this,"关闭自动填充 并且添加数据",Toast.LENGTH_SHORT).show();
                     adddata();
                     break;
                 case R.id.iv_close:
@@ -226,18 +236,11 @@ public class MainActivity extends AppCompatActivity  {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putInt("flag",0);
                     editor.commit();
+                    Toast.makeText(MainActivity.this,"成功关闭指纹登陆",Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.test:
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            CheckPassword checkPassword = new CheckPassword();
-                            checkPassword.setPassword("123456");
-                            //checkPassword.check();
-                            checkPassword.run();
-                            Log.i("check", "count "+checkPassword.getSamePasswordCount());
-                        }
-                    }).start();
+                    CheckPswMeter checkPassword =new CheckPswMeter("12345678");
+                    Log.i("check", "pass "+(checkPassword.jiafen()+checkPassword.jianfen()));
                     break;
 
             }

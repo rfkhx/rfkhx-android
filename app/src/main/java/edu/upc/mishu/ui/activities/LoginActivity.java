@@ -55,6 +55,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private List<LoginObserver> loginObserverList=new ArrayList<>();
     private List<String> emaillist = new ArrayList<>();
     private ArrayAdapter<String> adapter;
+    private TextView forget;
 
     private Executor executor;
     private BiometricPrompt biometricPrompt;
@@ -71,6 +72,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         instance=this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        //提示忘记密码
+        forget = findViewById(R.id.login_forget);
+        forget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         Iterator<User> userIterator= User.findAll(User.class);
         setBiometricPrompt();
@@ -305,8 +315,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         });
 
         promptInfo =new BiometricPrompt.PromptInfo.Builder()
-                .setTitle("Biomteric")
-                .setSubtitle("log in using your biomteric credential")
+                .setTitle("生物识别")
+                .setSubtitle("请验证你的生物特征")
                 .setNegativeButtonText("取消")
                 .build();
     }
