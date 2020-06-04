@@ -83,8 +83,9 @@ public class SearchActivity extends AppCompatActivity {
                 PasswordItem passwordItem = list.get(position);
                 Log.e(TAG, "onItemClick: "+passwordItem.getUsername());
                 Intent intent_show=new Intent(SearchActivity.this, ShowPasswordActivity.class);
-                intent_show.putExtra("project_name",passwordItem.getUsername());
+                intent_show.putExtra("project_id",passwordItem.getId_database());
                 startActivity(intent_show);
+
             }
         });
     }
