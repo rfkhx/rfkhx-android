@@ -198,6 +198,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     Log.i(TAG, "onClick: "+getString(R.string.login_email_invalid));
                     break;
                 }
+                OKHttpAccountService okHttpAccountService=new OKHttpAccountService();
+                boolean flag=okHttpAccountService.loginUser(textEmail.getText().toString(),textPassword.getText().toString());
+                if(!flag){
+                    ToastUtils.toast("用户不存在");
+                    Log.e("登录","账户密码不存在");
+                    break;
+                }
                 if(textPassword.getText().toString().trim().equals("")){
                     //空密码，什么也不做
                     break;
@@ -331,16 +338,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         User user=new User();
         user.setEmail(textEmail.getText().toString());
         user.setEmailEncoded(App.encoder.encode(user.getEmail()));
-        OKHttpAccountService okHttpAccountService=new OKHttpAccountService();
-        boolean flag=okHttpAccountService.loginUser(textEmail.getText().toString(),textPassword.getText().toString());
-        if(flag){
-            notify(user);
-            Intent intent1=new Intent(LoginActivity.this,MainActivity.class);
-            startActivity(intent1);
-            finish();
-        }else{
-            ToastUtils.toast("用户密码错误或不存在");
-            notify(null);
-        }
+
+        notify(user);
+        Intent intent1=new Intent(LoginActivity.this,MainActivity.class);
+        startActivity(intent1);
+        finish();
+
     }
 }

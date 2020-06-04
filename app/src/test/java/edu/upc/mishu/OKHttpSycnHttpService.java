@@ -45,4 +45,9 @@ public class OKHttpSycnHttpService {
         okHttpSyncHttpService.createOrEditRecord(passwordRecordJSONS);
 
     }
+    @Test
+    public void testDeleteAll(){
+        okHttpSyncHttpService.login("1736862060@qq.com","111111");
+        okHttpSyncHttpService.deleteAll();
+    }
 }

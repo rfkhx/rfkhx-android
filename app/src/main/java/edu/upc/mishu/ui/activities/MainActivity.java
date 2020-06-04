@@ -241,6 +241,7 @@ public class MainActivity extends AppCompatActivity  {
                 case R.id.test:
                     CheckPswMeter checkPassword =new CheckPswMeter("12345678");
                     Log.i("check", "pass "+(checkPassword.jiafen()+checkPassword.jianfen()));
+                    adddata();
                     break;
 
             }
