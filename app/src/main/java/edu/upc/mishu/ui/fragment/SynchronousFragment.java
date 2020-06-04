@@ -80,9 +80,9 @@ public class SynchronousFragment extends Fragment {
                             item.encode(App.encoder,1);
                             Log.e(TAG,item.toString());
                             item.save();
-                            progressDialog.setMessage("已下载，请刷新");
-                            progressDialog.dismiss();
                         }
+                        progressDialog.setMessage("已下载，请刷新");
+                        progressDialog.dismiss();
                     }).start();
 //                    Toast.makeText(getContext(),
 //                            "已下载，请刷新", Toast.LENGTH_SHORT).show();
