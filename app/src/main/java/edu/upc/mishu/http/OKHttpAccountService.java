@@ -15,7 +15,7 @@ public class OKHttpAccountService {
 
     public boolean registUser(String username,String password){
         AtomicBoolean flag= new AtomicBoolean(true);
-        new Thread(()->{
+        Thread thread=new Thread(()->{
             OkHttpClient client = new OkHttpClient().newBuilder()
                     .build();
             MediaType mediaType = MediaType.parse("text/plain");
@@ -37,14 +37,21 @@ public class OKHttpAccountService {
                 flag.set(false);
                 System.out.println("注册2"+flag.toString());
             }
-        }).start();
+        });
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            flag.set(false);
+        }
         System.out.println("注册服务"+flag.toString());
         Log.e("注册服务",flag.toString());
         return flag.get();
     }
-    public boolean loginUser(String username,String password){
+    public boolean loginUser(String username,String password) {
         AtomicBoolean flag= new AtomicBoolean(true);
-        new Thread(()->{
+        Thread thread=new Thread(()->{
             System.out.println("输入的用户名密码"+username+password);
             OkHttpClient client = new OkHttpClient().newBuilder()
                     .build();
@@ -64,11 +71,20 @@ public class OKHttpAccountService {
                 if(token==null||(response.code()!=200)){
                     flag.set(false);
                 }
+                Log.e("登录1",String.valueOf(flag));
             } catch (IOException e) {
                 e.printStackTrace();
                 flag.set(false);
+                Log.e("登录2",String.valueOf(flag));
             }
-        }).start();
+            Log.e("登录3",String.valueOf(flag));
+        });
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return flag.get();
     }
 }
